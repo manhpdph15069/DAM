@@ -343,4 +343,8 @@ public class thongKeJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JTable tblKhoaHoc;
     private javax.swing.JTable tblNguoiHoc;
     // End of variables declaration//GEN-END:variables
+
+    void selectTab(int index) {
+        tabs.setSelectedIndex(index);
+    }
 }
