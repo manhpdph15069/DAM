@@ -5,47 +5,104 @@
  */
 package DAO;
 
+import Utils.jdbcHelper;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.KhoaHocc;
 
 /**
  *
  * @author phamd
  */
-public class KhoaHocDAO extends EduSysDAO<KhoaHocc, String>{
-    String INSERT_SQL = "INSERT INTO NhanVien(MaNV, MatKhau, HoTen, VaiTro) VALUES (?, ?, ?, ?)";
-    String UPDATE_SQL = "UPDATE NhanVien SET MatKhau = ?, HoTen = ?, VaiTro = ? WHERE MaNV = ?";
-    String DELETE_SQL = "DELETE FROM NhanVien WHERE MaNV = ?";
+public class KhoaHocDAO extends EduSysDAO<KhoaHocc, String> {
+
+    String INSERT_SQL = "INSERT INTO KHOAHOC(MAKH, MACD, HOCPHI,THOIGIAN,NGAYKG,GHICHU,MANV,NGAYTAO) VALUES (?, ?, ?, ?,?,?,?,?)";
+    String UPDATE_SQL = "UPDATE KHOAHOC SET MACD= ?, HOCPHI= ?, THOIGIAN= ?, NGAYKG=?, GHICHU=?, MANV=?, NGAYTAO=? WHERE MAKH= ?";
+    String DELETE_SQL = "DELETE FROM KHOAHOC WHERE MAKH= ?";
     String SELECT_ALL_SQL = "SELECT * FROM NhanVien";
-    String SELECT_BY_ID_SQL = "SELECT * FROM NhanVien WHERE MaNV = ?";
+    String SELECT_BY_ID_SQL = "SELECT * FROM KHOAHOC WHERE MAKH= ?";
 
     @Override
     public void insert(KhoaHocc entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            jdbcHelper.update(INSERT_SQL,
+                    entity.getMaKH(),
+                    entity.getMaCD(),
+                    entity.getHocPhi(),
+                    entity.getThoiLuong(),
+                    entity.getNgayKG(),
+                    entity.getGhiChu(),
+                    entity.getMaNV(),
+                    entity.getNgayTao());
+        } catch (Exception e) {
+            Logger.getLogger(KhoaHocDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
 
     @Override
     public void update(KhoaHocc entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            jdbcHelper.update(UPDATE_SQL,
+                    entity.getMaCD(),
+                    entity.getHocPhi(),
+                    entity.getThoiLuong(),
+                    entity.getNgayKG(),
+                    entity.getGhiChu(),
+                    entity.getMaNV(),
+                    entity.getNgayTao(),
+                    entity.getMaKH());
+        } catch (Exception e) {
+            Logger.getLogger(KhoaHocDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
 
     @Override
-    public void delete(String key) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void delete(String id) {
+        try {
+            jdbcHelper.update(DELETE_SQL, id);
+        } catch (Exception e) {
+            Logger.getLogger(KhoaHocDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
 
     @Override
     public List<KhoaHocc> selectAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return selectBySQL(SELECT_ALL_SQL);
     }
 
     @Override
-    public KhoaHocc selectByID(String key) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public KhoaHocc selectByID(String id) {
+        List<KhoaHocc> list = selectBySQL(SELECT_BY_ID_SQL, id);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
     }
 
     @Override
     protected List<KhoaHocc> selectBySQL(String sql, Object... args) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<KhoaHocc> list = new ArrayList<>();
+        try {
+            ResultSet rs = jdbcHelper.query(sql, args);
+            while (rs.next()) {
+                KhoaHocc kh = new KhoaHocc();
+                kh.setMaKH(rs.getInt("MaKH"));
+                kh.setHocPhi(rs.getDouble("HocPhi"));
+                kh.setThoiLuong(rs.getInt("ThoiLuong"));
+                kh.setNgayKG(rs.getDate("NgayKG"));
+                kh.setGhiChu(rs.getString("GhiChu"));
+                kh.setMaNV(rs.getString("MaNV"));
+                kh.setNgayTao(rs.getDate("NgayTao"));
+                kh.setMaCD(rs.getString("MaCD"));
+                list.add(kh);
+            }
+            rs.getStatement().getConnection().close();
+            return list;
+        } catch (Exception e) {
+            throw  new RuntimeException(e);
+        }
     }
 }

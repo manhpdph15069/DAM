@@ -187,7 +187,7 @@ public class thongKeJInternalFrame extends javax.swing.JInternalFrame {
 
         pnlKhoaHoc.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
-        tabs.addTab("TỔNG HỢP ĐIỂM", new javax.swing.ImageIcon(getClass().getResource("/icon/Clien list.png")), pnlKhoaHoc, "TỔNG HỢP ĐIỂM"); // NOI18N
+        tabs.addTab("Điểm Chuyên Đề", new javax.swing.ImageIcon(getClass().getResource("/icon/Clien list.png")), pnlKhoaHoc, "TỔNG HỢP ĐIỂM"); // NOI18N
 
         pnlDoanhThu.setLayout(new java.awt.CardLayout());
 

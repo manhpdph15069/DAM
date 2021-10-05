@@ -253,8 +253,8 @@
         <Container class="javax.swing.JPanel" name="pnlKhoaHoc">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="T&#x1ed4;NG H&#x1ee2;P &#x110;I&#x1ec2;M" toolTip="T&#x1ed4;NG H&#x1ee2;P &#x110;I&#x1ec2;M">
-                <Property name="tabTitle" type="java.lang.String" value="T&#x1ed4;NG H&#x1ee2;P &#x110;I&#x1ec2;M"/>
+              <JTabbedPaneConstraints tabName="&#x110;i&#x1ec3;m Chuy&#xea;n &#x110;&#x1ec1;" toolTip="T&#x1ed4;NG H&#x1ee2;P &#x110;I&#x1ec2;M">
+                <Property name="tabTitle" type="java.lang.String" value="&#x110;i&#x1ec3;m Chuy&#xea;n &#x110;&#x1ec1;"/>
                 <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/icon/Clien list.png"/>
                 </Property>
