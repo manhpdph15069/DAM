@@ -721,8 +721,9 @@ public class MainForm extends javax.swing.JFrame {
     
     void openThongKe(int index){
         if (Auth.isLogin()) {
-            if (index == 3 && !Auth.isManager()) {
+            if (index == 3 && Auth.isManager()) {
                 MsgBox.alert(this, "Bạn không có quyền xem thông tin doanh thu");
+ //               mniDoanhThu.setEnabled(false);
             }else{
                 thongKeJInternalFrame tk = new thongKeJInternalFrame(index);
                 openX(tk);
