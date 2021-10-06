@@ -16,17 +16,17 @@ import java.sql.SQLException;
  * @author phamd
  */
 public class jdbcHelper {
-//    static String driver = "com.microsoft.sqlserver.SQLServerDriver";
-    static String dburl="jdbc:sqlserver://localhost\\DESKTOP-MAG01UO\\SQLSV12:1433;databaseName=Polypro";
+    static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    static String dburl="jdbc:sqlserver://localhost\\DESKTOP-MAG01UO\\SQLSV12:1433;databaseName=EduSys";
     static String user = "sa";
     static String pass = "1";
-//    static {
-//        try {
-//            Class.forName(driver);
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+    static {
+        try {
+            Class.forName(driver);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static PreparedStatement getStmt(String sql, Object...args)throws SQLException{
         Connection conn = DriverManager.getConnection(dburl, user, pass);
@@ -37,22 +37,35 @@ public class jdbcHelper {
             stmt = conn.prepareStatement(sql);//SQL
         }
         for(int i =0;i<args.length;i++){
-            stmt.setObject(+1, args[i]);
+            stmt.setObject(i+1, args[i]);
         }
         return stmt;
     }
     
-    public static int update(String sql,Object...args)throws SQLException{
+//    public static int update(String sql,Object...args)throws SQLException{
+//        try {
+//            PreparedStatement stmt = jdbcHelper.getStmt(sql, args);
+//            try {
+//                return stmt.executeUpdate();
+//            }finally{
+//                stmt.getConnection().close();
+//            }}
+//            catch (Exception e) {
+//                throw new RuntimeException(e);               
+//            }
+//    }
+    
+        public static void update(String sql,Object...args){
         try {
-            PreparedStatement stmt = jdbcHelper.getStmt(sql, args);
-            try {
-                return stmt.executeUpdate();
+            PreparedStatement pstmt= getStmt(sql, args);
+            try{
+                pstmt.executeUpdate();
             }finally{
-                stmt.getConnection().close();
-            }}
-            catch (Exception e) {
-                throw new RuntimeException();
+                pstmt.getConnection().close();            //đóng Connection từ statement
             }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
     }
     
     public static ResultSet query(String sql,Object...args)throws SQLException{

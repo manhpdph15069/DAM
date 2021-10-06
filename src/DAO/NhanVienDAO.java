@@ -20,39 +20,34 @@ import model.NhanVien;
  */
 public class NhanVienDAO extends EduSysDAO<NhanVien, String> {
 
-    String INSERT_SQL = "INSERT INTO NhanVien(MaNV, MatKhau, HoTen, VaiTro) VALUES (?, ?, ?, ?)";
-    String UPDATE_SQL = "UPDATE NhanVien SET MatKhau = ?, HoTen = ?, VaiTro = ? WHERE MaNV = ?";
+    String INSERT_SQL = "INSERT INTO NhanVien(MaNV, MatKhau, HoTen, VaiTro) VALUES(?, ?, ?, ?)";
+    String UPDATE_SQL = "UPDATE NhanVien SET MatKhau=?, HoTen=?, VaiTro=? WHERE MaNV=?";
     String DELETE_SQL = "DELETE FROM NhanVien WHERE MaNV = ?";
     String SELECT_ALL_SQL = "SELECT * FROM NhanVien";
     String SELECT_BY_ID_SQL = "SELECT * FROM NhanVien WHERE MaNV = ?";
 
     @Override
     public void insert(NhanVien entity) {
-        try {
-            jdbcHelper.update(INSERT_SQL,
-                    entity.getMaNV(), entity.getHoTen(), entity.getMatKhau(), entity.isVaiTro());
-        } catch (SQLException ex) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        jdbcHelper.update(INSERT_SQL,
+                entity.getMaNV(),
+                entity.getHoTen(),
+                entity.getMatKhau(),
+                entity.isVaiTro());
     }
 
     @Override
     public void update(NhanVien entity) {
-           try {
-            jdbcHelper.update(UPDATE_SQL,
-                    entity.getHoTen(), entity.getMatKhau(), entity.isVaiTro(),entity.getMaNV());
-        } catch (SQLException ex) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String sql = "UPDATE NhanVien SET MatKhau=?, HoTen=?, VaiTro=? WHERE MaNV=?";
+        jdbcHelper.update(UPDATE_SQL,
+                entity.getMatKhau(),
+                entity.getHoTen(),
+                entity.isVaiTro(),
+                entity.getMaNV());
     }
 
     @Override
     public void delete(String id) {
-         try {
-            jdbcHelper.update(DELETE_SQL,id);                   
-        } catch (SQLException ex) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        jdbcHelper.update(DELETE_SQL,id);
     }
 
     @Override

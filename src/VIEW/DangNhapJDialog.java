@@ -52,9 +52,13 @@ public class DangNhapJDialog extends javax.swing.JDialog {
 
         jLabel3.setText("Mật khẩu");
 
+        txtTenDangNhap.setText("ManhPD");
+
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 102, 51));
         jLabel5.setText("ĐĂNG NHẬP");
+
+        txtMatKhau.setText("1");
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Delete.png"))); // NOI18N
         jButton1.setText("Kết thúc");

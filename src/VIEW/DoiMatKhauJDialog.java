@@ -8,14 +8,16 @@ package VIEW;
 import DAO.NhanVienDAO;
 import Utils.Auth;
 import Utils.MsgBox;
+import java.awt.Color;
 
 /**
  *
  * @author phamd
  */
 public class DoiMatKhauJDialog extends javax.swing.JDialog {
+
     NhanVienDAO dao = new NhanVienDAO();
-    
+
     /**
      * Creates new form DoiMatKhauJDialog
      */
@@ -23,6 +25,8 @@ public class DoiMatKhauJDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        txtMaNV.setText(Auth.user.getMaNV());
+  //      txtMatKhau.setText(Auth.user.getMatKhau());
     }
 
     /**
@@ -69,6 +73,7 @@ public class DoiMatKhauJDialog extends javax.swing.JDialog {
         jLabel2.setText("Tên đăng nhập");
 
         txtMaNV.setEditable(false);
+        txtMaNV.setText("ManhPD");
 
         jLabel3.setText("Mật khẩu hiện tại");
 
@@ -145,29 +150,38 @@ public class DoiMatKhauJDialog extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-        this.dispose();           
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
-        doiMK();
-    }//GEN-LAST:event_btnXacNhanActionPerformed
-    private void doiMK(){
-        String maNV = txtMaNV.getText();
-        String mk = new String(txtMatKhau.getPassword());
-        String mkMOI = new String(txtMatKhauMoi.getPassword());
-        String mkMM = new String(txtXacNhanMKM.getPassword());
-        if (!maNV.equalsIgnoreCase(Auth.user.getMaNV())) {
-            MsgBox.alert(this, "Sai Tên Đăng Nhập");
-        }else if(!mk.equals(Auth.user.getMatKhau())){
-            MsgBox.alert(this, "Sai Tên Mật Khẩu");
-        }else if(!mkMOI.equals(mkMM)){
-             MsgBox.alert(this, "Xác Nhận Mật Khẩu Không Đúng");
-        }else{
-            Auth.user.setMatKhau(mkMOI);
-            dao.update(Auth.user);
-             MsgBox.alert(this, "Đổi mật khẩu mới thanh công");
+    public void doiMatKhau() {
+        txtXacNhanMKM.setBackground(Color.white);
+        txtMatKhau.setBackground(Color.white);
+        String matKhau = new String(txtMatKhau.getPassword());
+        String matKhauMoi = new String(txtMatKhauMoi.getPassword());
+        String xacNhanMKM = new String(txtXacNhanMKM.getPassword());
+        if (matKhau.equals(Auth.user.getMatKhau())) {
+            if (matKhauMoi.equals(xacNhanMKM)) {
+                System.out.println(""+matKhauMoi);
+                Auth.user.setMatKhau(matKhauMoi);
+                System.out.println(""+Auth.user.getHoTen());
+                System.out.println(""+Auth.user.getMaNV());
+                System.out.println(""+Auth.user.getMatKhau());
+                System.out.println(""+Auth.user.isVaiTro());
+                dao.update(Auth.user);
+                MsgBox.alert(this, "Đổi mật khẩu thành công!!");
+                this.dispose();
+            } else {
+                txtXacNhanMKM.setBackground(Color.pink);
+                MsgBox.alert(this, "Mật khẩu xác nhận không trùng mật khẩu");
+            }
+        } else {
+            txtMatKhau.setBackground(Color.pink);
+            MsgBox.alert(this, "Mật khẩu cũ nhập không chính xác!");
         }
     }
+    private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
+
+        doiMatKhau();
+    }//GEN-LAST:event_btnXacNhanActionPerformed
 
     /**
      * @param args the command line arguments
