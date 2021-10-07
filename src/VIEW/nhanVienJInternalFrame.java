@@ -391,6 +391,14 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
         this.updateStatus();
     }
 
+    public String khongHienMK(String pass){
+        String sao = "";
+        for (int i = 0; i < pass.length(); i++) {
+            sao+="*";
+        }
+        return sao;
+    }
+    
     void insert() {
         NhanVien nv = getForm();
         String mk2 = new String(txtXacNhanMK.getPassword());
@@ -492,7 +500,7 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
             for (NhanVien nv : list) {
                 Object[] row = {
                     nv.getMaNV(),
-                    nv.getMatKhau(),
+                    khongHienMK(nv.getMatKhau()),
                     nv.getHoTen(),
                     nv.getVaiTro() ? "Trưởng Phòng" : "Nhân Viên"
                 };

@@ -7,6 +7,10 @@ package VIEW;
 
 import DAO.NhanVienDAO;
 import Utils.Auth;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.NhanVien;
 
@@ -44,7 +48,6 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         txtMatKhau = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         btnDangNhap = new javax.swing.JButton();
-        lblDangKY = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -78,13 +81,6 @@ public class DangNhapJDialog extends javax.swing.JDialog {
             }
         });
 
-        lblDangKY.setText("Đăng ký");
-        lblDangKY.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblDangKYMouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -109,10 +105,6 @@ public class DangNhapJDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(66, 66, 66))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblDangKY)
-                .addGap(115, 115, 115))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,8 +126,7 @@ public class DangNhapJDialog extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
                             .addComponent(btnDangNhap))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addComponent(lblDangKY))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
@@ -151,22 +142,24 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         dangNhap();
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
-    private void lblDangKYMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDangKYMouseClicked
-
-
-    }//GEN-LAST:event_lblDangKYMouseClicked
-
     void dangNhap() {
-        String maNV = txtTenDangNhap.getText();
-        String mk = new String(txtMatKhau.getPassword());
-        NhanVien nv = dao.selectByID(maNV);
-        if (nv == null) {
-            JOptionPane.showMessageDialog(this, "Sai tên đăng nhập");
-        } else if (!mk.equals(nv.getMatKhau())) {
-            JOptionPane.showMessageDialog(this, "Sai tên Mật Khẩu");
-        } else {
-            Auth.user = nv;
-            this.dispose();
+        try {
+            NhanVienDAO dao = new NhanVienDAO();
+            String maNV = txtTenDangNhap.getText();
+            String mk = dao.maHoa(new String(txtMatKhau.getPassword()));
+            NhanVien nv = dao.selectByID(maNV);
+            if (nv == null) {
+                JOptionPane.showMessageDialog(this, "Sai tên đăng nhập");
+            } else if (!mk.equals(nv.getMatKhau())) {
+                JOptionPane.showMessageDialog(this, "Sai tên Mật Khẩu");
+            } else {
+                Auth.user = nv;
+                this.dispose();
+            }
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(DangNhapJDialog.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(DangNhapJDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -219,7 +212,6 @@ public class DangNhapJDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel lblDangKY;
     private javax.swing.JPasswordField txtMatKhau;
     private javax.swing.JTextField txtTenDangNhap;
     // End of variables declaration//GEN-END:variables

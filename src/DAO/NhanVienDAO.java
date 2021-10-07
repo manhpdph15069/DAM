@@ -6,6 +6,10 @@
 package DAO;
 
 import Utils.jdbcHelper;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,11 +32,17 @@ public class NhanVienDAO extends EduSysDAO<NhanVien, String> {
 
     @Override
     public void insert(NhanVien entity) {
-        jdbcHelper.update(INSERT_SQL,
-                entity.getMaNV(),
-                entity.getHoTen(),
-                entity.getMatKhau(),
-                entity.isVaiTro());
+        try {
+            jdbcHelper.update(INSERT_SQL,
+                    entity.getMaNV(),
+                    entity.getHoTen(),
+                    maHoa(entity.getMatKhau()),
+                    entity.isVaiTro());
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -47,7 +57,7 @@ public class NhanVienDAO extends EduSysDAO<NhanVien, String> {
 
     @Override
     public void delete(String id) {
-        jdbcHelper.update(DELETE_SQL,id);
+        jdbcHelper.update(DELETE_SQL, id);
     }
 
     @Override
@@ -57,7 +67,7 @@ public class NhanVienDAO extends EduSysDAO<NhanVien, String> {
 
     @Override
     public NhanVien selectByID(String id) {
-        List<NhanVien>list = this.selectBySQL(SELECT_BY_ID_SQL, id);
+        List<NhanVien> list = this.selectBySQL(SELECT_BY_ID_SQL, id);
         if (list.isEmpty()) {
             return null;
         }
@@ -69,7 +79,7 @@ public class NhanVienDAO extends EduSysDAO<NhanVien, String> {
         List<NhanVien> list = new ArrayList<>();
         try {
             ResultSet rs = jdbcHelper.query(sql, args);
-            while(rs.next()){
+            while (rs.next()) {
                 NhanVien nv = new NhanVien();
                 nv.setMaNV(rs.getString("MANV"));
                 nv.setHoTen(rs.getString("HOTEN"));
@@ -80,7 +90,20 @@ public class NhanVienDAO extends EduSysDAO<NhanVien, String> {
             rs.getStatement().getConnection().close();
             return list;
         } catch (Exception e) {
-        throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
+    }
+
+    public String maHoa(String srcText) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        String enrText;
+
+        MessageDigest mh = MessageDigest.getInstance("MD5");//Lớp thực hiện mã hóa
+        byte[] srcTextBytes = srcText.getBytes("UTF-8");
+        byte[] enrTextBytes = mh.digest(srcTextBytes);
+
+        BigInteger bigInt = new BigInteger(1, enrTextBytes);//byte mã hóa đc chuyển sang chuổi số hệ 16 nhờ lớp
+        enrText = bigInt.toString(16);
+
+        return enrText;
     }
 }

@@ -9,6 +9,10 @@ import DAO.NhanVienDAO;
 import Utils.Auth;
 import Utils.MsgBox;
 import java.awt.Color;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -153,24 +157,30 @@ public class DoiMatKhauJDialog extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
     public void doiMatKhau() {
-        txtXacNhanMKM.setBackground(Color.white);
-        txtMatKhau.setBackground(Color.white);
-        String matKhau = new String(txtMatKhau.getPassword());
-        String matKhauMoi = new String(txtMatKhauMoi.getPassword());
-        String xacNhanMKM = new String(txtXacNhanMKM.getPassword());
-        if (matKhau.equals(Auth.user.getMatKhau())) {
-            if (matKhauMoi.equals(xacNhanMKM)) {
-                Auth.user.setMatKhau(matKhauMoi);
-                dao.update(Auth.user);
-                MsgBox.alert(this, "Đổi mật khẩu thành công!!");
-                this.dispose();
+        try {
+            txtXacNhanMKM.setBackground(Color.white);
+            txtMatKhau.setBackground(Color.white);
+            String matKhau = dao.maHoa(new String(txtMatKhau.getPassword()));
+            String matKhauMoi = dao.maHoa(new String(txtMatKhauMoi.getPassword()));
+            String xacNhanMKM = dao.maHoa(new String(txtXacNhanMKM.getPassword()));
+            if (matKhau.equals(Auth.user.getMatKhau())) {
+                if (matKhauMoi.equals(xacNhanMKM)) {
+                    Auth.user.setMatKhau(matKhauMoi);
+                    dao.update(Auth.user);
+                    MsgBox.alert(this, "Đổi mật khẩu thành công!!");
+                    this.dispose();
+                } else {
+                    txtXacNhanMKM.setBackground(Color.pink);
+                    MsgBox.alert(this, "Mật khẩu xác nhận không trùng mật khẩu");
+                }
             } else {
-                txtXacNhanMKM.setBackground(Color.pink);
-                MsgBox.alert(this, "Mật khẩu xác nhận không trùng mật khẩu");
+                txtMatKhau.setBackground(Color.pink);
+                MsgBox.alert(this, "Mật khẩu cũ nhập không chính xác!");
             }
-        } else {
-            txtMatKhau.setBackground(Color.pink);
-            MsgBox.alert(this, "Mật khẩu cũ nhập không chính xác!");
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(DoiMatKhauJDialog.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(DoiMatKhauJDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
