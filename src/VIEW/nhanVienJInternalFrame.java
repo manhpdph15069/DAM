@@ -1,14 +1,23 @@
 package VIEW;
 
+import DAO.NhanVienDAO;
+import Utils.Auth;
+import Utils.MsgBox;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import model.NhanVien;
 
- 
 public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
+
+    NhanVienDAO dao = new NhanVienDAO();
+    int row = -1;
 
     /**
      * Creates new form nhanVienJInternalFrame
      */
     public nhanVienJInternalFrame() {
         initComponents();
+        init();
 
     }
 
@@ -24,10 +33,10 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
         txtMaNV = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtHoTen = new javax.swing.JTextField();
+        txtMatKhau = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtXacNhanMK = new javax.swing.JPasswordField();
-        txtMatKhau = new javax.swing.JPasswordField();
+        txtHoTen = new javax.swing.JPasswordField();
         jLabel6 = new javax.swing.JLabel();
         rdoTruongPhong = new javax.swing.JRadioButton();
         rdoNhanVien = new javax.swing.JRadioButton();
@@ -41,7 +50,7 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
         btnLast = new javax.swing.JButton();
         pnlList = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblGridView = new javax.swing.JTable();
+        tblNhanVien = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
@@ -69,7 +78,7 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 204));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("QUẢN LÝ NHÂN VIÊN");
+        jLabel1.setText("QUẢN LÝ NHÂN VIÊN QUẢN TRỊ");
 
         jLabel2.setText("Mã nhân viên");
 
@@ -79,13 +88,13 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Xác nhận mật khẩu");
 
-        txtHoTen.setName("Họ và tên"); // NOI18N
+        txtMatKhau.setName("Họ và tên"); // NOI18N
 
         jLabel5.setText("Họ và tên");
 
         txtXacNhanMK.setName("Xác nhận mật khẩu"); // NOI18N
 
-        txtMatKhau.setName("Mật khẩu"); // NOI18N
+        txtHoTen.setName("Mật khẩu"); // NOI18N
 
         jLabel6.setText("Vai trò");
 
@@ -173,9 +182,9 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtMaNV)
-                    .addComponent(txtHoTen)
-                    .addComponent(txtXacNhanMK)
                     .addComponent(txtMatKhau)
+                    .addComponent(txtXacNhanMK)
+                    .addComponent(txtHoTen)
                     .addGroup(pnlEditLayout.createSequentialGroup()
                         .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -216,7 +225,7 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -224,7 +233,7 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -248,7 +257,7 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
 
         pnlList.setLayout(new java.awt.BorderLayout());
 
-        tblGridView.setModel(new javax.swing.table.DefaultTableModel(
+        tblNhanVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -267,16 +276,16 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblGridView.setEditingRow(1);
-        tblGridView.setRowHeight(25);
-        tblGridView.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblNhanVien.setEditingRow(1);
+        tblNhanVien.setRowHeight(25);
+        tblNhanVien.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblGridViewMouseClicked(evt);
+                tblNhanVienMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblGridView);
-        if (tblGridView.getColumnModel().getColumnCount() > 0) {
-            tblGridView.getColumnModel().getColumn(2).setPreferredWidth(140);
+        jScrollPane1.setViewportView(tblNhanVien);
+        if (tblNhanVien.getColumnModel().getColumnCount() > 0) {
+            tblNhanVien.getColumnModel().getColumn(2).setPreferredWidth(140);
         }
 
         pnlList.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -303,11 +312,11 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-
+        next();
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
-
+        last();
     }//GEN-LAST:event_btnLastActionPerformed
 
 
@@ -315,32 +324,35 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_formInternalFrameOpened
 
-    private void tblGridViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblGridViewMouseClicked
-
-    }//GEN-LAST:event_tblGridViewMouseClicked
+    private void tblNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNhanVienMouseClicked
+        if (evt.getClickCount() == 2) {
+            this.row = tblNhanVien.getSelectedRow();
+            this.edit();
+        }
+    }//GEN-LAST:event_tblNhanVienMouseClicked
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
-
+        insert();
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-
+        update();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-
+        delete();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-
+        clearForm();
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
-
+        first();
     }//GEN-LAST:event_btnFirstActionPerformed
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
-
+        prev();
     }//GEN-LAST:event_btnPrevActionPerformed
 
 
@@ -366,10 +378,162 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton rdoNhanVien;
     private javax.swing.JRadioButton rdoTruongPhong;
     private javax.swing.JTabbedPane tabs;
-    private javax.swing.JTable tblGridView;
-    private javax.swing.JTextField txtHoTen;
+    private javax.swing.JTable tblNhanVien;
+    private javax.swing.JPasswordField txtHoTen;
     private javax.swing.JTextField txtMaNV;
-    private javax.swing.JPasswordField txtMatKhau;
+    private javax.swing.JTextField txtMatKhau;
     private javax.swing.JPasswordField txtXacNhanMK;
     // End of variables declaration//GEN-END:variables
+
+    void init() {
+        this.fillTable();
+        this.row = -1;
+        this.updateStatus();
+    }
+
+    void insert() {
+        NhanVien nv = getForm();
+        String mk2 = new String(txtXacNhanMK.getPassword());
+        if (!mk2.equals(nv.getMatKhau())) {
+            MsgBox.alert(this, "Xác nhận mật khẩu không đúng");
+        } else {
+            try {
+                dao.insert(nv);
+                this.fillTable();
+                this.clearForm();
+                MsgBox.alert(this, "Thêm Mới thành công");
+            } catch (Exception e) {
+                MsgBox.alert(this, "Thêm thất bại");
+            }
+        }
+    }
+
+    void update() {
+        NhanVien nv = getForm();
+        String mk2 = new String(txtXacNhanMK.getPassword());
+        if (!mk2.equals(nv.getMatKhau())) {
+            MsgBox.alert(this, "Xác nhận mật khẩu không đúng");
+        } else {
+            try {
+                dao.update(nv);
+                this.fillTable();
+                MsgBox.alert(this, "Cập Nhập thành công");
+            } catch (Exception e) {
+                MsgBox.alert(this, "Cập nhập thất bại");
+            }
+        }
+    }
+
+    void delete() {
+        if (!Auth.isManager()) {
+            MsgBox.alert(this, "Bạn không có quyền xóa nhân viên");
+        } else {
+            String manv = txtMaNV.getText();
+            if (manv.equals(Auth.user.getMaNV())) {
+                MsgBox.alert(this, "Bạn không được xóa chính bạn");
+            } else if (MsgBox.comfirm(this, "Bạn thực sự muốn xóa nhân viên này?")) {
+                try {
+                    dao.delete(manv);
+                    this.fillTable();
+                    this.clearForm();
+                    MsgBox.alert(this, "Xóa thành công");
+                } catch (Exception e) {
+                    MsgBox.alert(this, "Xóa thất bại");
+                }
+            }
+        }
+    }
+
+    void clearForm() {
+        NhanVien nv = new NhanVien();
+        this.setForm(nv);
+        this.row = -1;
+        this.updateStatus();
+    }
+
+    void edit() {
+        String manv = (String) tblNhanVien.getValueAt(this.row, 0);
+        NhanVien nv = dao.selectByID(manv);
+        this.setForm(nv);
+        tabs.setSelectedIndex(0);//quay về form số 0
+        this.updateStatus();
+
+    }
+
+    void first() {
+        this.row = 0;
+        this.edit();
+    }
+
+    void prev() {
+        if (this.row > 0) {
+            this.row--;
+            this.edit();
+        }
+    }
+
+    void next() {
+        if (this.row < tblNhanVien.getRowCount() - 1) {
+            this.row++;
+            this.edit();
+        }
+    }
+
+    void last() {
+        this.row = tblNhanVien.getRowCount() - 1;
+        this.edit();
+    }
+
+    void fillTable() {
+        DefaultTableModel dtm = (DefaultTableModel) this.tblNhanVien.getModel();
+        dtm.setRowCount(0);
+        try {
+            List<NhanVien> list = dao.selectAll();//đọc dữ liệu từ CSDL
+            for (NhanVien nv : list) {
+                Object[] row = {
+                    nv.getMaNV(),
+                    nv.getMatKhau(),
+                    nv.getHoTen(),
+                    nv.getVaiTro() ? "Trưởng Phòng" : "Nhân Viên"
+                };
+                dtm.addRow(row);
+            }
+        } catch (Exception e) {
+            MsgBox.alert(this, "Lỗi truy vấn dữ liệu");
+        }
+    }
+
+    void setForm(NhanVien n) {
+        txtMaNV.setText(n.getMaNV());
+        txtMatKhau.setText(n.getHoTen());
+        txtHoTen.setText(n.getMatKhau());
+        txtXacNhanMK.setText(n.getMatKhau());
+        rdoTruongPhong.setSelected(n.getVaiTro());
+        rdoNhanVien.setSelected(!n.getVaiTro());
+    }
+
+    NhanVien getForm() {
+        NhanVien nv = new NhanVien();
+        nv.setMaNV(txtMaNV.getText());
+        nv.setHoTen(txtMatKhau.getText());
+        nv.setMatKhau(new String(txtHoTen.getPassword()));
+        nv.setVaiTro(rdoTruongPhong.isSelected());
+        return nv;
+    }
+
+    void updateStatus() {
+        boolean edit = (this.row >= 0);
+        boolean first = (this.row == 0);
+        boolean last = (this.row == tblNhanVien.getRowCount() - 1);
+        //Trạng thái form
+        txtMaNV.setEditable(!edit);
+        btnInsert.setEnabled(!edit);
+        btnUpdate.setEnabled(edit);
+        btnDelete.setEnabled(edit);
+        //trạng thái điều hướng
+        btnFirst.setEnabled(edit && !first);
+        btnPrev.setEnabled(edit && !first);
+        btnNext.setEnabled(edit && !last);
+        btnLast.setEnabled(edit && !last);
+    }
 }

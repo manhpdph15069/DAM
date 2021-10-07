@@ -20,7 +20,7 @@ import model.NhanVien;
  */
 public class NhanVienDAO extends EduSysDAO<NhanVien, String> {
 
-    String INSERT_SQL = "INSERT INTO NhanVien(MaNV, MatKhau, HoTen, VaiTro) VALUES(?, ?, ?, ?)";
+    String INSERT_SQL = "INSERT INTO NhanVien(MaNV,HoTen , MatKhau, VaiTro) VALUES(?, ?, ?, ?)";
     String UPDATE_SQL = "UPDATE NhanVien SET MatKhau=?, HoTen=?, VaiTro=? WHERE MaNV=?";
     String DELETE_SQL = "DELETE FROM NhanVien WHERE MaNV = ?";
     String SELECT_ALL_SQL = "SELECT * FROM NhanVien";

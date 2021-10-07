@@ -15,6 +15,7 @@ import model.NhanVien;
  * @author phamd
  */
 public class DangNhapJDialog extends javax.swing.JDialog {
+
     NhanVienDAO dao = new NhanVienDAO();
 
     /**
@@ -141,8 +142,8 @@ public class DangNhapJDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     JOptionPane.showConfirmDialog(this, "Bạn Muốn kết thúc ứng dụng?");
-       
+        JOptionPane.showConfirmDialog(this, "Bạn Muốn kết thúc ứng dụng?");
+
 //System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -151,23 +152,24 @@ public class DangNhapJDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
     private void lblDangKYMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDangKYMouseClicked
-       
-        
+
+
     }//GEN-LAST:event_lblDangKYMouseClicked
 
-    void dangNhap(){
+    void dangNhap() {
         String maNV = txtTenDangNhap.getText();
         String mk = new String(txtMatKhau.getPassword());
         NhanVien nv = dao.selectByID(maNV);
-        if (nv==null) {
+        if (nv == null) {
             JOptionPane.showMessageDialog(this, "Sai tên đăng nhập");
-        }else if(!mk.equals(nv.getMatKhau())){
+        } else if (!mk.equals(nv.getMatKhau())) {
             JOptionPane.showMessageDialog(this, "Sai tên Mật Khẩu");
-        }else{
+        } else {
             Auth.user = nv;
-                    this.dispose();
+            this.dispose();
         }
     }
+
     /**
      * @param args the command line arguments
      */

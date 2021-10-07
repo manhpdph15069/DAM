@@ -26,7 +26,7 @@ public class DoiMatKhauJDialog extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         txtMaNV.setText(Auth.user.getMaNV());
-  //      txtMatKhau.setText(Auth.user.getMatKhau());
+        //      txtMatKhau.setText(Auth.user.getMatKhau());
     }
 
     /**
@@ -160,12 +160,7 @@ public class DoiMatKhauJDialog extends javax.swing.JDialog {
         String xacNhanMKM = new String(txtXacNhanMKM.getPassword());
         if (matKhau.equals(Auth.user.getMatKhau())) {
             if (matKhauMoi.equals(xacNhanMKM)) {
-                System.out.println(""+matKhauMoi);
                 Auth.user.setMatKhau(matKhauMoi);
-                System.out.println(""+Auth.user.getHoTen());
-                System.out.println(""+Auth.user.getMaNV());
-                System.out.println(""+Auth.user.getMatKhau());
-                System.out.println(""+Auth.user.isVaiTro());
                 dao.update(Auth.user);
                 MsgBox.alert(this, "Đổi mật khẩu thành công!!");
                 this.dispose();
