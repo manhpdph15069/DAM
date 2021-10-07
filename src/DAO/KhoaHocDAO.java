@@ -91,7 +91,7 @@ public class KhoaHocDAO extends EduSysDAO<KhoaHocc, String> {
                 KhoaHocc kh = new KhoaHocc();
                 kh.setMaKH(rs.getInt("MaKH"));
                 kh.setHocPhi(rs.getDouble("HocPhi"));
-                kh.setThoiLuong(rs.getInt("ThoiLuong"));
+                kh.setThoiLuong(rs.getInt("ThoiGian"));
                 kh.setNgayKG(rs.getDate("NgayKG"));
                 kh.setGhiChu(rs.getString("GhiChu"));
                 kh.setMaNV(rs.getString("MaNV"));
@@ -104,5 +104,10 @@ public class KhoaHocDAO extends EduSysDAO<KhoaHocc, String> {
         } catch (Exception e) {
             throw  new RuntimeException(e);
         }
+    }
+    
+    public List<KhoaHocc> selectByChuyenDe(String macd){
+        String sql = "SELECT *FROM KhoaHoc WHERE MaCD=?";
+        return this.selectBySQL(sql, macd);
     }
 }

@@ -79,7 +79,7 @@ public class HocVienDAO extends EduSysDAO<HocVien, String> {
             while (rs.next()) {
                 HocVien hv = new HocVien();
                 hv.setMaHV(rs.getInt("MaHV"));
-                hv.setMaKH(rs.getInt("KH"));
+                hv.setMaKH(rs.getInt("MAKH"));
                 hv.setMaNH(rs.getString("MaNH"));
                 hv.setDiem(rs.getDouble("Diem"));
                 list.add(hv);
@@ -89,6 +89,21 @@ public class HocVienDAO extends EduSysDAO<HocVien, String> {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public List<HocVien> selectByKhoaHoc(int maKH ){
+        String sql="SELECT *FROM HocVien WHERE MaKH=?";
+        return this.selectBySQL(sql, maKH);
+    }
+
+    
+    //tự thêm
+    public HocVien selectByID(int mahv) {
+        List<HocVien> list = selectBySQL(SELECT_BY_ID_SQL, mahv);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
     }
 
 }

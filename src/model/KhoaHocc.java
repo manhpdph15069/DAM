@@ -98,6 +98,11 @@ public class KhoaHocc {
     public void setNgayTao(Date ngayTao) {
         this.ngayTao = ngayTao;
     }
+
+    @Override
+    public String toString() {
+        return "KhoaHocc{" + "maCD=" + maCD + ", ngayTao=" + ngayTao + '}';
+    }
     
     
 }
