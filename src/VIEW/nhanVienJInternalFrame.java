@@ -500,7 +500,7 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
             for (NhanVien nv : list) {
                 Object[] row = {
                     nv.getMaNV(),
-                    khongHienMK(nv.getMatKhau()),
+                    "******",
                     nv.getHoTen(),
                     nv.getVaiTro() ? "Trưởng Phòng" : "Nhân Viên"
                 };

@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/model/ChuyenDe.java</file>
-            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/DAO/NguoiHocDAO.java</file>
+            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/VIEW/khoaHocJInternalFrame.java</file>
             <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/VIEW/MainForm.java</file>
-            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/model/KhoaHocc.java</file>
             <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/DAO/KhoaHocDAO.java</file>
-            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/VIEW/HocVIenJDialog.java</file>
-            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/DAO/HocVienDAO.java</file>
+            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/VIEW/nguoiHocJInternalFrame.java</file>
         </group>
     </open-files>
 </project-private>

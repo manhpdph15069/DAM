@@ -1,23 +1,33 @@
 package VIEW;
 
-
+import DAO.ChuyenDeDAO;
+import Utils.Auth;
+import Utils.MsgBox;
+import Utils.XImage;
 import static java.awt.Color.pink;
 import static java.awt.Color.white;
 import java.io.File;
 import java.util.List;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-
+import model.ChuyenDe;
+import model.NhanVien;
 
 public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
+
+    ChuyenDeDAO dao = new ChuyenDeDAO();
+    JFileChooser fileChooser = new JFileChooser();
+    int row = -1;
 
     /**
      * Creates new form nhanVienJInternalFrame
      */
     public chuyenDeJInternalFrame() {
         initComponents();
-
+        init();
     }
 
     /**
@@ -29,7 +39,6 @@ public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         tabs = new javax.swing.JTabbedPane();
         pnlEdit = new javax.swing.JPanel();
@@ -56,7 +65,7 @@ public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
         txtThoiLuong = new javax.swing.JTextField();
         pnlList = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblGridView = new javax.swing.JTable();
+        tblChuyenDe = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
@@ -288,7 +297,7 @@ public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
 
         pnlList.setLayout(new java.awt.BorderLayout());
 
-        tblGridView.setModel(new javax.swing.table.DefaultTableModel(
+        tblChuyenDe.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -307,16 +316,16 @@ public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblGridView.setRowHeight(25);
-        tblGridView.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblChuyenDe.setRowHeight(25);
+        tblChuyenDe.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblGridViewMouseClicked(evt);
+                tblChuyenDeMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblGridView);
-        if (tblGridView.getColumnModel().getColumnCount() > 0) {
-            tblGridView.getColumnModel().getColumn(1).setPreferredWidth(230);
-            tblGridView.getColumnModel().getColumn(4).setPreferredWidth(100);
+        jScrollPane1.setViewportView(tblChuyenDe);
+        if (tblChuyenDe.getColumnModel().getColumnCount() > 0) {
+            tblChuyenDe.getColumnModel().getColumn(1).setPreferredWidth(230);
+            tblChuyenDe.getColumnModel().getColumn(4).setPreferredWidth(100);
         }
 
         pnlList.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -343,49 +352,55 @@ public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
-
+        last();
     }//GEN-LAST:event_btnLastActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-
+        next();
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-  
+
     }//GEN-LAST:event_formInternalFrameOpened
 
-    private void tblGridViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblGridViewMouseClicked
-   
-    }//GEN-LAST:event_tblGridViewMouseClicked
+    private void tblChuyenDeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblChuyenDeMouseClicked
+        if (evt.getClickCount() == 2) {
+            this.row = tblChuyenDe.getSelectedRow();
+            if (this.row >= 0) {
+                this.edit();
+                tabs.setSelectedIndex(0);
+            }
+        }
+    }//GEN-LAST:event_tblChuyenDeMouseClicked
 
-  
+
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
- 
+        insert();
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
- 
-        
+        update();
+
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-
+        delete();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-
+        clearForm();
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
- 
+        first();
     }//GEN-LAST:event_btnFirstActionPerformed
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
-
+        prev();
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void lblHinhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHinhMouseClicked
- 
+        chonANh();
     }//GEN-LAST:event_lblHinhMouseClicked
 
 
@@ -398,7 +413,6 @@ public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnPrev;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -412,11 +426,177 @@ public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlEdit;
     private javax.swing.JPanel pnlList;
     private javax.swing.JTabbedPane tabs;
-    private javax.swing.JTable tblGridView;
+    private javax.swing.JTable tblChuyenDe;
     private javax.swing.JTextField txtHocPhi;
     private javax.swing.JTextField txtMaCD;
     private javax.swing.JTextArea txtMoTa;
     private javax.swing.JTextField txtTenCD;
     private javax.swing.JTextField txtThoiLuong;
     // End of variables declaration//GEN-END:variables
+
+    void init() {
+        this.fillTable();
+        this.row = -1;
+        this.updateStatus();
+    }
+
+    void insert() {
+        ChuyenDe cd = getForm();
+
+        try {
+            dao.insert(cd);
+            this.fillTable();
+            this.clearForm();
+            MsgBox.alert(this, "Thêm Mới thành công");
+        } catch (Exception e) {
+            MsgBox.alert(this, "Thêm thất bại");
+
+        }
+    }
+
+    void update() {
+        ChuyenDe cd = getForm();
+
+        try {
+            dao.update(cd);
+            this.fillTable();
+            MsgBox.alert(this, "Cập Nhập thành công");
+        } catch (Exception e) {
+            MsgBox.alert(this, "Cập nhập thất bại");
+        }
+
+    }
+
+    void delete() {
+        if (!Auth.isManager()) {
+            MsgBox.alert(this, "Bạn không có quyền xóa chuyên đề này");
+        } else {
+            String macd = txtMaCD.getText();
+            if (MsgBox.comfirm(this, "Bạn thực sự muốn xóa chuyên đề này?")) {
+                try {
+                    dao.delete(macd);
+                    this.fillTable();
+                    this.clearForm();
+                    MsgBox.alert(this, "Xóa thành công");
+                } catch (Exception e) {
+                    MsgBox.alert(this, "Xóa thất bại");
+                }
+            }
+        }
+    }
+
+    void clearForm() {
+        ChuyenDe cd = new ChuyenDe();
+        this.setForm(cd);
+        this.row = -1;
+        this.updateStatus();
+    }
+
+    void edit() {
+        try {
+            String macd = (String) tblChuyenDe.getValueAt(this.row, 0);
+            ChuyenDe cd = dao.selectByID(macd);
+            this.setForm(cd);
+            tabs.setSelectedIndex(0);//quay về form số 0
+            this.updateStatus();
+        } catch (Exception e) {
+            MsgBox.alert(this, "Lỗi truy vấn dự liệu");
+        }
+
+    }
+
+    void first() {
+        this.row = 0;
+        this.edit();
+    }
+
+    void prev() {
+        if (this.row > 0) {
+            this.row--;
+            this.edit();
+        }
+    }
+
+    void next() {
+        if (this.row < tblChuyenDe.getRowCount() - 1) {
+            this.row++;
+            this.edit();
+        }
+    }
+
+    void last() {
+        this.row = tblChuyenDe.getRowCount() - 1;
+        this.edit();
+    }
+
+    void fillTable() {
+        DefaultTableModel dtm = (DefaultTableModel) this.tblChuyenDe.getModel();
+        dtm.setRowCount(0);
+        try {
+            List<ChuyenDe> list = dao.selectAll();//đọc dữ liệu từ CSDL
+            for (ChuyenDe cd : list) {
+                Object[] row = {
+                    cd.getMaCD(),
+                    cd.getTenCD(),
+                    cd.getHocPhi(),
+                    cd.getThoiLuong(),
+                    cd.getHinh()
+                };
+                dtm.addRow(row);
+            }
+        } catch (Exception e) {
+            MsgBox.alert(this, "Lỗi truy vấn dữ liệu");
+        }
+    }
+
+    void setForm(ChuyenDe cd) {
+        txtMaCD.setText(cd.getMaCD());
+        txtTenCD.setText(cd.getTenCD());
+        txtThoiLuong.setText(String.valueOf(cd.getThoiLuong()));
+        txtHocPhi.setText(String.valueOf(cd.getHocPhi()));
+        txtMoTa.setText(cd.getMoTa());
+        if (cd.getHinh() != null) {
+            lblHinh.setToolTipText(cd.getHinh());
+            lblHinh.setIcon(XImage.read(cd.getHinh()));
+        } else {
+            lblHinh.setIcon(XImage.read("NoImage.png"));
+        }
+    }
+
+    ChuyenDe getForm() {
+        ChuyenDe cd = new ChuyenDe();
+        cd.setMaCD(txtMaCD.getText());
+        cd.setTenCD(txtTenCD.getText());
+        cd.setThoiLuong(Integer.valueOf(txtThoiLuong.getText()));
+        cd.setHocPhi(Double.valueOf(txtHocPhi.getText()));
+        cd.setMoTa(txtMoTa.getText());
+        cd.setHinh(lblHinh.getToolTipText());
+        return cd;
+    }
+
+    void updateStatus() {
+        boolean edit = (this.row >= 0);
+        boolean first = (this.row == 0);
+        boolean last = (this.row == tblChuyenDe.getRowCount() - 1);
+        //Trạng thái form
+        txtMaCD.setEditable(!edit);
+        btnInsert.setEnabled(!edit);
+        btnUpdate.setEnabled(edit);
+        btnDelete.setEnabled(edit);
+        //trạng thái điều hướng
+        btnFirst.setEnabled(edit && !first);
+        btnPrev.setEnabled(edit && !first);
+        btnNext.setEnabled(edit && !last);
+        btnLast.setEnabled(edit && !last);
+    }
+
+    void chonANh() {
+        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            XImage.save(file);
+            ImageIcon icon = XImage.read(file.getName());
+            lblHinh.setIcon(icon);
+            lblHinh.setToolTipText(file.getName());
+        }
+    }
 }

@@ -713,7 +713,8 @@ public class MainForm extends javax.swing.JFrame {
     
     void openhocVien(){
         if (Auth.isLogin()) {
-            new HocVIenJDialog(this, true).setVisible(true);
+            HocVienJInternalJFrame hv = new HocVienJInternalJFrame();
+            openX(hv);
         }else{
             MsgBox.alert(this, "Vui lòng đăng nhập");
         }
@@ -741,9 +742,11 @@ public class MainForm extends javax.swing.JFrame {
     void openHuongDan(){
         try {
             Desktop.getDesktop().browse(new File("help/index.html").toURI());
+            
         } catch (Exception e) {
             MsgBox.alert(this, "Không tìm thấy file hưỡng dẫn");
         }
+
     }
     
 }

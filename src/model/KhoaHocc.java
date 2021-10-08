@@ -101,7 +101,7 @@ public class KhoaHocc {
 
     @Override
     public String toString() {
-        return "KhoaHocc{" + "maCD=" + maCD + ", ngayTao=" + ngayTao + '}';
+        return ""+ maCD +"," + ngayTao + '}';
     }
     
     

@@ -23,18 +23,15 @@ import model.NguoiHoc;
  *
  * @author phamd
  */
-public class HocVIenJDialog extends javax.swing.JDialog {
-
+public class HocVienJInternalJFrame extends javax.swing.JInternalFrame {
     ChuyenDeDAO cddao = new ChuyenDeDAO();
     KhoaHocDAO khdao = new KhoaHocDAO();
     HocVienDAO hvdao = new HocVienDAO();
     NguoiHocDAO nhdao = new NguoiHocDAO();
-
     /**
-     * Creates new form HocVIenJDialog
+     * Creates new form HocVienJInternalJFrame
      */
-    public HocVIenJDialog(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public HocVienJInternalJFrame() {
         initComponents();
         init();
     }
@@ -48,13 +45,12 @@ public class HocVIenJDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel3 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         cbbChuyenDe = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         cbbKhoaHoc = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         tabs = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -68,9 +64,13 @@ public class HocVIenJDialog extends javax.swing.JDialog {
         tblNguoiHoc = new javax.swing.JTable();
         btnADD = new javax.swing.JButton();
 
-        jLabel3.setText("jLabel3");
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setTitle("QUẢN LÝ HỌC VIÊN");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setText("Chuyên Đề");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -96,8 +96,11 @@ public class HocVIenJDialog extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(cbbChuyenDe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setText("Khóa Học");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -117,14 +120,8 @@ public class HocVIenJDialog extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(cbbKhoaHoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setText("Chuyên Đề");
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setText("Khóa Học");
 
         tblHocVIen.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -136,9 +133,21 @@ public class HocVIenJDialog extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(tblHocVIen);
 
+        btnDELETE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Delete.png"))); // NOI18N
         btnDELETE.setText("Xóa Khỏi Khóa Học");
+        btnDELETE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDELETEActionPerformed(evt);
+            }
+        });
 
+        btnUPDETE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Edit.png"))); // NOI18N
         btnUPDETE.setText("Cập Nhập Điểm");
+        btnUPDETE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUPDETEActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -147,20 +156,20 @@ public class HocVIenJDialog extends javax.swing.JDialog {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 843, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnDELETE)
-                .addGap(59, 59, 59)
-                .addComponent(btnUPDETE)
-                .addGap(25, 25, 25))
+                .addComponent(btnDELETE, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(btnUPDETE, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDELETE)
                     .addComponent(btnUPDETE))
-                .addGap(25, 25, 25))
+                .addGap(26, 26, 26))
         );
 
         tabs.addTab("Học Viên", jPanel3);
@@ -180,7 +189,7 @@ public class HocVIenJDialog extends javax.swing.JDialog {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 33, Short.MAX_VALUE))
+                .addGap(0, 11, Short.MAX_VALUE))
         );
 
         tblNguoiHoc.setModel(new javax.swing.table.DefaultTableModel(
@@ -193,7 +202,13 @@ public class HocVIenJDialog extends javax.swing.JDialog {
         ));
         jScrollPane2.setViewportView(tblNguoiHoc);
 
+        btnADD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add.png"))); // NOI18N
         btnADD.setText("Thêm vào khóa học ");
+        btnADD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnADDActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -214,11 +229,11 @@ public class HocVIenJDialog extends javax.swing.JDialog {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(29, 29, 29)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnADD)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tabs.addTab("Người Học", jPanel4);
@@ -229,31 +244,31 @@ public class HocVIenJDialog extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel1)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)))
-            .addComponent(tabs)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(tabs)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
-                .addGap(4, 4, 4)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(29, 29, 29)
+                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55))
         );
 
         pack();
@@ -261,49 +276,23 @@ public class HocVIenJDialog extends javax.swing.JDialog {
 
     private void cbbChuyenDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbChuyenDeActionPerformed
         fillComboBoxKhoaHoc();
+
     }//GEN-LAST:event_cbbChuyenDeActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(HocVIenJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(HocVIenJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(HocVIenJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(HocVIenJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btnDELETEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDELETEActionPerformed
+        // TODO add your handling code here:
+        removeHocVien();
+    }//GEN-LAST:event_btnDELETEActionPerformed
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                HocVIenJDialog dialog = new HocVIenJDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    private void btnUPDETEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUPDETEActionPerformed
+        // TODO add your handling code here:
+        updateDiem();
+    }//GEN-LAST:event_btnUPDETEActionPerformed
+
+    private void btnADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDActionPerformed
+        addHocVien();
+    }//GEN-LAST:event_btnADDActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnADD;
@@ -313,7 +302,6 @@ public class HocVIenJDialog extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> cbbKhoaHoc;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -327,11 +315,10 @@ public class HocVIenJDialog extends javax.swing.JDialog {
     private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 
-    void init() {
-        setLocationRelativeTo(null);
+void init() {
         fillComboBoxChuyenDe();
     }
-    
+
     private void fillComboBoxChuyenDe() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) this.cbbChuyenDe.getModel();
         model.removeAllElements();
@@ -342,7 +329,7 @@ public class HocVIenJDialog extends javax.swing.JDialog {
         this.fillComboBoxKhoaHoc();
         fillTableHocVien();
     }
-    
+
     private void fillComboBoxKhoaHoc() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) this.cbbKhoaHoc.getModel();
         model.removeAllElements();
@@ -352,10 +339,10 @@ public class HocVIenJDialog extends javax.swing.JDialog {
             for (KhoaHocc kh : list) {
                 model.addElement(kh);
             }
-            this.fillTableHocVien();         
+            this.fillTableHocVien();
         }
     }
-    
+
     private void fillTableHocVien() {
         DefaultTableModel dtm = (DefaultTableModel) this.tblHocVIen.getModel();
         dtm.setRowCount(0);
@@ -376,7 +363,7 @@ public class HocVIenJDialog extends javax.swing.JDialog {
             this.fillTableNguoiHoc();
         }
     }
-    
+
     private void fillTableNguoiHoc() {
         DefaultTableModel dtm = (DefaultTableModel) tblNguoiHoc.getModel();
         dtm.setRowCount(0);
@@ -386,10 +373,10 @@ public class HocVIenJDialog extends javax.swing.JDialog {
         for (NguoiHoc nh : list) {
             dtm.addRow(new Object[]{
                 nh.getMaNH(),
-                nh.getHoTen(), 
+                nh.getHoTen(),
                 nh.isGioiTinh() ? "Nam" : "Nữ",
                 nh.getNgaySinh(),
-                nh.getDiemThoai(), 
+                nh.getDiemThoai(),
                 nh.getEmail()
             });
         }
@@ -397,7 +384,7 @@ public class HocVIenJDialog extends javax.swing.JDialog {
 
     void addHocVien() {
         KhoaHocc kh = (KhoaHocc) cbbKhoaHoc.getSelectedItem();
-        int[]rows =tblNguoiHoc.getSelectedRows();
+        int[] rows = tblNguoiHoc.getSelectedRows();
         for (int row : rows) {
             HocVien hv = new HocVien();
             hv.setMaKH(kh.getMaKH());
@@ -408,15 +395,15 @@ public class HocVIenJDialog extends javax.swing.JDialog {
         this.fillTableHocVien();
         this.tabs.setSelectedIndex(0);
     }
-    
+
     void removeHocVien() {
         if (!Auth.isManager()) {
             MsgBox.alert(this, "Bạn không có quyền xóa học viên");
         } else {
             int[] rows = tblHocVIen.getSelectedRows();
-            if (rows.length>0 && MsgBox.comfirm(this, "Bạn muốn xóa các học viên được chọn?")) {
+            if (rows.length > 0 && MsgBox.comfirm(this, "Bạn muốn xóa các học viên được chọn?")) {
                 for (int row : rows) {
-                    int mahv = (Integer) tblHocVIen.getValueAt(row, 0);
+                    int mahv = (Integer) tblHocVIen.getValueAt(row, 1);
                     String ma = String.valueOf(mahv);
                     hvdao.delete(ma);
                 }
@@ -424,12 +411,16 @@ public class HocVIenJDialog extends javax.swing.JDialog {
             }
         }
     }
-    
-    void updateDiem(){
-        for(int i=0;i<tblHocVIen.getRowCount();i++){
-            int mahv = (Integer)tblHocVIen.getValueAt(i, 1);
+
+    void updateDiem() {
+        for (int i = 0; i < tblHocVIen.getRowCount(); i++) {
+            int mahv = (Integer) tblHocVIen.getValueAt(i, 1);
             HocVien hv = hvdao.selectByID(mahv);
-            hv.setDiem((Double)tblHocVIen.getValueAt(i, 4));
+            double diem = 0.0;
+            if (!String.valueOf(tblHocVIen.getValueAt(i, 4)).equals("")) {
+                diem = Double.valueOf(String.valueOf(tblHocVIen.getValueAt(i, 4)));
+            }
+            hv.setDiem(diem);
             hvdao.update(hv);
         }
         MsgBox.alert(this, "Cập nhập điểm thành công");
