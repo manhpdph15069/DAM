@@ -5,6 +5,7 @@
  */
 package DAO;
 
+import Utils.XDate;
 import Utils.jdbcHelper;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -17,9 +18,9 @@ import model.NguoiHoc;
  */
 public class NguoiHocDAO extends EduSysDAO<NguoiHoc, String> {
 
-    String INSERT_SQL = "NSERT INTO NguoiHoc (MaNH, HoTen, NgaySinh, GioiTinh, DienThoai, Email, GhiChu, MaNV) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    String UPDATE_SQL = "UPDATE NguoiHoc SET HoTen=?, NgaySinh=?, GioiTinh=?, DienThoai=?, Email=?, GhiChu=?,MaNV=? WHERE MaNH=?";
-    String DELETE_SQL = "DELETE FROM NguoiHoc WHERE MaNH=?";
+    String INSERT_SQL = "INSERT INTO NguoiHoc (MaNH, HoTen, NgaySinh, GioiTinh, DienThoai, Email, GhiChu, MaNV,NGAYDK) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
+    String UPDATE_SQL = "UPDATE NguoiHoc SET HoTen=?, NgaySinh=?, GioiTinh=?, DienThoai=?, Email=?, GhiChu=?,MaNV=?,NGDK=? WHERE MaNH=?";
+    String DELETE_SQL = "DELETE FROM NguoiHoc WHERE MANH=?";
     String SELECT_ALL_SQL = "SELECT * FROM NguoiHoc";
     String SELECT_BY_ID_SQL = "SELECT * FROM NguoiHoc WHERE MANH = ?";
 
@@ -34,17 +35,18 @@ public class NguoiHocDAO extends EduSysDAO<NguoiHoc, String> {
                     entity.getDiemThoai(),
                     entity.getEmail(),
                     entity.getGhiChu(),
-                    entity.getMaNV()
+                    entity.getMaNV(),
+                    XDate.now()
+                    
             );
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
     @Override
     public void update(NguoiHoc entity) {
         try {
-            jdbcHelper.update(INSERT_SQL,
+            jdbcHelper.update(UPDATE_SQL,
                     entity.getHoTen(),
                     entity.getNgaySinh(),
                     entity.isGioiTinh(),
@@ -58,6 +60,7 @@ public class NguoiHocDAO extends EduSysDAO<NguoiHoc, String> {
             e.printStackTrace();
         }
     }
+
 
     @Override
     public void delete(String key) {
@@ -112,4 +115,9 @@ public class NguoiHocDAO extends EduSysDAO<NguoiHoc, String> {
         return this.selectBySQL(sql,"%"+keyword+"%",makh);
     }
 
+    
+    public List<NguoiHoc> selectByKeyword(String keyword){
+        String sql = "SELECT *FROM NguoiHoc WHERE HoTen LIKE ?";
+        return this.selectBySQL(sql, "%"+keyword+"%");
+    }
 }

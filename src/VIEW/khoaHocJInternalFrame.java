@@ -210,6 +210,11 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
 
         txtNgayTao.setEditable(false);
         txtNgayTao.setEnabled(false);
+        txtNgayTao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNgayTaoActionPerformed(evt);
+            }
+        });
 
         txtTenChuyenDe.setName("Ngày khai giảng"); // NOI18N
 
@@ -436,6 +441,10 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
         fillComboBoxChuyenDe();
     }//GEN-LAST:event_cboChuyenDeActionPerformed
 
+    private void txtNgayTaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNgayTaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNgayTaoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
@@ -545,6 +554,6 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
         txtTenChuyenDe.setText(kh.getMaCD());
         txtGhiChu.setText(kh.getGhiChu());
         txtNgayKG.setText(XDate.toString(kh.getNgayKG(), "MM/dd/yyyy"));
-        txtNgayTao.setText(XDate.toString(kh.getNgayTao(), "MM/dd/yyyy"));
+        txtNgayTao.setText(String.valueOf(XDate.now()));
     }
 }

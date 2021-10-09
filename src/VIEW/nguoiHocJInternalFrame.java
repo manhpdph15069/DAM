@@ -1,14 +1,24 @@
 package VIEW;
 
+import DAO.NguoiHocDAO;
+import Utils.Auth;
+import Utils.MsgBox;
+import Utils.XDate;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import model.NguoiHoc;
 
- 
 public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
+
+    NguoiHocDAO dao = new NguoiHocDAO();
+    int row = -1;
 
     /**
      * Creates new form nguoiHocJInternalFrame
      */
     public nguoiHocJInternalFrame() {
         initComponents();
+        init();
 
     }
 
@@ -47,14 +57,14 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
         btnNext = new javax.swing.JButton();
         btnLast = new javax.swing.JButton();
         txtNgaySinh = new javax.swing.JTextField();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        rdoNam = new javax.swing.JRadioButton();
+        rdoNu = new javax.swing.JRadioButton();
         pnlList = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         txtTimKiem = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tblGridView = new javax.swing.JTable();
+        tblNguoiHoc = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
@@ -181,11 +191,11 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
 
         txtNgaySinh.setName("Ngày sinh"); // NOI18N
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Nam");
+        buttonGroup1.add(rdoNam);
+        rdoNam.setText("Nam");
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Nữ");
+        buttonGroup1.add(rdoNu);
+        rdoNu.setText("Nữ");
 
         javax.swing.GroupLayout pnlEditLayout = new javax.swing.GroupLayout(pnlEdit);
         pnlEdit.setLayout(pnlEditLayout);
@@ -229,9 +239,9 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18))
                             .addGroup(pnlEditLayout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addComponent(jRadioButton1)
+                                .addComponent(rdoNam)
                                 .addGap(18, 18, 18)
-                                .addComponent(jRadioButton2)
+                                .addComponent(rdoNu)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
@@ -260,8 +270,8 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jRadioButton1)
-                        .addComponent(jRadioButton2)))
+                        .addComponent(rdoNam)
+                        .addComponent(rdoNu)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -306,7 +316,7 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
 
         pnlList.add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
-        tblGridView.setModel(new javax.swing.table.DefaultTableModel(
+        tblNguoiHoc.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -325,21 +335,21 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblGridView.setRowHeight(25);
-        tblGridView.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tblGridView.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblNguoiHoc.setRowHeight(25);
+        tblNguoiHoc.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblNguoiHoc.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblGridViewMouseClicked(evt);
+                tblNguoiHocMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(tblGridView);
-        if (tblGridView.getColumnModel().getColumnCount() > 0) {
-            tblGridView.getColumnModel().getColumn(0).setPreferredWidth(60);
-            tblGridView.getColumnModel().getColumn(1).setPreferredWidth(150);
-            tblGridView.getColumnModel().getColumn(2).setPreferredWidth(50);
-            tblGridView.getColumnModel().getColumn(4).setPreferredWidth(80);
-            tblGridView.getColumnModel().getColumn(5).setPreferredWidth(140);
-            tblGridView.getColumnModel().getColumn(6).setPreferredWidth(50);
+        jScrollPane2.setViewportView(tblNguoiHoc);
+        if (tblNguoiHoc.getColumnModel().getColumnCount() > 0) {
+            tblNguoiHoc.getColumnModel().getColumn(0).setPreferredWidth(60);
+            tblNguoiHoc.getColumnModel().getColumn(1).setPreferredWidth(150);
+            tblNguoiHoc.getColumnModel().getColumn(2).setPreferredWidth(50);
+            tblNguoiHoc.getColumnModel().getColumn(4).setPreferredWidth(80);
+            tblNguoiHoc.getColumnModel().getColumn(5).setPreferredWidth(140);
+            tblNguoiHoc.getColumnModel().getColumn(6).setPreferredWidth(50);
         }
 
         pnlList.add(jScrollPane2, java.awt.BorderLayout.CENTER);
@@ -357,45 +367,51 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameOpened
 
 
-    private void tblGridViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblGridViewMouseClicked
-
-    }//GEN-LAST:event_tblGridViewMouseClicked
+    private void tblNguoiHocMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNguoiHocMouseClicked
+        if (evt.getClickCount() == 2) {
+            this.row = tblNguoiHoc.rowAtPoint(evt.getPoint()); //lấy vị trí dòng được chọn
+            if (this.row >= 0) {
+                this.edit();
+                tabs.setSelectedIndex(0);
+            }
+        }
+    }//GEN-LAST:event_tblNguoiHocMouseClicked
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
-
+        insert();
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-
+        update();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-
+        delete();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-
+        clearForm();
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
-
+        first();
     }//GEN-LAST:event_btnFirstActionPerformed
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
-
+        prev();
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-
+        next();
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
-
+        last();
     }//GEN-LAST:event_btnLastActionPerformed
 
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-
+        timKiem();
     }//GEN-LAST:event_jButton5ActionPerformed
 
 
@@ -419,14 +435,14 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel pnlEdit;
     private javax.swing.JPanel pnlList;
+    private javax.swing.JRadioButton rdoNam;
+    private javax.swing.JRadioButton rdoNu;
     private javax.swing.JTabbedPane tabs;
-    private javax.swing.JTable tblGridView;
+    private javax.swing.JTable tblNguoiHoc;
     private javax.swing.JTextField txtDienThoai;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextArea txtGhiChu;
@@ -435,4 +451,176 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtNgaySinh;
     private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
+
+    void timKiem() {
+        this.fillTable();
+        this.clearForm();
+        this.row = -1;
+        updateStatus();
+    }
+
+    private void init() {
+        fillTable();
+    }
+
+    private void fillTable() {
+        DefaultTableModel dtm = (DefaultTableModel) tblNguoiHoc.getModel();
+        dtm.setRowCount(0);
+        try {
+            String keyword = txtTimKiem.getText();
+            List<NguoiHoc> list = dao.selectByKeyword(keyword);
+            for (NguoiHoc n : list) {
+                Object[] row = {
+                    n.getMaNH(),
+                    n.getHoTen(),
+                    n.isGioiTinh() ? "Nam" : "Nữ",
+                    XDate.toString(n.getNgaySinh(), "MM/dd/yyyy"),
+                    n.getDiemThoai(),
+                    n.getEmail(),
+                    n.getMaNV(),
+                    XDate.toString(n.getNgayDK(), "MM/dd/yyyy")
+                };
+                dtm.addRow(row);
+            }
+        } catch (Exception e) {
+            MsgBox.alert(this, "Lỗi truy vấn");
+            e.printStackTrace();
+        }
+    }
+
+    void setForm(NguoiHoc model) {
+        txtMaNH.setText(model.getMaNH());
+        txtHoTen.setText(model.getHoTen());
+        if (model.isGioiTinh()) {
+            rdoNam.setSelected(true);
+        } else {
+            rdoNu.setSelected(true);
+        }
+        txtNgaySinh.setText(XDate.toString(model.getNgaySinh(), "MM/dd/yyyy"));
+        txtDienThoai.setText(model.getDiemThoai());
+        txtEmail.setText(model.getEmail());
+        txtGhiChu.setText(model.getGhiChu());
+
+    }
+
+    public NguoiHoc getForm() {
+        NguoiHoc model = new NguoiHoc();
+        model.setMaNH(txtMaNH.getText());
+        model.setHoTen(txtHoTen.getText());
+        model.setGioiTinh(rdoNam.isSelected() ? true : false);
+        model.setNgaySinh(XDate.toDate(txtNgaySinh.getText()));
+        model.setDiemThoai(txtDienThoai.getText());
+        model.setEmail(txtEmail.getText());
+        model.setGhiChu(txtGhiChu.getText());
+        model.setMaNV(Auth.user.getMaNV());
+        model.setNgayDK(XDate.now());     //ngày đăng kí luôn là ngày hôm nay dù có sửa trên form
+        return model;
+    }
+
+    void clearForm() {
+        txtDienThoai.setText("");
+        txtEmail.setText("");
+        txtGhiChu.setText("");
+        txtHoTen.setText("");
+        txtNgaySinh.setText("");
+        txtMaNH.setText("");
+        rdoNam.isSelected();
+        this.updateStatus();
+    }
+
+    void insert() {
+        NguoiHoc model = getForm();
+        try {
+            dao.insert(model);
+            this.fillTable();
+            this.clearForm();
+            MsgBox.alert(this, "Thêm mới thành công!");
+        } catch (Exception e) {
+            MsgBox.alert(this, "Thêm mới thất bại!");
+        }
+    }
+
+    void update() {
+        NguoiHoc model = getForm();
+        try {
+            dao.update(model);
+            this.fillTable();
+            this.clearForm();
+            MsgBox.alert(this, "Update thành công!");
+        } catch (Exception e) {
+            MsgBox.alert(this, "Update thất bại!");
+            e.printStackTrace();
+        }
+    }
+
+    void delete() {
+        if (!Auth.isManager()) {
+            MsgBox.alert(this, "Bạn không có quyền xóa nhân viên");
+        } else {
+            String manh = txtMaNH.getText();
+            if (manh.equals(Auth.user.getMaNV())) {
+                MsgBox.alert(this, "Bạn không được xóa chính bạn");
+            } else if (MsgBox.comfirm(this, "Bạn thực sự muốn xóa nhân viên này?")) {
+                try {
+                    dao.delete(manh);
+                    this.fillTable();
+                    this.clearForm();
+                    MsgBox.alert(this, "Xóa thành công");
+                } catch (Exception e) {
+                    MsgBox.alert(this, "Xóa thất bại");
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    void edit() {
+        String manh = (String) tblNguoiHoc.getValueAt(this.row, 0);
+        NguoiHoc n = dao.selectByID(manh);
+        this.setForm(n);
+        tabs.setSelectedIndex(0);//quay về form số 0
+        this.updateStatus();
+
+    }
+
+    void first() {
+        this.row = 0;
+        this.edit();
+    }
+
+    void prev() {
+        if (this.row > 0) {
+            this.row--;
+            this.edit();
+        }
+    }
+
+    void next() {
+        if (this.row < tblNguoiHoc.getRowCount() - 1) {
+            this.row++;
+            this.edit();
+        }
+    }
+
+    void last() {
+        this.row = tblNguoiHoc.getRowCount() - 1;
+        this.edit();
+    }
+
+    void updateStatus() {
+        boolean edit = (this.row >= 0);
+        boolean first = (this.row == 0);
+        boolean last = (this.row == tblNguoiHoc.getRowCount() - 1);
+        //Trạng thái form
+        txtMaNH.setEditable(!edit);
+        btnInsert.setEnabled(!edit);
+        btnUpdate.setEnabled(edit);
+        btnDelete.setEnabled(edit);
+        //trạng thái điều hướng
+        btnFirst.setEnabled(edit && !first);
+        btnPrev.setEnabled(edit && !first);
+        btnNext.setEnabled(edit && !last);
+        btnLast.setEnabled(edit && !last);
+    }
+
 }

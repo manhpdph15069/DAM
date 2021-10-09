@@ -110,4 +110,19 @@ public class KhoaHocDAO extends EduSysDAO<KhoaHocc, String> {
         String sql = "SELECT *FROM KhoaHoc WHERE MaCD=?";
         return this.selectBySQL(sql, macd);
     }
+    
+    public List<Integer> selectYears(){
+        String sql ="SELECT DISTINCT year(NgayKG) as NAM FROM KhoaHoc ORDER BY Year(NgayKG) DESC";
+        List<Integer>list =new ArrayList<>();
+        try {
+            ResultSet rs = jdbcHelper.query(sql);
+            while(rs.next()){
+                list.add(rs.getInt(1));
+            }
+            rs.getStatement().getConnection().close();
+            return list;
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
 }

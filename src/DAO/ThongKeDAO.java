@@ -35,13 +35,13 @@ public class ThongKeDAO {
     }
 
     public List<Object[]> getBangDiem(Integer makh) {
-        String sql = "{CALL sp_BANGDIEM(?)}";
+        String sql = "{CALL SP_BANGDIEM(?)}";
         String[] cols ={"MANH","HOTEN","DIEM"};
         return this.getListOfArray(sql, cols, makh);
     }
 
     public List<Object[]> getLuongNguoiHoc() {
-        String sql ="{CALL sp_LUONGNGUOIHOC}";
+        String sql ="{CALL SP_THONGKENGUOIHOC}";
         String[] cols = {"Nam","SoLuong","DauTien","CuoiCung"};
         return this.getListOfArray(sql, cols);
     }
@@ -53,7 +53,7 @@ public class ThongKeDAO {
     }
 
     public List<Object[]> getDOanhTHu(int nam) {
-        String sql = "{CALL DoanhThu(?)}";
+        String sql = "{CALL SP_THONGKEDOANHTHU(?)}";
         String[] cols = {"ChuyenDe","SoKH","SoHV","DoanhThu","ThapNhat","CaoNhat","TrungBinh"};
         return this.getListOfArray(sql, cols,nam);
     }

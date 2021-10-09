@@ -11,7 +11,7 @@ package model;
  */
 public class NhanVien {
     private String maNV,hoTen,matKhau;
-    private boolean vaiTro;
+    private boolean vaiTro=false;
 
     public NhanVien() {
     }
@@ -56,8 +56,9 @@ public class NhanVien {
     }
 
     public boolean getVaiTro() {
-       return vaiTro;
+       return vaiTro=true;
     }
+
     
     
 }

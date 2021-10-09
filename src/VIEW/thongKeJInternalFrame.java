@@ -1,5 +1,13 @@
 package VIEW;
 
+import DAO.KhoaHocDAO;
+import DAO.ThongKeDAO;
+import Utils.Auth;
+import java.awt.CardLayout;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+import model.KhoaHocc;
 
 public class thongKeJInternalFrame extends javax.swing.JInternalFrame {
 
@@ -9,7 +17,8 @@ public class thongKeJInternalFrame extends javax.swing.JInternalFrame {
     public thongKeJInternalFrame(int index) {
         initComponents();
         tabs.setSelectedIndex(index);
-  
+        init();
+
     }
 
     /**
@@ -23,18 +32,18 @@ public class thongKeJInternalFrame extends javax.swing.JInternalFrame {
 
         jLabel1 = new javax.swing.JLabel();
         tabs = new javax.swing.JTabbedPane();
-        pnlNguoiHoc = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblNguoiHoc = new javax.swing.JTable();
         pnlBangDiem = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblBangDiem = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         cboKhoaHoc = new javax.swing.JComboBox<>();
+        pnlNguoiHoc = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblNguoiHoc = new javax.swing.JTable();
         pnlKhoaHoc = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tblKhoaHoc = new javax.swing.JTable();
+        tblDiemChuyenDe = new javax.swing.JTable();
         pnlDoanhThu = new javax.swing.JPanel();
         pnlTruongPhong = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -73,34 +82,6 @@ public class thongKeJInternalFrame extends javax.swing.JInternalFrame {
         jLabel1.setForeground(new java.awt.Color(0, 0, 204));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("TỔNG HỢP THỐNG KÊ");
-
-        pnlNguoiHoc.setLayout(new java.awt.BorderLayout());
-
-        tblNguoiHoc.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "NĂM", "SỐ NGƯỜI HỌC", "ĐẦU TIÊN", "SAU CÙNG"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, true, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tblNguoiHoc.setRowHeight(25);
-        jScrollPane1.setViewportView(tblNguoiHoc);
-
-        pnlNguoiHoc.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-        tabs.addTab("NGƯỜI HỌC", new javax.swing.ImageIcon(getClass().getResource("/icon/User group.png")), pnlNguoiHoc, "NGƯỜI HỌC"); // NOI18N
 
         pnlBangDiem.setLayout(new java.awt.BorderLayout());
 
@@ -158,9 +139,37 @@ public class thongKeJInternalFrame extends javax.swing.JInternalFrame {
 
         tabs.addTab("BẢNG ĐIỂM", new javax.swing.ImageIcon(getClass().getResource("/icon/Numbered list.png")), pnlBangDiem, "BẢNG ĐIỂM"); // NOI18N
 
+        pnlNguoiHoc.setLayout(new java.awt.BorderLayout());
+
+        tblNguoiHoc.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "NĂM", "SỐ NGƯỜI HỌC", "ĐẦU TIÊN", "SAU CÙNG"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblNguoiHoc.setRowHeight(25);
+        jScrollPane1.setViewportView(tblNguoiHoc);
+
+        pnlNguoiHoc.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        tabs.addTab("NGƯỜI HỌC", new javax.swing.ImageIcon(getClass().getResource("/icon/User group.png")), pnlNguoiHoc, "NGƯỜI HỌC"); // NOI18N
+
         pnlKhoaHoc.setLayout(new java.awt.BorderLayout());
 
-        tblKhoaHoc.setModel(new javax.swing.table.DefaultTableModel(
+        tblDiemChuyenDe.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -179,10 +188,10 @@ public class thongKeJInternalFrame extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblKhoaHoc.setRowHeight(25);
-        jScrollPane3.setViewportView(tblKhoaHoc);
-        if (tblKhoaHoc.getColumnModel().getColumnCount() > 0) {
-            tblKhoaHoc.getColumnModel().getColumn(0).setPreferredWidth(230);
+        tblDiemChuyenDe.setRowHeight(25);
+        jScrollPane3.setViewportView(tblDiemChuyenDe);
+        if (tblDiemChuyenDe.getColumnModel().getColumnCount() > 0) {
+            tblDiemChuyenDe.getColumnModel().getColumn(0).setPreferredWidth(230);
         }
 
         pnlKhoaHoc.add(jScrollPane3, java.awt.BorderLayout.CENTER);
@@ -287,7 +296,12 @@ public class thongKeJInternalFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-
+        fillComboBoxKhoaHoc();
+        fillTableBangDiem();
+        fillTableNguoiHoc();
+        fillTableDiemChuyenDe();
+        fillComboxNam();
+        fillTableDoanhThu();
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void cboNamPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cboNamPropertyChange
@@ -306,14 +320,13 @@ public class thongKeJInternalFrame extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cboNamItemStateChanged
 
-    //khi thay đổi Item được chọn ở cboKhoaHoc, load lại bảng khóahọc
     private void cboKhoaHocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboKhoaHocActionPerformed
-
+        fillTableBangDiem();
     }//GEN-LAST:event_cboKhoaHocActionPerformed
 
     //khi thay đổi Item được chọn ở cboNam, load lại bảng doanh thu
     private void cboNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNamActionPerformed
-
+fillTableDoanhThu();
     }//GEN-LAST:event_cboNamActionPerformed
 
 
@@ -339,12 +352,120 @@ public class thongKeJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlTruongPhong;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JTable tblBangDiem;
+    private javax.swing.JTable tblDiemChuyenDe;
     private javax.swing.JTable tblDoanhThu;
-    private javax.swing.JTable tblKhoaHoc;
     private javax.swing.JTable tblNguoiHoc;
     // End of variables declaration//GEN-END:variables
+    KhoaHocDAO khdao = new KhoaHocDAO();
+    ThongKeDAO dao = new ThongKeDAO();
 
     void selectTab(int index) {
         tabs.setSelectedIndex(index);
+    }
+
+    void init() {
+//        fillComboBoxKhoaHoc();
+//        fillTableBangDiem();
+//        fillTableNguoiHoc();
+//
+//        fillComboxNam();
+//        fillTableDoanhThu();
+//        this.selectTab(0);
+
+        if (Auth.isManager()) {
+            tabs.remove(3);
+        }
+//        CardLayout card = (CardLayout) pnlDoanhThu.getLayout();
+//        if (Auth.user.isVaiTro()) {
+//            card.show(pnlDoanhThu, "card1");
+//        } else {
+//            card.show(pnlDoanhThu, "card2");
+//        }
+    }
+
+    void fillComboBoxKhoaHoc() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cboKhoaHoc.getModel();
+        model.removeAllElements();
+        List<KhoaHocc> list = khdao.selectAll();
+        for (KhoaHocc k : list) {
+            model.addElement(k);
+        }
+        cboKhoaHoc.setSelectedIndex(0);
+    }
+
+    void fillTableBangDiem() {
+        DefaultTableModel dtm = (DefaultTableModel) tblBangDiem.getModel();
+        dtm.setRowCount(0);
+        KhoaHocc kh = (KhoaHocc) cboKhoaHoc.getSelectedItem();
+        List<Object[]> list = dao.getBangDiem(kh.getMaKH());
+        for (Object[] row : list) {
+            double diem = (double) row[2];
+            dtm.addRow(new Object[]{
+                row[0],
+                row[1],
+                diem,
+                getXepLoai(diem)
+            });
+        }
+    }
+
+    public String getXepLoai(double diem) {
+        if (diem < 5) {
+            return "Chưa đạt";
+        }
+        if (diem < 6.5) {
+            return "Trung bình";
+        }
+        if (diem < 7.5) {
+            return "Khá";
+        }
+        if (diem < 9) {
+            return "Giỏi";
+        }
+        return "Xuất sắc";
+    }
+
+    void fillTableNguoiHoc() {
+        DefaultTableModel dtm = (DefaultTableModel) tblNguoiHoc.getModel();
+        dtm.setRowCount(0);
+        List<Object[]> list = dao.getLuongNguoiHoc();
+        for (Object[] row : list) {
+            dtm.addRow(row);
+        }
+    }
+
+    void fillTableDiemChuyenDe() {
+        DefaultTableModel dtm = (DefaultTableModel) tblDiemChuyenDe.getModel();
+        dtm.setRowCount(0);
+        List<Object[]> list = dao.getDiemChuyenDe();
+        for (Object[] row : list) {
+            dtm.addRow(new Object[]{
+                row[0],
+                row[1],
+                row[2],
+                row[3],
+                row[4]
+            });
+        }
+    }
+
+    void fillComboxNam() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cboNam.getModel();
+        model.removeAllElements();
+        List<Integer> list = khdao.selectYears();
+        for (Integer year : list) {
+            model.addElement(year);
+        }
+        cboNam.setSelectedIndex(0);
+    }
+
+    void fillTableDoanhThu() {
+        DefaultTableModel dtm = (DefaultTableModel) tblDoanhThu.getModel();
+        dtm.setRowCount(0);
+        int nam = (Integer) cboNam.getSelectedItem();
+        List<Object[]> list = dao.getDOanhTHu(nam);
+        for (Object[] row : list) {
+            dtm.addRow(row);
+        }
     }
 }

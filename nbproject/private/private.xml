@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/VIEW/khoaHocJInternalFrame.java</file>
+            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/Utils/Auth.java</file>
+            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/model/NhanVien.java</file>
             <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/VIEW/MainForm.java</file>
-            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/DAO/KhoaHocDAO.java</file>
-            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/VIEW/nguoiHocJInternalFrame.java</file>
+            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/VIEW/chuyenDeJInternalFrame.java</file>
+            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/VIEW/nhanVienJInternalFrame.java</file>
         </group>
     </open-files>
 </project-private>
