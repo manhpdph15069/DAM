@@ -19,7 +19,7 @@ import model.KhoaHocc;
  */
 public class KhoaHocDAO extends EduSysDAO<KhoaHocc, String> {
 
-    String INSERT_SQL = "INSERT INTO KHOAHOC(MAKH, MACD, HOCPHI,THOIGIAN,NGAYKG,GHICHU,MANV,NGAYTAO) VALUES (?, ?, ?, ?,?,?,?,?)";
+    String INSERT_SQL = "INSERT INTO KHOAHOC(MACD, HOCPHI,THOIGIAN,NGAYKG,GHICHU,MANV,NGAYTAO) VALUES (?, ?, ?, ?,?,?,?)";
     String UPDATE_SQL = "UPDATE KHOAHOC SET MACD= ?, HOCPHI= ?, THOIGIAN= ?, NGAYKG=?, GHICHU=?, MANV=?, NGAYTAO=? WHERE MAKH= ?";
     String DELETE_SQL = "DELETE FROM KHOAHOC WHERE MAKH= ?";
     String SELECT_ALL_SQL = "SELECT * FROM KHOAHOC";
@@ -29,7 +29,6 @@ public class KhoaHocDAO extends EduSysDAO<KhoaHocc, String> {
     public void insert(KhoaHocc entity) {
         try {
             jdbcHelper.update(INSERT_SQL,
-                    entity.getMaKH(),
                     entity.getMaCD(),
                     entity.getHocPhi(),
                     entity.getThoiLuong(),

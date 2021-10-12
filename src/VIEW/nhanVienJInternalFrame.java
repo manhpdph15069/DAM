@@ -502,7 +502,7 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
                     nv.getMaNV(),
                     "******",
                     nv.getHoTen(),
-                    nv.isVaiTro()? "Nhân Viên" : "Trưởng Phòng"
+                    nv.isVaiTro()? "Trưởng Phòng" : "Nhân Viên"
                 };
                 dtm.addRow(row);
             }
@@ -516,8 +516,8 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
         txtMatKhau.setText(n.getHoTen());
         txtHoTen.setText(n.getMatKhau());
         txtXacNhanMK.setText(n.getMatKhau());
-        rdoTruongPhong.setSelected(n.getVaiTro());
-        rdoNhanVien.setSelected(!n.getVaiTro());
+        rdoTruongPhong.setSelected(n.isVaiTro());
+        rdoNhanVien.setSelected(!n.isVaiTro());
     }
 
     NhanVien getForm() {
