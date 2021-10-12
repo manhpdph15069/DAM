@@ -19,7 +19,7 @@ import model.NguoiHoc;
 public class NguoiHocDAO extends EduSysDAO<NguoiHoc, String> {
 
     String INSERT_SQL = "INSERT INTO NguoiHoc (MaNH, HoTen, NgaySinh, GioiTinh, DienThoai, Email, GhiChu, MaNV,NGAYDK) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
-    String UPDATE_SQL = "UPDATE NguoiHoc SET HoTen=?, NgaySinh=?, GioiTinh=?, DienThoai=?, Email=?, GhiChu=?,MaNV=?,NGDK=? WHERE MaNH=?";
+    String UPDATE_SQL = "UPDATE NguoiHoc SET HoTen=?, NgaySinh=?, GioiTinh=?, DienThoai=?, Email=?, GhiChu=?,MaNV=?,NgayDK=? WHERE MaNH=?";
     String DELETE_SQL = "DELETE FROM NguoiHoc WHERE MANH=?";
     String SELECT_ALL_SQL = "SELECT * FROM NguoiHoc";
     String SELECT_BY_ID_SQL = "SELECT * FROM NguoiHoc WHERE MANH = ?";
@@ -54,6 +54,7 @@ public class NguoiHocDAO extends EduSysDAO<NguoiHoc, String> {
                     entity.getEmail(),
                     entity.getGhiChu(),
                     entity.getMaNV(),
+                    XDate.now(),
                     entity.getMaNH()
             );
         } catch (Exception e) {

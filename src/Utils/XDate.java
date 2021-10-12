@@ -7,6 +7,7 @@ package Utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -33,8 +34,9 @@ public class XDate {
             throw new RuntimeException(ex); 
         }
     }
-    public static String toString(Date date,String pattern){
-        formater.applyPattern(pattern);
+    public static String toString(Date date, String...pattern){
+        if(pattern.length>0)formater.applyPattern(pattern[0]);
+        if(date==null)date=XDate.now();
         return formater.format(date);
     }
     public static Date addDays(Date date,long days){
@@ -43,5 +45,11 @@ public class XDate {
     }
         public static Date now() {
         return new Date();   //new Date lấy giờ hiện tại
+    }
+        
+            public static Date add(int days){
+        Calendar cal=Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH,days);
+        return cal.getTime();
     }
 }

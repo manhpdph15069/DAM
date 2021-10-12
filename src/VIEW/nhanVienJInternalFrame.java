@@ -502,7 +502,7 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
                     nv.getMaNV(),
                     "******",
                     nv.getHoTen(),
-                    nv.isVaiTro()? "Trưởng Phòng" : "Nhân Viên"
+                    nv.isVaiTro()? "Nhân Viên" : "Trưởng Phòng"
                 };
                 dtm.addRow(row);
             }

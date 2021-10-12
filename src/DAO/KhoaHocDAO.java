@@ -73,8 +73,8 @@ public class KhoaHocDAO extends EduSysDAO<KhoaHocc, String> {
         return selectBySQL(SELECT_ALL_SQL);
     }
 
-    @Override
-    public KhoaHocc selectByID(String id) {
+
+    public KhoaHocc selectByID(Integer id) {
         List<KhoaHocc> list = selectBySQL(SELECT_BY_ID_SQL, id);
         if (list.isEmpty()) {
             return null;
@@ -124,5 +124,10 @@ public class KhoaHocDAO extends EduSysDAO<KhoaHocc, String> {
         } catch (Exception e) {
             throw new RuntimeException();
         }
+    }
+
+    @Override
+    public KhoaHocc selectByID(String key) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

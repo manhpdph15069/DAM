@@ -47,7 +47,7 @@ public class ThongKeDAO {
     }
 
     public List<Object[]> getDiemChuyenDe() {
-        String sql = "{CALL sp_DIEMCHUYENDE}";
+        String sql = "{CALL [SP_THONGKE]}";
         String[] cols = {"ChuyenDe","SoHV","ThapNhat","CaoNhat","TrungBinh"};
         return this.getListOfArray(sql, cols);
     }

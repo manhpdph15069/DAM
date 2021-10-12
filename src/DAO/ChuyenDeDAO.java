@@ -18,7 +18,7 @@ import model.ChuyenDe;
  */
 public class ChuyenDeDAO extends EduSysDAO<ChuyenDe, String> {
 
-    String INSERT_SQL = "NSERT INTO ChuyenDe (MaCD, TenCD, HocPhi, ThoiLuong, Hinh, MoTa) VALUES (?, ?, ?, ?, ?, ?)";
+    String INSERT_SQL = "INSERT INTO ChuyenDe (MaCD, TenCD, HocPhi, ThoiLuong, Hinh, MoTa) VALUES (?, ?, ?, ?, ?, ?)";
     String UPDATE_SQL = "UPDATE ChuyenDe SET TenCD=?, HocPhi=?, ThoiLuong=?, Hinh=?, MoTa=? WHERE MaCD=?";
     String DELETE_SQL = "DELETE FROM ChuyenDe WHERE MaCD=?";
     String SELECT_ALL_SQL = "SELECT * FROM ChuyenDe";

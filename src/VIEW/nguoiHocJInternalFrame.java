@@ -554,7 +554,7 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
     }
 
     void delete() {
-        if (!Auth.isManager()) {
+        if (Auth.isManager()) {
             MsgBox.alert(this, "Bạn không có quyền xóa nhân viên");
         } else {
             String manh = txtMaNH.getText();

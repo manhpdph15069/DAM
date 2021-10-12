@@ -6,8 +6,10 @@ import Utils.MsgBox;
 import Utils.XImage;
 import static java.awt.Color.pink;
 import static java.awt.Color.white;
+import java.awt.Image;
 import java.io.File;
 import java.util.List;
+import javax.imageio.ImageIO;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -368,14 +370,16 @@ public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
             this.row = tblChuyenDe.getSelectedRow();
             if (this.row >= 0) {
                 this.edit();
-                tabs.setSelectedIndex(0);
-            }
-        }
+                tabs.setSelectedIndex(0);               
+            }        }
     }//GEN-LAST:event_tblChuyenDeMouseClicked
 
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
-        insert();
+
+        if (checkAnh()) {
+            insert();
+        }
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -440,6 +444,15 @@ public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
         this.updateStatus();
     }
 
+    boolean checkAnh() {
+        if (lblHinh.getToolTipText() != null) {
+            return true;
+        } else {
+            MsgBox.alert(this, "Không được để trống hình");
+            return false;
+        }
+    }
+
     void insert() {
         ChuyenDe cd = getForm();
 
@@ -468,7 +481,7 @@ public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
     }
 
     void delete() {
-        if (!Auth.isManager()) {
+        if (Auth.isManager()) {
             MsgBox.alert(this, "Bạn không có quyền xóa chuyên đề này");
         } else {
             String macd = txtMaCD.getText();
@@ -570,6 +583,7 @@ public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
         cd.setThoiLuong(Integer.valueOf(txtThoiLuong.getText()));
         cd.setHocPhi(Double.valueOf(txtHocPhi.getText()));
         cd.setMoTa(txtMoTa.getText());
+
         cd.setHinh(lblHinh.getToolTipText());
         return cd;
     }
@@ -595,7 +609,14 @@ public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
             File file = fileChooser.getSelectedFile();
             XImage.save(file);
             ImageIcon icon = XImage.read(file.getName());
-            lblHinh.setIcon(icon);
+            try {
+            Image img = ImageIO.read(file);
+                int width = lblHinh.getWidth();
+                int height = lblHinh.getHeight();
+                
+            lblHinh.setIcon(new ImageIcon(img.getScaledInstance(width, height, 0)));
+            } catch (Exception e) {
+            }
             lblHinh.setToolTipText(file.getName());
         }
     }
