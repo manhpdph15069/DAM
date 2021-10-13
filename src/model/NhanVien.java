@@ -10,18 +10,28 @@ package model;
  * @author phamd
  */
 public class NhanVien {
-    private String maNV,hoTen,matKhau;
+    private String maNV,hoTen,matKhau,email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
     private boolean vaiTro=false;
 
     public NhanVien() {
     }
 
-    public NhanVien(String maNV, String hoTen, String matKhau, boolean vaiTro) {
+    public NhanVien(String maNV, String hoTen, String matKhau, String email) {
         this.maNV = maNV;
         this.hoTen = hoTen;
         this.matKhau = matKhau;
-        this.vaiTro = vaiTro;
+        this.email = email;
     }
+
+
 
     public String getMaNV() {
         return maNV;
@@ -53,10 +63,6 @@ public class NhanVien {
 
     public void setVaiTro(boolean vaiTro) {
         this.vaiTro = vaiTro;
-    }
-
-    public boolean getVaiTro() {
-       return vaiTro=true;
     }
 
     

@@ -7,6 +7,9 @@ package VIEW;
 
 import DAO.NhanVienDAO;
 import Utils.Auth;
+import Utils.MsgBox;
+import static java.awt.Color.pink;
+import static java.awt.Color.white;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
@@ -19,7 +22,7 @@ import model.NhanVien;
  * @author phamd
  */
 public class DangNhapJDialog extends javax.swing.JDialog {
-    
+
     NhanVienDAO dao = new NhanVienDAO();
 
     /**
@@ -159,13 +162,27 @@ public class DangNhapJDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JOptionPane.showConfirmDialog(this, "Bạn Muốn kết thúc ứng dụng?");
+        if (JOptionPane.showConfirmDialog(this, "Bạn Muốn kết thúc ứng dụng?")==0) {
+        System.exit(0);
+            
+        }
 
-//System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
-        dangNhap();
+                txtTenDangNhap.setBackground(white);
+        txtMatKhau.setBackground(white);
+        if(txtTenDangNhap.getText().trim().length()>0){
+            if(txtMatKhau.getPassword().length>0){
+                dangNhap();
+            }else{
+                txtMatKhau.setBackground(pink);
+                MsgBox.alert(this, "Không được để trống tên mật khẩu");
+            }
+        }else{
+            txtTenDangNhap.setBackground(pink);
+            MsgBox.alert(this, "Không được để trống tên đăng nhập");
+        }
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
     private void cboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboActionPerformed
@@ -180,10 +197,10 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
         SendCode s = new SendCode();
         s.setVisible(true);
-        
-        
+
+
     }//GEN-LAST:event_jLabel4MouseClicked
-    
+
     void dangNhap() {
         try {
             NhanVienDAO dao = new NhanVienDAO();
@@ -243,7 +260,7 @@ public class DangNhapJDialog extends javax.swing.JDialog {
                     }
                 });
                 dialog.setVisible(true);
-                
+
             }
         });
     }

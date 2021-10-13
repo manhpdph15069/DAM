@@ -4,6 +4,7 @@ import DAO.ChuyenDeDAO;
 import Utils.Auth;
 import Utils.MsgBox;
 import Utils.XImage;
+import Utils.utilityHelper;
 import static java.awt.Color.pink;
 import static java.awt.Color.white;
 import java.awt.Image;
@@ -21,7 +22,7 @@ import model.NhanVien;
 public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
 
     ChuyenDeDAO dao = new ChuyenDeDAO();
-    JFileChooser fileChooser = new JFileChooser();
+    JFileChooser fileChooser = new JFileChooser("C:\\Users\\phamd\\OneDrive\\Documents\\NetBeansProjects\\DUANMAU\\logos");
     int row = -1;
 
     /**
@@ -376,19 +377,65 @@ public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
 
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
-
-        if (checkAnh()) {
-            insert();
-        }
+if(utilityHelper.checkNullText(txtMaCD)&&
+                utilityHelper.checkNullText(txtTenCD)&&
+                utilityHelper.checkNullText(txtThoiLuong)&&
+                utilityHelper.checkNullText(txtHocPhi)&&
+                utilityHelper.checkNullText(txtMoTa)&&
+                checkNullHinh()){
+            if(utilityHelper.checkMaCD(txtMaCD)&&
+                    utilityHelper.checkTenCD(txtTenCD)&&
+                    utilityHelper.checkThoiLuong(txtThoiLuong)&&
+                    utilityHelper.checkHocPhi(txtHocPhi)&&
+                    utilityHelper.checkMoTaCD(txtMoTa)){
+                if(checkTrungMa(txtMaCD)){
+                    insert();
+                }
+            }
+        }  
     }//GEN-LAST:event_btnInsertActionPerformed
-
+    public boolean checkNullHinh(){
+        if(lblHinh.getToolTipText()!=null){
+            return true;
+        }else{
+            MsgBox.alert(this, "Không được để trống hình.");
+            return false;
+        }
+    }
+    public boolean checkTrungMa(JTextField txt) {
+        txt.setBackground(white);
+        if (dao.selectByID(txt.getText()) == null) {
+            return true;
+        } else {
+            txt.setBackground(pink);
+            MsgBox.alert(this, txt.getName() + " đã bị tồn tại.");
+            return false;
+        }
+    }
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        update();
+                if(utilityHelper.checkNullText(txtMaCD)&&
+                utilityHelper.checkNullText(txtTenCD)&&
+                utilityHelper.checkNullText(txtThoiLuong)&&
+                utilityHelper.checkNullText(txtHocPhi)&&
+                utilityHelper.checkNullText(txtMoTa)&&
+                checkNullHinh()){
+            if(utilityHelper.checkMaCD(txtMaCD)&&
+                    utilityHelper.checkTenCD(txtTenCD)&&
+                    utilityHelper.checkThoiLuong(txtThoiLuong)&&
+                    utilityHelper.checkHocPhi(txtHocPhi)&&
+                    utilityHelper.checkMoTaCD(txtMoTa)){
+                update();
+            }
+        }
 
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        delete();
+                if(Auth.user.isVaiTro()){
+            delete();
+        }else{
+            MsgBox.alert(this, "Chỉ trưởng phòng mới được phép xóa");
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
@@ -444,15 +491,6 @@ public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
         this.updateStatus();
     }
 
-    boolean checkAnh() {
-        if (lblHinh.getToolTipText() != null) {
-            return true;
-        } else {
-            MsgBox.alert(this, "Không được để trống hình");
-            return false;
-        }
-    }
-
     void insert() {
         ChuyenDe cd = getForm();
 
@@ -481,7 +519,7 @@ public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
     }
 
     void delete() {
-        if (Auth.isManager()) {
+        if (!Auth.isManager()) {
             MsgBox.alert(this, "Bạn không có quyền xóa chuyên đề này");
         } else {
             String macd = txtMaCD.getText();

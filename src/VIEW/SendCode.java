@@ -5,6 +5,9 @@
  */
 package VIEW;
 
+import DAO.NhanVienDAO;
+import Utils.MsgBox;
+import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 import javax.mail.Authenticator;
@@ -17,6 +20,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import javax.swing.JOptionPane;
+import model.NhanVien;
 
 /**
  *
@@ -47,11 +51,12 @@ public class SendCode extends javax.swing.JFrame {
         txtEmail = new javax.swing.JTextField();
         btnSend = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        txtMaNV = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setAlwaysOnTop(true);
 
-        jLabel1.setText("Email ĐK");
+        jLabel1.setText("Email");
 
         btnSend.setText("Send Code");
         btnSend.addActionListener(new java.awt.event.ActionListener() {
@@ -67,35 +72,47 @@ public class SendCode extends javax.swing.JFrame {
             }
         });
 
+        txtMaNV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMaNVActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("MaNV");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(51, 51, 51)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
                 .addGap(53, 53, 53)
-                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(68, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSend)
-                .addGap(39, 39, 39)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnSend)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(57, 57, 57)
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(btnSend))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSend)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addGap(32, 32, 32))
+                .addContainerGap(88, Short.MAX_VALUE))
         );
 
         pack();
@@ -146,7 +163,11 @@ public class SendCode extends javax.swing.JFrame {
             String macodeString = JOptionPane.showInputDialog("Nhập vào mã Code (6 số)");
             System.out.println("" + randumCode);
             if (Integer.valueOf(macodeString) == randumCode) {
-
+                    DoiMatKhauJDialog d = new DoiMatKhauJDialog(this, true);
+                    d.setVisible(true);
+                    this.dispose();
+            }else{
+                MsgBox.alert(this, "code bạn nhập không đúng");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -154,9 +175,25 @@ public class SendCode extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSendActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void txtMaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaNVActionPerformed
+        check();
+    }//GEN-LAST:event_txtMaNVActionPerformed
+boolean check(){
+            NhanVienDAO dao = new NhanVienDAO();
+            NhanVien nv = dao.selectByID(txtMaNV.getText());
+        if (nv==null) {
+            MsgBox.alert(this, "Mã Nhân Viên Của Bạn KhÔng Tồn Tại");
+            return false;
+        }else{
+           
+                txtEmail.setText(nv.getEmail());
+
+            return true;
+        }
+}
     /**
      * @param args the command line arguments
      */
@@ -198,7 +235,9 @@ public class SendCode extends javax.swing.JFrame {
     private javax.swing.JButton btnSend;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtMaNV;
     // End of variables declaration//GEN-END:variables
 
 }

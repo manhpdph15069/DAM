@@ -3,18 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/DAO/ThongKeDAO.java</file>
-            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/VIEW/DangNhapJDialog.java</file>
-            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/VIEW/khoaHocJInternalFrame.java</file>
-            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/Utils/Auth.java</file>
-            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/VIEW/MainForm.java</file>
-            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/DAO/KhoaHocDAO.java</file>
-            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/VIEW/chuyenDeJInternalFrame.java</file>
-            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/Utils/XImage.java</file>
+            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/Utils/utilityHelper.java</file>
+            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/VIEW/SendCode.java</file>
             <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/DAO/NhanVienDAO.java</file>
-            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/Utils/jdbcHelper.java</file>
             <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/VIEW/DoiMatKhauJDialog.java</file>
-            <file>file:/C:/Users/phamd/OneDrive/Documents/NetBeansProjects/DUANMAU/src/VIEW/nhanVienJInternalFrame.java</file>
         </group>
     </open-files>
 </project-private>

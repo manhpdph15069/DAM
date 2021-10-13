@@ -7,6 +7,7 @@ import Utils.Auth;
 import Utils.MsgBox;
 import Utils.XDate;
 import Utils.XImage;
+import Utils.utilityHelper;
 import static java.awt.Color.pink;
 import static java.awt.Color.white;
 import java.awt.HeadlessException;
@@ -611,18 +612,23 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
         }
     }
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
-
+        if(utilityHelper.checkNullText(txtNgayKG)){
+            if(utilityHelper.checkDate(txtNgayKG)){
                 if(check5Ngay(txtNgayKG,txtNgayTao)){
                     insert();
                 }
-
+            }
+        }
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-
+        if(utilityHelper.checkNullText(txtNgayKG)){
+            if(utilityHelper.checkDate(txtNgayKG)){
                 if(check5Ngay(txtNgayKG,txtNgayTao)){
                     update();
                 }
+            }
+        } 
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed

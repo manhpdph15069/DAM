@@ -4,7 +4,13 @@ import DAO.NguoiHocDAO;
 import Utils.Auth;
 import Utils.MsgBox;
 import Utils.XDate;
+import Utils.utilityHelper;
+import static java.awt.Color.pink;
+import static java.awt.Color.white;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import model.NguoiHoc;
 
@@ -377,16 +383,74 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tblNguoiHocMouseClicked
 
+    public boolean checkTrungMa(JTextField txt) {
+        txt.setBackground(white);
+        if (dao.selectByID(txt.getText()) == null) {
+            return true;
+        } else {
+            txt.setBackground(pink);
+            MsgBox.alert(this, txt.getName() + " đã bị tồn tại.");
+            return false;
+        }
+    }
+        public boolean check16Nam(JTextField txt) {
+        txt.setBackground(white);
+        Date date = XDate.toDate(txt.getText());
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+        c1.setTime(date);
+        c2.setTime(new Date());
+        long a = (c2.getTime().getTime() - c1.getTime().getTime()) / (24 * 3600 * 1000);
+        if (a >= 5844) {
+            return true;
+        } else {
+            txt.setBackground(pink);
+            MsgBox.alert(this, txt.getName() + " phải cách đây ít nhất 16 năm.");
+            return false;
+        }
+    }
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
-        insert();
+        if (utilityHelper.checkNullText(txtMaNH)
+                && utilityHelper.checkNullText(txtHoTen)
+                && utilityHelper.checkNullText(txtNgaySinh)
+                && utilityHelper.checkNullText(txtDienThoai)
+                && utilityHelper.checkNullText(txtEmail)) {
+            if (utilityHelper.checkMaNH(txtMaNH)
+                    && utilityHelper.checkName(txtHoTen)
+                    && utilityHelper.checkDate(txtNgaySinh)
+                    && utilityHelper.checkSDT(txtDienThoai)
+                    && utilityHelper.checkEmail(txtEmail)) {
+                if (checkTrungMa(txtMaNH)) {
+                    if (check16Nam(txtNgaySinh)) {
+                        insert();
+                    }
+                }
+            }
+        }
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        update();
+                if (utilityHelper.checkNullText(txtHoTen)
+                && utilityHelper.checkNullText(txtNgaySinh)
+                && utilityHelper.checkNullText(txtDienThoai)
+                && utilityHelper.checkNullText(txtEmail)) {
+            if (utilityHelper.checkName(txtHoTen)
+                    && utilityHelper.checkDate(txtNgaySinh)
+                    && utilityHelper.checkSDT(txtDienThoai)
+                    && utilityHelper.checkEmail(txtEmail)) {
+                if (check16Nam(txtNgaySinh)) {
+                    update();
+                }
+            }
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        delete();
+                if (Auth.user.isVaiTro()) {
+            delete();
+        } else {
+            MsgBox.alert(this, "Chỉ trưởng phòng mới được phép xóa");
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed

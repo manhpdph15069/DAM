@@ -3,7 +3,11 @@ package VIEW;
 import DAO.NhanVienDAO;
 import Utils.Auth;
 import Utils.MsgBox;
+import Utils.utilityHelper;
+import static java.awt.Color.pink;
+import static java.awt.Color.white;
 import java.util.List;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import model.NhanVien;
 
@@ -331,16 +335,58 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tblNhanVienMouseClicked
 
+     public boolean checkTrungMa(JTextField txt) {
+        txt.setBackground(white);
+        if (dao.selectByID(txt.getText()) == null) {
+            return true;
+        } else {
+            txt.setBackground(pink);
+            MsgBox.alert(this, txt.getName() + " đã bị tồn tại.");
+            return false;
+        }
+    }
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
-        insert();
+       if (utilityHelper.checkNullText(txtMaNV)
+                && utilityHelper.checkNullPass(txtHoTen)
+                && utilityHelper.checkNullPass(txtXacNhanMK)
+                && utilityHelper.checkNullText(txtMatKhau)) {
+            if (utilityHelper.checkMaNV(txtMaNV)
+                    && utilityHelper.checkPass(txtHoTen)
+                    && utilityHelper.checkName(txtMatKhau)) {
+                if (checkTrungMa(txtMaNV)) {
+                    insert();
+                }
+            }
+        }
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        update();
+                if (utilityHelper.checkNullPass(txtHoTen)
+                && utilityHelper.checkNullPass(txtXacNhanMK)
+                && utilityHelper.checkNullText(txtMatKhau)) {
+            if (utilityHelper.checkPass(txtHoTen)
+                    && utilityHelper.checkName(txtMatKhau)) {
+                update();
+            }
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
-
+    public boolean checkChinhMinh(JTextField txt){
+        NhanVien nv=dao.selectByID(txt.getText());
+        if (nv.getMaNV().equals(Auth.user.getMaNV())) {
+            MsgBox.alert(this, "bạn không được xóa chính mình.");
+            return false;
+        } else {
+            return true;
+        }
+    }
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        delete();
+                if(Auth.user.isVaiTro()){
+            if(checkChinhMinh(txtMaNV)){
+            delete();
+        }
+        }else{
+            MsgBox.alert(this, "Chỉ trưởng phòng mới được phép xóa");
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
@@ -419,6 +465,10 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
     void update() {
         NhanVien nv = getForm();
         String mk2 = new String(txtXacNhanMK.getPassword());
+//        String manv = txtMaNV.getText();
+//        if (manv.equals(Auth.user.getMaNV())) {
+//            
+//        }
         if (!mk2.equals(nv.getMatKhau())) {
             MsgBox.alert(this, "Xác nhận mật khẩu không đúng");
         } else {

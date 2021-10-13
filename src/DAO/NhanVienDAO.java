@@ -24,8 +24,8 @@ import model.NhanVien;
  */
 public class NhanVienDAO extends EduSysDAO<NhanVien, String> {
 
-    String INSERT_SQL = "INSERT INTO NhanVien(MaNV,HoTen , MatKhau, VaiTro) VALUES(?, ?, ?, ?)";
-    String UPDATE_SQL = "UPDATE NhanVien SET MatKhau=?, HoTen=?, VaiTro=? WHERE MaNV=?";
+    String INSERT_SQL = "INSERT INTO NhanVien(MaNV,HoTen , MatKhau, VaiTro,Email) VALUES(?, ?, ?, ?,?)";
+    String UPDATE_SQL = "UPDATE NhanVien SET MatKhau=?, HoTen=?, VaiTro=?,Email=? WHERE MaNV=?";
     String DELETE_SQL = "DELETE FROM NhanVien WHERE MaNV = ?";
     String SELECT_ALL_SQL = "SELECT * FROM NhanVien";
     String SELECT_BY_ID_SQL = "SELECT * FROM NhanVien WHERE MaNV = ?";
@@ -37,7 +37,8 @@ public class NhanVienDAO extends EduSysDAO<NhanVien, String> {
                     entity.getMaNV(),
                     entity.getHoTen(),
                     maHoa(entity.getMatKhau()),
-                    entity.isVaiTro());
+                    entity.isVaiTro(),
+                    entity.getEmail());
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
@@ -47,11 +48,11 @@ public class NhanVienDAO extends EduSysDAO<NhanVien, String> {
 
     @Override
     public void update(NhanVien entity) {
-        String sql = "UPDATE NhanVien SET MatKhau=?, HoTen=?, VaiTro=? WHERE MaNV=?";
         jdbcHelper.update(UPDATE_SQL,
                 entity.getMatKhau(),
                 entity.getHoTen(),
                 entity.isVaiTro(),
+                entity.getEmail(),
                 entity.getMaNV());
     }
 
@@ -85,6 +86,7 @@ public class NhanVienDAO extends EduSysDAO<NhanVien, String> {
                 nv.setHoTen(rs.getString("HOTEN"));
                 nv.setMatKhau(rs.getString("MATKHAU"));
                 nv.setVaiTro(rs.getBoolean("VAITRO"));
+                nv.setEmail(rs.getString("Email"));
                 list.add(nv);
             }
             rs.getStatement().getConnection().close();
