@@ -3,11 +3,31 @@ package VIEW;
 import DAO.KhoaHocDAO;
 import DAO.ThongKeDAO;
 import Utils.Auth;
+import Utils.ExportFileHelper;
+import Utils.MsgBox;
 import java.awt.CardLayout;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import model.KhoaHocc;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class thongKeJInternalFrame extends javax.swing.JInternalFrame {
 
@@ -54,6 +74,7 @@ public class thongKeJInternalFrame extends javax.swing.JInternalFrame {
         pnlNhanVien = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -274,20 +295,33 @@ public class thongKeJInternalFrame extends javax.swing.JInternalFrame {
 
         tabs.addTab("DOANH THU", new javax.swing.ImageIcon(getClass().getResource("/icon/Coins.png")), pnlDoanhThu, "DOANH THU"); // NOI18N
 
+        jButton1.setText("Excel");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(tabs, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(295, 295, 295)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tabs, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tabs.getAccessibleContext().setAccessibleDescription("");
@@ -326,13 +360,109 @@ public class thongKeJInternalFrame extends javax.swing.JInternalFrame {
 
     //khi thay đổi Item được chọn ở cboNam, load lại bảng doanh thu
     private void cboNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNamActionPerformed
-fillTableDoanhThu();
+        fillTableDoanhThu();
     }//GEN-LAST:event_cboNamActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+//        JFileChooser path = new JFileChooser();//chọn chỗ lưu
+//        path.setSelectedFile(new File("Name.xlsx"));//Thiết lập file được lựa chọn
+//        int reponse = path.showSaveDialog(null);//lấy đường dẫn
+//        if (reponse == JFileChooser.APPROVE_OPTION) {//APPROVE_OPTION nếu người dùng chọn và xác nhận
+//            String savePath = path.getSelectedFile().getAbsolutePath();//getAbsolutePath() cung cấp cho bạn đường dẫn tuyệt đối đến tệp
+//            if (path.getSelectedFile().getName().length()>5) {
+//                    if (!savePath.substring(savePath.length()-5).equals(".xlsx")) {
+//                    savePath = savePath+".xlsx";
+//                }
+//                    else{
+//                        savePath = savePath +".xlsx";
+//                    }
+//                    if (new File(savePath).exists()) {//Phương thức exists() của lớp File được sử dụng để check file có tồn tại không
+//                        MsgBox.alert(this, "Tên file đã tồn tại");
+//                }else{
+//                        switch(this.tabs.getSelectedIndex()){
+//                            case 0:
+//                        
+//                            try {
+//                                writeExcel(tblNguoiHoc, Paths.get(savePath));
+//                                MsgBox.alert(this, "Xuất file thành công");
+//                            } catch (IOException ex) {
+//                                Logger.getLogger(thongKeJInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
+//                            }
+//                        
+//                        }
+//                    }
+//            }
+//        }
+
+
+
+               try {
+            JFileChooser chonChoLuu = new JFileChooser();
+            //chonChoLuu.setCurrentDirectory(new File(System.getProperty("user.dir")));
+            chonChoLuu.setSelectedFile(new File("unname.xlsx"));
+            int reponse = chonChoLuu.showSaveDialog(null);
+            if (reponse == JFileChooser.APPROVE_OPTION) {
+                String savePath = chonChoLuu.getSelectedFile().getAbsolutePath();
+                if (chonChoLuu.getSelectedFile().getName().length() > 5) {
+                    if (!savePath.substring(savePath.length() - 5).equals(".xlsx")) {
+                        savePath = savePath + ".xlsx";
+                    }
+                } else {
+                    savePath = savePath + ".xlsx";
+                }
+                if (new File(savePath).exists()) {
+                    if (MsgBox.comfirm(this, "Đã tồn tại file này, bạn có muốn ghi đè?")) {
+                        switch (this.tabs.getSelectedIndex()) {
+                            case 0:
+                                ExportFileHelper.writeToExcell(this.tblNguoiHoc, Paths.get(savePath));
+                                MsgBox.alert(this, "Xuất File thành công !");
+                                break;
+                            case 1:
+                                ExportFileHelper.writeToExcell(this.tblBangDiem, Paths.get(savePath));
+                                MsgBox.alert(this, "Xuất File thành công !");
+                                break;
+                            case 2:
+                                ExportFileHelper.writeToExcell(this.tblDiemChuyenDe, Paths.get(savePath));
+                                MsgBox.alert(this, "Xuất File thành công !");
+                                break;
+                            case 3:
+                                ExportFileHelper.writeToExcell(this.tblDoanhThu, Paths.get(savePath));
+                                MsgBox.alert(this, "Xuất File thành công !");
+                                break;
+                        }
+                    }
+                } else {
+                    switch (this.tabs.getSelectedIndex()) {
+                        case 0:
+                            ExportFileHelper.writeToExcell(this.tblNguoiHoc, Paths.get(savePath));
+                            MsgBox.alert(this, "Xuất File thành công !");
+                            break;
+                        case 1:
+                            ExportFileHelper.writeToExcell(this.tblBangDiem, Paths.get(savePath));
+                            MsgBox.alert(this, "Xuất File thành công !");
+                            break;
+                        case 2:
+                            ExportFileHelper.writeToExcell(this.tblDiemChuyenDe, Paths.get(savePath));
+                            MsgBox.alert(this, "Xuất File thành công !");
+                            break;
+                        case 3:
+                            ExportFileHelper.writeToExcell(this.tblDoanhThu, Paths.get(savePath));
+                            MsgBox.alert(this, "Xuất File thành công !");
+                            break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Xuất file thất bại!", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cboKhoaHoc;
     private javax.swing.JComboBox<String> cboNam;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -459,6 +589,7 @@ fillTableDoanhThu();
         cboNam.setSelectedIndex(0);
     }
 
+    
     void fillTableDoanhThu() {
         DefaultTableModel dtm = (DefaultTableModel) tblDoanhThu.getModel();
         dtm.setRowCount(0);
@@ -467,5 +598,28 @@ fillTableDoanhThu();
         for (Object[] row : list) {
             dtm.addRow(row);
         }
+    }
+    
+    
+    
+    void writeExcel(JTable table,Path p) throws FileNotFoundException, IOException{
+        Workbook w = new XSSFWorkbook();
+        Sheet sheet = w.createSheet();
+        Row row = sheet.createRow(2);
+        TableModel model = table.getModel();
+        
+        Row header = sheet.createRow(0);
+        for(int heading =0;heading<model.getColumnCount();heading++){
+            header.createCell(heading).setCellValue(model.getColumnName(heading));
+        }
+        
+        for (int rows = 0; rows < model.getRowCount(); rows++) {
+            for (int cols = 0; cols < model.getColumnCount(); cols++) {
+                row.createCell(cols).setCellValue(model.getValueAt(rows, cols).toString());           
+            }
+            row = sheet.createRow(rows+3);
+            
+        }
+        w.write(new FileOutputStream(p.toString()));
     }
 }

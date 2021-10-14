@@ -7,6 +7,7 @@ package VIEW;
 
 import DAO.NhanVienDAO;
 import Utils.MsgBox;
+import Utils.utilityHelper;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
@@ -55,6 +56,7 @@ public class SendCode extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAutoRequestFocus(false);
 
         jLabel1.setText("Email");
 
@@ -162,12 +164,18 @@ public class SendCode extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Code has been send to the email");
             String macodeString = JOptionPane.showInputDialog("Nhập vào mã Code (6 số)");
             System.out.println("" + randumCode);
-            if (Integer.valueOf(macodeString) == randumCode) {
-                    DoiMatKhauJDialog d = new DoiMatKhauJDialog(this, true);
-                    d.setVisible(true);
-                    this.dispose();
-            }else{
+            if (utilityHelper.checkCode(macodeString)) {
+                
+            if (Integer.valueOf(macodeString) != randumCode) {
                 MsgBox.alert(this, "code bạn nhập không đúng");
+             
+            }else{
+               DMKSendCode d = new DMKSendCode(this, true,txtMaNV);
+                    d.setVisible(true);
+                    this.dispose(); 
+            }
+            }else{
+                MsgBox.alert(this, "Bạn không được nhập chữ");
             }
         } catch (Exception e) {
             e.printStackTrace();

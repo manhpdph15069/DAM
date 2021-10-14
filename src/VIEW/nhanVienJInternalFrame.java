@@ -6,7 +6,11 @@ import Utils.MsgBox;
 import Utils.utilityHelper;
 import static java.awt.Color.pink;
 import static java.awt.Color.white;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import model.NhanVien;
@@ -37,10 +41,10 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
         txtMaNV = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtMatKhau = new javax.swing.JTextField();
+        txtHoTen = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtXacNhanMK = new javax.swing.JPasswordField();
-        txtHoTen = new javax.swing.JPasswordField();
+        txtMK = new javax.swing.JPasswordField();
         jLabel6 = new javax.swing.JLabel();
         rdoTruongPhong = new javax.swing.JRadioButton();
         rdoNhanVien = new javax.swing.JRadioButton();
@@ -52,6 +56,8 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
         btnPrev = new javax.swing.JButton();
         btnNext = new javax.swing.JButton();
         btnLast = new javax.swing.JButton();
+        txtEmail = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
         pnlList = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblNhanVien = new javax.swing.JTable();
@@ -92,13 +98,13 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Xác nhận mật khẩu");
 
-        txtMatKhau.setName("Họ và tên"); // NOI18N
+        txtHoTen.setName("Họ và tên"); // NOI18N
 
         jLabel5.setText("Họ và tên");
 
         txtXacNhanMK.setName("Xác nhận mật khẩu"); // NOI18N
 
-        txtHoTen.setName("Mật khẩu"); // NOI18N
+        txtMK.setName("Mật khẩu"); // NOI18N
 
         jLabel6.setText("Vai trò");
 
@@ -178,6 +184,8 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel7.setText("Email");
+
         javax.swing.GroupLayout pnlEditLayout = new javax.swing.GroupLayout(pnlEdit);
         pnlEdit.setLayout(pnlEditLayout);
         pnlEditLayout.setHorizontalGroup(
@@ -186,9 +194,9 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtMaNV)
-                    .addComponent(txtMatKhau)
-                    .addComponent(txtXacNhanMK)
                     .addComponent(txtHoTen)
+                    .addComponent(txtXacNhanMK)
+                    .addComponent(txtMK)
                     .addGroup(pnlEditLayout.createSequentialGroup()
                         .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -215,8 +223,10 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnNext)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnLast)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(btnLast))
+                            .addComponent(jLabel7))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txtEmail))
                 .addContainerGap())
         );
         pnlEditLayout.setVerticalGroup(
@@ -229,7 +239,7 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtMK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -237,8 +247,12 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -254,7 +268,7 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
                     .addComponent(btnPrev)
                     .addComponent(btnNext)
                     .addComponent(btnLast))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(65, 65, 65))
         );
 
         tabs.addTab("CẬP NHẬT", new javax.swing.ImageIcon(getClass().getResource("/icon/Edit.png")), pnlEdit, "Cập nhật"); // NOI18N
@@ -263,17 +277,17 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
 
         tblNhanVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "MÃ NV", "MẬT KHẨU", "HỌ VÀ TÊN", "VAI TRÒ"
+                "MÃ NV", "MẬT KHẨU", "HỌ VÀ TÊN", "VAI TRÒ", "Email"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -308,7 +322,7 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tabs, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
+                .addComponent(tabs)
                 .addContainerGap())
         );
 
@@ -335,7 +349,7 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tblNhanVienMouseClicked
 
-     public boolean checkTrungMa(JTextField txt) {
+    public boolean checkTrungMa(JTextField txt) {
         txt.setBackground(white);
         if (dao.selectByID(txt.getText()) == null) {
             return true;
@@ -346,13 +360,15 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
         }
     }
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
-       if (utilityHelper.checkNullText(txtMaNV)
-                && utilityHelper.checkNullPass(txtHoTen)
+        if (utilityHelper.checkNullText(txtMaNV)
+                && utilityHelper.checkNullPass(txtMK)
                 && utilityHelper.checkNullPass(txtXacNhanMK)
-                && utilityHelper.checkNullText(txtMatKhau)) {
+                && utilityHelper.checkNullText(txtHoTen)
+                && utilityHelper.checkNullText(txtEmail)) {
             if (utilityHelper.checkMaNV(txtMaNV)
-                    && utilityHelper.checkPass(txtHoTen)
-                    && utilityHelper.checkName(txtMatKhau)) {
+                    && utilityHelper.checkPass(txtMK)
+                    && utilityHelper.checkName(txtHoTen)
+                    && utilityHelper.checkEmail(txtEmail)) {
                 if (checkTrungMa(txtMaNV)) {
                     insert();
                 }
@@ -361,17 +377,19 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-                if (utilityHelper.checkNullPass(txtHoTen)
+        if (utilityHelper.checkNullPass(txtMK)
                 && utilityHelper.checkNullPass(txtXacNhanMK)
-                && utilityHelper.checkNullText(txtMatKhau)) {
-            if (utilityHelper.checkPass(txtHoTen)
-                    && utilityHelper.checkName(txtMatKhau)) {
+                && utilityHelper.checkNullText(txtHoTen)
+                && utilityHelper.checkNullText(txtEmail)) {
+            if (utilityHelper.checkPass(txtMK)
+                    && utilityHelper.checkName(txtHoTen)
+                    && utilityHelper.checkEmail(txtEmail)) {
                 update();
             }
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
-    public boolean checkChinhMinh(JTextField txt){
-        NhanVien nv=dao.selectByID(txt.getText());
+    public boolean checkChinhMinh(JTextField txt) {
+        NhanVien nv = dao.selectByID(txt.getText());
         if (nv.getMaNV().equals(Auth.user.getMaNV())) {
             MsgBox.alert(this, "bạn không được xóa chính mình.");
             return false;
@@ -380,11 +398,11 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
         }
     }
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-                if(Auth.user.isVaiTro()){
-            if(checkChinhMinh(txtMaNV)){
-            delete();
-        }
-        }else{
+        if (Auth.user.isVaiTro()) {
+            if (checkChinhMinh(txtMaNV)) {
+                delete();
+            }
+        } else {
             MsgBox.alert(this, "Chỉ trưởng phòng mới được phép xóa");
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
@@ -418,6 +436,7 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnlEdit;
     private javax.swing.JPanel pnlList;
@@ -425,9 +444,10 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton rdoTruongPhong;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JTable tblNhanVien;
-    private javax.swing.JPasswordField txtHoTen;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtHoTen;
+    private javax.swing.JPasswordField txtMK;
     private javax.swing.JTextField txtMaNV;
-    private javax.swing.JTextField txtMatKhau;
     private javax.swing.JPasswordField txtXacNhanMK;
     // End of variables declaration//GEN-END:variables
 
@@ -437,14 +457,14 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
         this.updateStatus();
     }
 
-    public String khongHienMK(String pass){
+    public String khongHienMK(String pass) {
         String sao = "";
         for (int i = 0; i < pass.length(); i++) {
-            sao+="*";
+            sao += "*";
         }
         return sao;
     }
-    
+
     void insert() {
         NhanVien nv = getForm();
         String mk2 = new String(txtXacNhanMK.getPassword());
@@ -504,7 +524,13 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
 
     void clearForm() {
         NhanVien nv = new NhanVien();
-        this.setForm(nv);
+        try {
+            this.setForm(nv);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(nhanVienJInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(nhanVienJInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.row = -1;
         this.updateStatus();
     }
@@ -512,7 +538,13 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
     void edit() {
         String manv = (String) tblNhanVien.getValueAt(this.row, 0);
         NhanVien nv = dao.selectByID(manv);
-        this.setForm(nv);
+        try {
+            this.setForm(nv);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(nhanVienJInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(nhanVienJInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         tabs.setSelectedIndex(0);//quay về form số 0
         this.updateStatus();
 
@@ -552,7 +584,8 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
                     nv.getMaNV(),
                     "******",
                     nv.getHoTen(),
-                    nv.isVaiTro()? "Trưởng Phòng" : "Nhân Viên"
+                    nv.isVaiTro() ? "Trưởng Phòng" : "Nhân Viên",
+                    nv.getEmail()
                 };
                 dtm.addRow(row);
             }
@@ -561,21 +594,23 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
         }
     }
 
-    void setForm(NhanVien n) {
+    void setForm(NhanVien n) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         txtMaNV.setText(n.getMaNV());
-        txtMatKhau.setText(n.getHoTen());
-        txtHoTen.setText(n.getMatKhau());
+        txtHoTen.setText(n.getHoTen());
+        txtMK.setText(n.getMatKhau());
         txtXacNhanMK.setText(n.getMatKhau());
         rdoTruongPhong.setSelected(n.isVaiTro());
         rdoNhanVien.setSelected(!n.isVaiTro());
+        txtEmail.setText(n.getEmail());
     }
 
     NhanVien getForm() {
         NhanVien nv = new NhanVien();
         nv.setMaNV(txtMaNV.getText());
-        nv.setHoTen(txtMatKhau.getText());
-        nv.setMatKhau(new String(txtHoTen.getPassword()));
+        nv.setHoTen(txtHoTen.getText());
+        nv.setMatKhau(new String(txtMK.getPassword()));
         nv.setVaiTro(rdoTruongPhong.isSelected());
+        nv.setEmail(txtEmail.getText());
         return nv;
     }
 

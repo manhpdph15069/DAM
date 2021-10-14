@@ -30,9 +30,9 @@ public class DoiMatKhauJDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
-       // txtMaNV.setText(Auth.user.getMaNV());
+        txtMaNV.setText(Auth.user.getMaNV());
         //      txtMatKhau.setText(Auth.user.getMatKhau());
-//        txtMaNV.setEnabled(true);
+        txtMaNV.setEnabled(true);
     }
 
     /**

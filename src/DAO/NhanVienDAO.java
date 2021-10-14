@@ -48,12 +48,32 @@ public class NhanVienDAO extends EduSysDAO<NhanVien, String> {
 
     @Override
     public void update(NhanVien entity) {
-        jdbcHelper.update(UPDATE_SQL,
-                entity.getMatKhau(),
-                entity.getHoTen(),
-                entity.isVaiTro(),
-                entity.getEmail(),
-                entity.getMaNV());
+        try {
+            jdbcHelper.update(UPDATE_SQL,
+                    maHoa(entity.getMatKhau()),
+                    entity.getHoTen(),
+                    entity.isVaiTro(),
+                    entity.getEmail(),
+                    entity.getMaNV());
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+        public void updateMKM(NhanVien entity) {
+        try {
+            String updateMK = "UPDATE NhanVien SET MatKhau=? WHERE MaNV=?";
+            jdbcHelper.update(updateMK,
+                    maHoa(entity.getMatKhau()),
+                    entity.getMaNV()
+              );
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

@@ -78,6 +78,19 @@ public class utilityHelper {
         }
     }
 
+        public static boolean checkCode(String txt) {
+       // txt.setBackground(white);
+       // String id = txt.getText;
+        String rgx = "[0-9]{6}";
+        if (txt.matches(rgx)) {
+            return true;
+        } else {
+           // txt.setBackground(pink);
+            MsgBox.alert(null, " phải là số và có đúng 6 số");
+            return false;
+        }
+    }
+    
     /*
     đúng 5 kí tự
     a-z, A-Z, 0-9
