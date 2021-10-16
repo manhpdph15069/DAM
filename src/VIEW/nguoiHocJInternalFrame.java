@@ -5,12 +5,14 @@ import DAO.NguoiHocDAO;
 import Utils.Auth;
 import Utils.MsgBox;
 import Utils.XDate;
+import Utils.XImage;
 import Utils.utilityHelper;
 import static java.awt.Color.pink;
 import static java.awt.Color.white;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.swing.Icon;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import model.HocVien;
@@ -531,6 +533,7 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
     }
 
     private void init() {
+    setFrameIcon((Icon) XImage.APP_ICON1);
         fillTable();
     }
 

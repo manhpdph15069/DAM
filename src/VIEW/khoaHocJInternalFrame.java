@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import model.ChuyenDe;
@@ -388,6 +389,7 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
     ChuyenDeDAO cddao = new ChuyenDeDAO();
     
     void init() {
+            setFrameIcon((Icon) XImage.APP_ICON1);
              tabs.setSelectedIndex(0);       //chuyển tab panel sang tab 2
     }
     

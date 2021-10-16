@@ -12,6 +12,7 @@ import java.awt.Image;
 import java.io.File;
 import java.util.List;
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -497,6 +498,7 @@ public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     void init() {
+            setFrameIcon((Icon) XImage.APP_ICON1);
         this.fillTable();
         this.row = -1;
         this.updateStatus();

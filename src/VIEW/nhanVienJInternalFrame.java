@@ -3,6 +3,7 @@ package VIEW;
 import DAO.NhanVienDAO;
 import Utils.Auth;
 import Utils.MsgBox;
+import Utils.XImage;
 import Utils.utilityHelper;
 import static java.awt.Color.pink;
 import static java.awt.Color.white;
@@ -11,6 +12,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import model.NhanVien;
@@ -452,6 +454,7 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     void init() {
+            setFrameIcon((Icon) XImage.APP_ICON1);
         this.fillTable();
         this.row = -1;
         this.updateStatus();

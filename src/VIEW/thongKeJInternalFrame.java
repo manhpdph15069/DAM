@@ -5,6 +5,7 @@ import DAO.ThongKeDAO;
 import Utils.Auth;
 import Utils.ExportFileHelper;
 import Utils.MsgBox;
+import Utils.XImage;
 import java.awt.CardLayout;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -494,6 +496,7 @@ public class thongKeJInternalFrame extends javax.swing.JInternalFrame {
     }
 
     void init() {
+            setFrameIcon((Icon) XImage.APP_ICON1);
 //        fillComboBoxKhoaHoc();
 //        fillTableBangDiem();
 //        fillTableNguoiHoc();
