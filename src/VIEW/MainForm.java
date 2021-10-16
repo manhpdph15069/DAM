@@ -518,12 +518,12 @@ public class MainForm extends javax.swing.JFrame {
 
     private void mniLuongNguoiHocjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniLuongNguoiHocjActionPerformed
         // TODO add your handling code here:
-        openThongKe(0);
+        openThongKe(1);
     }//GEN-LAST:event_mniLuongNguoiHocjActionPerformed
 
     private void mniBangDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniBangDiemActionPerformed
         // TODO add your handling code here:
-        openThongKe(1);
+        openThongKe(0);
     }//GEN-LAST:event_mniBangDiemActionPerformed
 
     private void mniDoanhThuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniDoanhThuActionPerformed

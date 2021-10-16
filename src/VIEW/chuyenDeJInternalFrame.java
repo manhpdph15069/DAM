@@ -1,6 +1,7 @@
 package VIEW;
 
 import DAO.ChuyenDeDAO;
+import DAO.KhoaHocDAO;
 import Utils.Auth;
 import Utils.MsgBox;
 import Utils.XImage;
@@ -17,6 +18,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import model.ChuyenDe;
+import model.KhoaHocc;
 import model.NhanVien;
 
 public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
@@ -371,37 +373,39 @@ public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
             this.row = tblChuyenDe.getSelectedRow();
             if (this.row >= 0) {
                 this.edit();
-                tabs.setSelectedIndex(0);               
-            }        }
+                tabs.setSelectedIndex(0);
+            }
+        }
     }//GEN-LAST:event_tblChuyenDeMouseClicked
 
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
-if(utilityHelper.checkNullText(txtMaCD)&&
-                utilityHelper.checkNullText(txtTenCD)&&
-                utilityHelper.checkNullText(txtThoiLuong)&&
-                utilityHelper.checkNullText(txtHocPhi)&&
-                utilityHelper.checkNullText(txtMoTa)&&
-                checkNullHinh()){
-            if(utilityHelper.checkMaCD(txtMaCD)&&
-                    utilityHelper.checkTenCD(txtTenCD)&&
-                    utilityHelper.checkThoiLuong(txtThoiLuong)&&
-                    utilityHelper.checkHocPhi(txtHocPhi)&&
-                    utilityHelper.checkMoTaCD(txtMoTa)){
-                if(checkTrungMa(txtMaCD)){
+        if (utilityHelper.checkNullText(txtMaCD)
+                && utilityHelper.checkNullText(txtTenCD)
+                && utilityHelper.checkNullText(txtThoiLuong)
+                && utilityHelper.checkNullText(txtHocPhi)
+                && utilityHelper.checkNullText(txtMoTa)
+                && checkNullHinh()) {
+            if (utilityHelper.checkMaCD(txtMaCD)
+                    && utilityHelper.checkTenCD(txtTenCD)
+                    && utilityHelper.checkThoiLuong(txtThoiLuong)
+                    && utilityHelper.checkHocPhi(txtHocPhi)
+                    && utilityHelper.checkMoTaCD(txtMoTa)) {
+                if (checkTrungMa(txtMaCD)) {
                     insert();
                 }
             }
-        }  
+        }
     }//GEN-LAST:event_btnInsertActionPerformed
-    public boolean checkNullHinh(){
-        if(lblHinh.getToolTipText()!=null){
+    public boolean checkNullHinh() {
+        if (lblHinh.getToolTipText() != null) {
             return true;
-        }else{
+        } else {
             MsgBox.alert(this, "Không được để trống hình.");
             return false;
         }
     }
+
     public boolean checkTrungMa(JTextField txt) {
         txt.setBackground(white);
         if (dao.selectByID(txt.getText()) == null) {
@@ -413,17 +417,17 @@ if(utilityHelper.checkNullText(txtMaCD)&&
         }
     }
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-                if(utilityHelper.checkNullText(txtMaCD)&&
-                utilityHelper.checkNullText(txtTenCD)&&
-                utilityHelper.checkNullText(txtThoiLuong)&&
-                utilityHelper.checkNullText(txtHocPhi)&&
-                utilityHelper.checkNullText(txtMoTa)&&
-                checkNullHinh()){
-            if(utilityHelper.checkMaCD(txtMaCD)&&
-                    utilityHelper.checkTenCD(txtTenCD)&&
-                    utilityHelper.checkThoiLuong(txtThoiLuong)&&
-                    utilityHelper.checkHocPhi(txtHocPhi)&&
-                    utilityHelper.checkMoTaCD(txtMoTa)){
+        if (utilityHelper.checkNullText(txtMaCD)
+                && utilityHelper.checkNullText(txtTenCD)
+                && utilityHelper.checkNullText(txtThoiLuong)
+                && utilityHelper.checkNullText(txtHocPhi)
+                && utilityHelper.checkNullText(txtMoTa)
+                && checkNullHinh()) {
+            if (utilityHelper.checkMaCD(txtMaCD)
+                    && utilityHelper.checkTenCD(txtTenCD)
+                    && utilityHelper.checkThoiLuong(txtThoiLuong)
+                    && utilityHelper.checkHocPhi(txtHocPhi)
+                    && utilityHelper.checkMoTaCD(txtMoTa)) {
                 update();
             }
         }
@@ -431,10 +435,17 @@ if(utilityHelper.checkNullText(txtMaCD)&&
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-                if(Auth.user.isVaiTro()){
+        KhoaHocDAO khdao =new KhoaHocDAO();
+        List<KhoaHocc>list = khdao.selectByChuyenDe(txtMaCD.getText());
+        if (list.size() == 0) {
+        if (Auth.user.isVaiTro()) {
             delete();
-        }else{
+        } else {
             MsgBox.alert(this, "Chỉ trưởng phòng mới được phép xóa");
+        }
+            
+        }else{
+            MsgBox.alert(this, "Chuyên đề có khóa học không thể xóa chuyên đề");
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -648,11 +659,11 @@ if(utilityHelper.checkNullText(txtMaCD)&&
             XImage.save(file);
             ImageIcon icon = XImage.read(file.getName());
             try {
-            Image img = ImageIO.read(file);
+                Image img = ImageIO.read(file);
                 int width = lblHinh.getWidth();
                 int height = lblHinh.getHeight();
-                
-            lblHinh.setIcon(new ImageIcon(img.getScaledInstance(width, height, 0)));
+
+                lblHinh.setIcon(new ImageIcon(img.getScaledInstance(width, height, 0)));
             } catch (Exception e) {
             }
             lblHinh.setToolTipText(file.getName());

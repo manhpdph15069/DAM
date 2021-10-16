@@ -11,6 +11,7 @@ import DAO.KhoaHocDAO;
 import DAO.NguoiHocDAO;
 import Utils.Auth;
 import Utils.MsgBox;
+import Utils.utilityHelper;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
@@ -317,6 +318,9 @@ public class HocVienJInternalJFrame extends javax.swing.JInternalFrame {
 
 void init() {
         fillComboBoxChuyenDe();
+        fillComboBoxKhoaHoc();
+        fillTableHocVien();
+        fillTableNguoiHoc();
     }
 
     private void fillComboBoxChuyenDe() {
@@ -369,7 +373,9 @@ void init() {
         dtm.setRowCount(0);
         KhoaHocc kh = (KhoaHocc) cbbKhoaHoc.getSelectedItem();
         String keyword = txtTimKiem.getText();
-        List<NguoiHoc> list = nhdao.selectNotInCourse(kh.getMaKH(), keyword);
+      //  List<NguoiHoc> list = nhdao.selectNotInCourse(kh.getMaKH(), keyword);
+        List<NguoiHoc> list = nhdao.selectAll();
+        
         for (NguoiHoc nh : list) {
             dtm.addRow(new Object[]{
                 nh.getMaNH(),

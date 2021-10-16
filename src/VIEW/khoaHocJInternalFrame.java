@@ -28,7 +28,7 @@ import model.KhoaHocc;
  */
 /**
  *
- * @author Sieu Nhan Bay
+ * @author phamd
  */
 public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
 
@@ -78,6 +78,7 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
         pnlList = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblGridView = new javax.swing.JTable();
+        cbbCD = new javax.swing.JComboBox<>();
 
         setClosable(true);
         setIconifiable(true);
@@ -313,7 +314,7 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
                     .addComponent(btnUpdate)
                     .addComponent(btnDelete)
                     .addComponent(btnClear))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         tabs.addTab("CẬP NHẬT", new javax.swing.ImageIcon(getClass().getResource("/icon/Edit.png")), pnlEdit, "Cập nhật"); // NOI18N
@@ -351,20 +352,32 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
 
         tabs.addTab("DANH SÁCH", new javax.swing.ImageIcon(getClass().getResource("/icon/Lists.png")), pnlList, "Danh sách"); // NOI18N
 
+        cbbCD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbCDActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(tabs)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cbbCD, javax.swing.GroupLayout.PREFERRED_SIZE, 651, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(83, 83, 83))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tabs, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addComponent(cbbCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44))
         );
 
         pack();
@@ -375,7 +388,7 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
     ChuyenDeDAO cddao = new ChuyenDeDAO();
     
     void init() {
-             tabs.setSelectedIndex(1);       //chuyển tab panel sang tab 2
+             tabs.setSelectedIndex(0);       //chuyển tab panel sang tab 2
     }
     
     //xóa bảng, đổ toàn bộ khoaHoc từ CSDL vào bảng
@@ -540,10 +553,51 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
         txtHocPhi.setText(String.valueOf(chuyenDe.getHocPhi()));
     }
 
+    void select(){
+
+              loadtheomacd();
+    }
+    
+     void loadtheomacd() {
+        DefaultTableModel model = (DefaultTableModel) tblGridView.getModel();
+        model.setRowCount(0);
+        ChuyenDe chuyenDe = (ChuyenDe) cbbCD.getSelectedItem(); 
+        try {
+            List<KhoaHocc> list =  dao.selectByChuyenDe(chuyenDe.getMaCD());
+            for (KhoaHocc kh : list) {
+                Object[] row = {
+                    kh.getMaKH(),
+                    kh.getMaCD(),
+                    kh.getThoiLuong(),
+                    kh.getHocPhi(),
+                    XDate.toString(kh.getNgayKG()),
+                    kh.getMaNV(),
+                    XDate.toString(kh.getNgayTao())
+                };
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
+        }
+    }
     
     //
     void fillComboBox() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) cboChuyenDe.getModel(); //kết nối model với cbo
+        model.removeAllElements();   //xóa toàn bộ item của cbo
+        try {
+            List<ChuyenDe> list = cddao.selectAll();
+            for (ChuyenDe cd : list) {
+                model.addElement(cd);    //thêm đối tượng (Object) vào model
+                //chỉ thêm đc đối tượng đối với model, cbo chỉ được cbo.addItem(String);
+                //lấy đối tượng thì từ cbo cũng được: cbo.getSelectedItem();
+            }
+        } catch (Exception e) {
+            MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
+        }
+    }
+    void fillCBB() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cbbCD.getModel(); //kết nối model với cbo
         model.removeAllElements();   //xóa toàn bộ item của cbo
         try {
             List<ChuyenDe> list = cddao.selectAll();
@@ -568,15 +622,10 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
         this.edit();        
     }//GEN-LAST:event_btnLastActionPerformed
 
-    /*
-    khi mở form:
-        đổ các đt chuyenDe vào combobox
-        đổ các khoaHoc từ CSDL vào bảng
-        xóa trắng form, để ở insertable
-    */
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         // TODO add your handling code here:
         this.fillComboBox();
+        fillCBB();
         this.load();
         this.clear();
         //this.setStatus(true);
@@ -659,7 +708,7 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void cboChuyenDeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cboChuyenDeMouseClicked
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_cboChuyenDeMouseClicked
 
     private void cboChuyenDeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboChuyenDeItemStateChanged
@@ -670,8 +719,14 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
     //actionPerformed dùng cho cbo, rdo...
     private void cboChuyenDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboChuyenDeActionPerformed
         // TODO add your handling code here:
-        selectComboBox();                   //lưu ý actionPerformed
+        selectComboBox();                 
     }//GEN-LAST:event_cboChuyenDeActionPerformed
+
+    private void cbbCDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbCDActionPerformed
+        select();
+        tabs.setSelectedIndex(1);
+
+    }//GEN-LAST:event_cbbCDActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -683,6 +738,7 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnPrev;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<String> cbbCD;
     private javax.swing.JComboBox<String> cboChuyenDe;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
