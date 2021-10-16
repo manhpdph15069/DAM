@@ -15,7 +15,7 @@ import java.util.Date;
  * @author phamd
  */
 public class XDate {
-    static SimpleDateFormat formater = new SimpleDateFormat();
+    static SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy");
 //    public static Date toDate(String date,String pattern){
 //        try {
 //            formater.applyPattern(pattern);

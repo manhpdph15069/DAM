@@ -1,5 +1,6 @@
 package VIEW;
 
+import DAO.HocVienDAO;
 import DAO.NguoiHocDAO;
 import Utils.Auth;
 import Utils.MsgBox;
@@ -12,11 +13,13 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import model.HocVien;
 import model.NguoiHoc;
 
 public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
 
     NguoiHocDAO dao = new NguoiHocDAO();
+    HocVienDAO hvdao =new HocVienDAO();
     int row = -1;
 
     /**
@@ -446,11 +449,15 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-                if (Auth.user.isVaiTro()) {
+
+        
+            List<HocVien> list = hvdao.selectByNguoiHoc(txtMaNH.getText());
+            if (list.size()==0) {
             delete();
-        } else {
-            MsgBox.alert(this, "Chỉ trưởng phòng mới được phép xóa");
-        }
+            
+        }else{
+                MsgBox.alert(this, "Người học đang là học viên không thể xóa");
+            }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
@@ -538,11 +545,11 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
                     n.getMaNH(),
                     n.getHoTen(),
                     n.isGioiTinh() ? "Nam" : "Nữ",
-                    XDate.toString(n.getNgaySinh(), "MM/dd/yyyy"),
+                    XDate.toString(n.getNgaySinh(), "dd/MM/yyyy"),
                     n.getDiemThoai(),
                     n.getEmail(),
                     n.getMaNV(),
-                    XDate.toString(n.getNgayDK(), "MM/dd/yyyy")
+                    XDate.toString(n.getNgayDK(), "dd/MM/yyyy")
                 };
                 dtm.addRow(row);
             }
@@ -560,7 +567,7 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
         } else {
             rdoNu.setSelected(true);
         }
-        txtNgaySinh.setText(XDate.toString(model.getNgaySinh(), "MM/dd/yyyy"));
+        txtNgaySinh.setText(XDate.toString(model.getNgaySinh(), "dd/MM/yyyy"));
         txtDienThoai.setText(model.getDiemThoai());
         txtEmail.setText(model.getEmail());
         txtGhiChu.setText(model.getGhiChu());
@@ -618,7 +625,7 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
     }
 
     void delete() {
-        if (Auth.isManager()) {
+        if (!Auth.isManager()) {
             MsgBox.alert(this, "Bạn không có quyền xóa nhân viên");
         } else {
             String manh = txtMaNH.getText();

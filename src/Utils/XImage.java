@@ -19,6 +19,21 @@ import javax.swing.ImageIcon;
  * @author phamd
  */
 public class XImage {
+    
+    //* Ảnh biểu tượng của ứng dụng, xuất hiện trên mọi cửa sổ
+    public static final Image APP_ICON;
+    public static final ImageIcon APP_ICON1;
+    //khi chạy thì chạy static đầu tiên
+
+    static {
+        // Tải biểu tượng ứng dụng 
+        //CÁCH TẢI ẢNH TỪ TRONG PROJECT
+        //icon là thư mục con của src
+        //Logo cho ứng dụng
+        String file = "/icon/logo.png";      //icon là thư mục con của src
+        APP_ICON = new ImageIcon(XImage.class.getResource(file)).getImage();
+        APP_ICON1 = new ImageIcon(XImage.class.getResource(file));//getResource(file) Tìm 1 tài nguyên với 1 tên nhất định Trả về 1 đối tượng URL hoặc null
+    }
     //Lấy ảnh làm icon 
     public static Image getAppIcon(){
         URL url =  XImage.class.getResource("/icon/fpt.png");

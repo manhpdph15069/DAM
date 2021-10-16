@@ -153,7 +153,7 @@ public class utilityHelper {
 //            return true;
 //        } else {
 //            txt.setBackground(pink);
-//            dialogHelper.alert(txt.getRootPane(), txt.getName() + " không đúng định dạng Date.");
+//            MsgBox.alert(txt.getRootPane(), txt.getName() + " không đúng định dạng Date.");
 //            return false;
 //        }
         if (isValidDate(id)) {

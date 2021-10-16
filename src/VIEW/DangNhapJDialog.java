@@ -55,6 +55,8 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/security.png"))); // NOI18N
 
@@ -197,6 +199,7 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
         SendCode s = new SendCode();
         s.setVisible(true);
+        this.dispose();
 
 
     }//GEN-LAST:event_jLabel4MouseClicked

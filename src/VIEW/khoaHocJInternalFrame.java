@@ -719,7 +719,8 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
     //actionPerformed dùng cho cbo, rdo...
     private void cboChuyenDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboChuyenDeActionPerformed
         // TODO add your handling code here:
-        selectComboBox();                 
+        selectComboBox(); 
+        
     }//GEN-LAST:event_cboChuyenDeActionPerformed
 
     private void cbbCDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbCDActionPerformed

@@ -96,7 +96,10 @@ public class HocVienDAO extends EduSysDAO<HocVien, String> {
         return this.selectBySQL(sql, maKH);
     }
 
-    
+        public List<HocVien> selectByNguoiHoc(String maNH ){
+        String sql="SELECT *FROM HocVien WHERE MaNH=?";
+        return this.selectBySQL(sql, maNH);
+    }
     //tự thêm
     public HocVien selectByID(int mahv) {
         List<HocVien> list = selectBySQL(SELECT_BY_ID_SQL, mahv);

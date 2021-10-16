@@ -11,9 +11,11 @@ import DAO.KhoaHocDAO;
 import DAO.NguoiHocDAO;
 import Utils.Auth;
 import Utils.MsgBox;
+import Utils.XImage;
 import Utils.utilityHelper;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
 import javax.swing.table.DefaultTableModel;
 import model.ChuyenDe;
 import model.HocVien;
@@ -106,6 +108,11 @@ public class HocVienJInternalJFrame extends javax.swing.JInternalFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         cbbKhoaHoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbbKhoaHoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbKhoaHocActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -133,6 +140,10 @@ public class HocVienJInternalJFrame extends javax.swing.JInternalFrame {
             }
         ));
         jScrollPane1.setViewportView(tblHocVIen);
+        if (tblHocVIen.getColumnModel().getColumnCount() > 0) {
+            tblHocVIen.getColumnModel().getColumn(0).setResizable(false);
+            tblHocVIen.getColumnModel().getColumn(0).setPreferredWidth(5);
+        }
 
         btnDELETE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Delete.png"))); // NOI18N
         btnDELETE.setText("Xóa Khỏi Khóa Học");
@@ -177,6 +188,17 @@ public class HocVienJInternalJFrame extends javax.swing.JInternalFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm Kiếm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 13))); // NOI18N
 
+        txtTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTimKiemActionPerformed(evt);
+            }
+        });
+        txtTimKiem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtTimKiemKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -202,6 +224,10 @@ public class HocVienJInternalJFrame extends javax.swing.JInternalFrame {
             }
         ));
         jScrollPane2.setViewportView(tblNguoiHoc);
+        if (tblNguoiHoc.getColumnModel().getColumnCount() > 0) {
+            tblNguoiHoc.getColumnModel().getColumn(0).setResizable(false);
+            tblNguoiHoc.getColumnModel().getColumn(0).setPreferredWidth(10);
+        }
 
         btnADD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add.png"))); // NOI18N
         btnADD.setText("Thêm vào khóa học ");
@@ -294,6 +320,20 @@ public class HocVienJInternalJFrame extends javax.swing.JInternalFrame {
         addHocVien();
     }//GEN-LAST:event_btnADDActionPerformed
 
+    private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
+        // TODO add your handling code here:
+         fillTableNguoiHoc();
+    }//GEN-LAST:event_txtTimKiemActionPerformed
+
+    private void txtTimKiemKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyPressed
+       
+    }//GEN-LAST:event_txtTimKiemKeyPressed
+
+    private void cbbKhoaHocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbKhoaHocActionPerformed
+        // TODO add your handling code here:
+        fillTableHocVien();
+    }//GEN-LAST:event_cbbKhoaHocActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnADD;
@@ -317,10 +357,11 @@ public class HocVienJInternalJFrame extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
 void init() {
+    setFrameIcon((Icon) XImage.APP_ICON1);
         fillComboBoxChuyenDe();
-        fillComboBoxKhoaHoc();
-        fillTableHocVien();
-        fillTableNguoiHoc();
+//        fillComboBoxKhoaHoc();
+//        fillTableNguoiHoc();
+//        fillTableHocVien();
     }
 
     private void fillComboBoxChuyenDe() {
@@ -331,7 +372,6 @@ void init() {
             model.addElement(cd);
         }
         this.fillComboBoxKhoaHoc();
-        fillTableHocVien();
     }
 
     private void fillComboBoxKhoaHoc() {
@@ -373,8 +413,8 @@ void init() {
         dtm.setRowCount(0);
         KhoaHocc kh = (KhoaHocc) cbbKhoaHoc.getSelectedItem();
         String keyword = txtTimKiem.getText();
-      //  List<NguoiHoc> list = nhdao.selectNotInCourse(kh.getMaKH(), keyword);
-        List<NguoiHoc> list = nhdao.selectAll();
+       List<NguoiHoc> list = nhdao.selectNotInCourse(kh.getMaKH(), keyword);
+       // List<NguoiHoc> list = nhdao.selectAll();
         
         for (NguoiHoc nh : list) {
             dtm.addRow(new Object[]{
@@ -407,7 +447,7 @@ void init() {
             MsgBox.alert(this, "Bạn không có quyền xóa học viên");
         } else {
             int[] rows = tblHocVIen.getSelectedRows();
-            if (rows.length > 0 && MsgBox.comfirm(this, "Bạn muốn xóa các học viên được chọn?")) {
+            if (MsgBox.comfirm(this, "Bạn muốn xóa các học viên được chọn?")) {
                 for (int row : rows) {
                     int mahv = (Integer) tblHocVIen.getValueAt(row, 1);
                     String ma = String.valueOf(mahv);

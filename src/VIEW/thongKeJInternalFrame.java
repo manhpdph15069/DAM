@@ -502,7 +502,7 @@ public class thongKeJInternalFrame extends javax.swing.JInternalFrame {
 //        fillTableDoanhThu();
 //        this.selectTab(0);
 
-        if (Auth.isManager()) {
+        if (!Auth.isManager()) {
             tabs.remove(3);
         }
 //        CardLayout card = (CardLayout) pnlDoanhThu.getLayout();

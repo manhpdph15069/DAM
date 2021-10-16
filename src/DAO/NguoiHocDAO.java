@@ -112,7 +112,9 @@ public class NguoiHocDAO extends EduSysDAO<NguoiHoc, String> {
     }
     
     public List<NguoiHoc> selectNotInCourse(int makh,String keyword){
-        String sql = "SELECT * FROM NguoiHoc WHERE HoTen LIKE ? AND MaNH IN (SELECT MaNH FROM HocVien WHERE MaKH=?)";
+        String sql = "SELECT * FROM NguoiHoc"
+                + " WHERE HoTen LIKE ? AND "
+                + "MaNH NOT IN (SELECT MaNH FROM HocVien WHERE MaKH=?)";
         return this.selectBySQL(sql,"%"+keyword+"%",makh);
     }
 
