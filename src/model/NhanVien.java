@@ -11,7 +11,23 @@ package model;
  */
 public class NhanVien {
     private String maNV,hoTen,matKhau,email;
+    private boolean trangThai;
 
+    public boolean isTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(boolean trangThai) {
+        this.trangThai = trangThai;
+    }
+
+    public NhanVien(String maNV, String hoTen, String matKhau, String email, boolean trangThai) {
+        this.maNV = maNV;
+        this.hoTen = hoTen;
+        this.matKhau = matKhau;
+        this.email = email;
+        this.trangThai = trangThai;
+    }
     public String getEmail() {
         return email;
     }

@@ -21,8 +21,8 @@ import model.NguoiHoc;
 public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
 
     NguoiHocDAO dao = new NguoiHocDAO();
-    HocVienDAO hvdao =new HocVienDAO();
-    int row = -1;
+    HocVienDAO hvdao = new HocVienDAO();
+    int row = 0;
 
     /**
      * Creates new form nguoiHocJInternalFrame
@@ -46,7 +46,6 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         tabs = new javax.swing.JTabbedPane();
         pnlEdit = new javax.swing.JPanel();
-        txtMaNH = new javax.swing.JTextField();
         txtHoTen = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         txtDienThoai = new javax.swing.JTextField();
@@ -70,6 +69,7 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
         txtNgaySinh = new javax.swing.JTextField();
         rdoNam = new javax.swing.JRadioButton();
         rdoNu = new javax.swing.JRadioButton();
+        txtMaNH = new javax.swing.JTextField();
         pnlList = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         txtTimKiem = new javax.swing.JTextField();
@@ -105,8 +105,6 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("QUẢN LÝ NGƯỜI HỌC");
         getContentPane().add(jLabel1, java.awt.BorderLayout.PAGE_START);
-
-        txtMaNH.setName("Mã người học"); // NOI18N
 
         txtHoTen.setName("Họ và tên"); // NOI18N
 
@@ -212,13 +210,13 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
         pnlEdit.setLayout(pnlEditLayout);
         pnlEditLayout.setHorizontalGroup(
             pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlEditLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEditLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtMaNH)
-                    .addComponent(txtHoTen)
-                    .addGroup(pnlEditLayout.createSequentialGroup()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtHoTen, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlEditLayout.createSequentialGroup()
                         .addComponent(btnInsert)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnUpdate)
@@ -234,7 +232,7 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
                         .addComponent(btnNext)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnLast))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEditLayout.createSequentialGroup()
+                    .addGroup(pnlEditLayout.createSequentialGroup()
                         .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlEditLayout.createSequentialGroup()
                                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -374,7 +372,7 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
 
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-
+        rdoNam.setSelected(true);
     }//GEN-LAST:event_formInternalFrameOpened
 
 
@@ -398,7 +396,8 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
             return false;
         }
     }
-        public boolean check16Nam(JTextField txt) {
+
+    public boolean check16Nam(JTextField txt) {
         txt.setBackground(white);
         Date date = XDate.toDate(txt.getText());
         Calendar c1 = Calendar.getInstance();
@@ -420,8 +419,8 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
                 && utilityHelper.checkNullText(txtNgaySinh)
                 && utilityHelper.checkNullText(txtDienThoai)
                 && utilityHelper.checkNullText(txtEmail)) {
-            if (utilityHelper.checkMaNH(txtMaNH)
-                    && utilityHelper.checkName(txtHoTen)
+            if (
+                     utilityHelper.checkName(txtHoTen)
                     && utilityHelper.checkDate(txtNgaySinh)
                     && utilityHelper.checkSDT(txtDienThoai)
                     && utilityHelper.checkEmail(txtEmail)) {
@@ -435,7 +434,7 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-                if (utilityHelper.checkNullText(txtHoTen)
+        if (utilityHelper.checkNullText(txtHoTen)
                 && utilityHelper.checkNullText(txtNgaySinh)
                 && utilityHelper.checkNullText(txtDienThoai)
                 && utilityHelper.checkNullText(txtEmail)) {
@@ -451,15 +450,14 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-
-        
-            List<HocVien> list = hvdao.selectByNguoiHoc(txtMaNH.getText());
-            if (list.size()==0) {
-            delete();
-            
-        }else{
-                MsgBox.alert(this, "Người học đang là học viên không thể xóa");
-            }
+//
+//        List<HocVien> list = hvdao.selectByNguoiHoc(txtMaNH.getText());
+//        if (list.size() == 0) {
+        delete();
+//
+//        } else {
+//            MsgBox.alert(this, "Người học đang là học viên không thể xóa");
+//        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
@@ -528,12 +526,10 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
     void timKiem() {
         this.fillTable();
         this.clearForm();
-        this.row = -1;
-        updateStatus();
     }
 
     private void init() {
-    setFrameIcon((Icon) XImage.APP_ICON1);
+        setFrameIcon((Icon) XImage.APP_ICON1);
         fillTable();
     }
 
@@ -597,9 +593,9 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
         txtGhiChu.setText("");
         txtHoTen.setText("");
         txtNgaySinh.setText("");
-        txtMaNH.setText("");
+        txtMaNH.setText(" ");
         rdoNam.isSelected();
-        this.updateStatus();
+        this.updateStatus(true);
     }
 
     void insert() {
@@ -630,30 +626,26 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
     void delete() {
         if (!Auth.isManager()) {
             MsgBox.alert(this, "Bạn không có quyền xóa nhân viên");
-        } else {
-            String manh = txtMaNH.getText();
-            if (manh.equals(Auth.user.getMaNV())) {
-                MsgBox.alert(this, "Bạn không được xóa chính bạn");
-            } else if (MsgBox.comfirm(this, "Bạn thực sự muốn xóa nhân viên này?")) {
-                try {
-                    dao.delete(manh);
-                    this.fillTable();
-                    this.clearForm();
-                    MsgBox.alert(this, "Xóa thành công");
-                } catch (Exception e) {
-                    MsgBox.alert(this, "Xóa thất bại");
-                    e.printStackTrace();
-                }
+        } else if (MsgBox.comfirm(this, "Bạn thực sự muốn xóa nhân viên này?")) {
+            try {
+                String manh = txtMaNH.getText();
+                dao.delete(manh);
+                this.fillTable();
+                this.clearForm();
+                MsgBox.alert(this, "Xóa thành công");
+            } catch (Exception e) {
+                MsgBox.alert(this, "Xóa thất bại");
+                e.printStackTrace();
             }
         }
     }
 
-    void edit() {
+void edit() {
         String manh = (String) tblNguoiHoc.getValueAt(this.row, 0);
         NguoiHoc n = dao.selectByID(manh);
         this.setForm(n);
         tabs.setSelectedIndex(0);//quay về form số 0
-        this.updateStatus();
+        this.updateStatus(false);
 
     }
 
@@ -681,20 +673,17 @@ public class nguoiHocJInternalFrame extends javax.swing.JInternalFrame {
         this.edit();
     }
 
-    void updateStatus() {
-        boolean edit = (this.row >= 0);
-        boolean first = (this.row == 0);
-        boolean last = (this.row == tblNguoiHoc.getRowCount() - 1);
-        //Trạng thái form
-        txtMaNH.setEditable(!edit);
-        btnInsert.setEnabled(!edit);
-        btnUpdate.setEnabled(edit);
-        btnDelete.setEnabled(edit);
-        //trạng thái điều hướng
-        btnFirst.setEnabled(edit && !first);
-        btnPrev.setEnabled(edit && !first);
-        btnNext.setEnabled(edit && !last);
-        btnLast.setEnabled(edit && !last);
+    void updateStatus (boolean insertable) {
+        txtMaNH.setEditable(insertable);
+        btnInsert.setEnabled(insertable);
+        btnUpdate.setEnabled(!insertable);
+        btnDelete.setEnabled(!insertable);
+        boolean first = this.row > 0;
+        boolean last = this.row < tblNguoiHoc.getRowCount() - 1;
+        btnFirst.setEnabled(!insertable && first);
+        btnPrev.setEnabled(!insertable && first);
+        btnLast.setEnabled(!insertable && last);
+        btnNext.setEnabled(!insertable && last);
     }
 
 }

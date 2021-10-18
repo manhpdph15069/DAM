@@ -24,11 +24,12 @@ import model.NhanVien;
  */
 public class NhanVienDAO extends EduSysDAO<NhanVien, String> {
 
-    String INSERT_SQL = "INSERT INTO NhanVien(MaNV,HoTen , MatKhau, VaiTro,Email) VALUES(?, ?, ?, ?,?)";
-    String UPDATE_SQL = "UPDATE NhanVien SET MatKhau=?, HoTen=?, VaiTro=?,Email=? WHERE MaNV=?";
-    String DELETE_SQL = "DELETE FROM NhanVien WHERE MaNV = ?";
-    String SELECT_ALL_SQL = "SELECT * FROM NhanVien";
-    String SELECT_BY_ID_SQL = "SELECT * FROM NhanVien WHERE MaNV = ?";
+    String INSERT_SQL = "INSERT INTO NhanVien(MaNV,HoTen , MatKhau, VaiTro,Email,TrangThai) VALUES(?, ?, ?, ?,?,?)";
+    String UPDATE_SQL = "UPDATE NhanVien SET HoTen=?, VaiTro=?,Email=? WHERE MaNV=?";
+    String DELETE_MEM = "UPDATE NhanVien SET TrangThai=0 WHERE MaNV=?";
+   // String DELETE_SQL = "DELETE FROM NhanVien WHERE MaNV = ?";
+    String SELECT_ALL_SQL = "SELECT * FROM NhanVien Where TrangThai=1";
+    String SELECT_BY_ID_SQL = "SELECT * FROM NhanVien WHERE MaNV = ? and TrangThai=1";
 
     @Override
     public void insert(NhanVien entity) {
@@ -38,7 +39,8 @@ public class NhanVienDAO extends EduSysDAO<NhanVien, String> {
                     entity.getHoTen(),
                     maHoa(entity.getMatKhau()),
                     entity.isVaiTro(),
-                    entity.getEmail());
+                    entity.getEmail(),
+                    true);
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
@@ -48,18 +50,12 @@ public class NhanVienDAO extends EduSysDAO<NhanVien, String> {
 
     @Override
     public void update(NhanVien entity) {
-        try {
-            jdbcHelper.update(UPDATE_SQL,
-                    maHoa(entity.getMatKhau()),
-                    entity.getHoTen(),
-                    entity.isVaiTro(),
-                    entity.getEmail(),
-                    entity.getMaNV());
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(NhanVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        jdbcHelper.update(UPDATE_SQL,
+//                    maHoa(entity.getMatKhau()),
+                entity.getHoTen(),
+                entity.isVaiTro(),
+                entity.getEmail(),
+                entity.getMaNV());
     }
     
         public void updateMKM(NhanVien entity) {
@@ -78,7 +74,7 @@ public class NhanVienDAO extends EduSysDAO<NhanVien, String> {
 
     @Override
     public void delete(String id) {
-        jdbcHelper.update(DELETE_SQL, id);
+        jdbcHelper.update(DELETE_MEM, id);
     }
 
     @Override

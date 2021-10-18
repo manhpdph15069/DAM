@@ -62,7 +62,6 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
         btnNext = new javax.swing.JButton();
         btnLast = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        cboChuyenDe = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtHocPhi = new javax.swing.JTextField();
@@ -76,6 +75,7 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
         txtGhiChu = new javax.swing.JTextArea();
         txtNgayKG = new javax.swing.JTextField();
         txtNgayTao = new javax.swing.JTextField();
+        txtTenCD = new javax.swing.JTextField();
         pnlList = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblGridView = new javax.swing.JTable();
@@ -179,22 +179,6 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Chuyên đề");
 
-        cboChuyenDe.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cboChuyenDeItemStateChanged(evt);
-            }
-        });
-        cboChuyenDe.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cboChuyenDeMouseClicked(evt);
-            }
-        });
-        cboChuyenDe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboChuyenDeActionPerformed(evt);
-            }
-        });
-
         jLabel3.setText("Ngày khai giảng");
 
         jLabel4.setText("Học phí");
@@ -251,15 +235,14 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnLast))
                             .addGroup(pnlEditLayout.createSequentialGroup()
-                                .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(cboChuyenDe, 0, 380, Short.MAX_VALUE)
-                                        .addComponent(txtHocPhi)
-                                        .addComponent(txtMaNV))
-                                    .addComponent(jLabel2)
+                                .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtHocPhi)
+                                    .addComponent(txtMaNV)
                                     .addComponent(jLabel4)
                                     .addComponent(jLabel6)
-                                    .addComponent(jLabel8))
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel2)
+                                    .addComponent(txtTenCD, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtThoiLuong)
@@ -283,8 +266,8 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cboChuyenDe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNgayKG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNgayKG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTenCD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -390,6 +373,7 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
     
     void init() {
             setFrameIcon((Icon) XImage.APP_ICON1);
+            txtTenCD.setEditable(false);
              tabs.setSelectedIndex(0);       //chuyển tab panel sang tab 2
     }
     
@@ -415,7 +399,28 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
             MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
         }
     }
-
+     void loadtheomacd() {
+        DefaultTableModel model = (DefaultTableModel) tblGridView.getModel();
+        model.setRowCount(0);
+        ChuyenDe chuyenDe = (ChuyenDe) cbbCD.getSelectedItem(); 
+        try {
+            List<KhoaHocc> list =  dao.selectByChuyenDe(chuyenDe.getMaCD());
+            for (KhoaHocc kh : list) {
+                Object[] row = {
+                    kh.getMaKH(),
+                    kh.getMaCD(),
+                    kh.getThoiLuong(),
+                    kh.getHocPhi(),
+                    XDate.toString(kh.getNgayKG()),
+                    kh.getMaNV(),
+                    XDate.toString(kh.getNgayTao())
+                };
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
+        }
+    }
     /*
     lấy thông tin trên form cho vào đt khoaHoc
     thêm đt khoaHoc vào CSDL, load lại bảng
@@ -454,7 +459,7 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
     //load lại bảng, xóa trắng form, chuyển sang insertable
     void delete() {
         if (MsgBox.comfirm(this, "Bạn thực sự muốn xóa khóa học này?")) {
-            String makh = cboChuyenDe.getToolTipText(); //maKH để nhờ ở toolTipText
+            String makh = cbbCD.getToolTipText(); //maKH để nhờ ở toolTipText
             try {
                 dao.delete(makh);
                 this.load();
@@ -473,8 +478,8 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
     void clear() {
         setTrang();
         KhoaHocc model = new KhoaHocc();
-        ChuyenDe chuyenDe = (ChuyenDe) cboChuyenDe.getSelectedItem();//lấy chuyenDe đang đc chọn ở combobox
-        cboChuyenDe.setToolTipText(""); //tự viết thêm, ko cần thiết
+        ChuyenDe chuyenDe = (ChuyenDe) cbbCD.getSelectedItem();//lấy chuyenDe đang đc chọn ở combobox
+        cbbCD.setToolTipText(""); 
         model.setMaCD(chuyenDe.getMaCD()); 
         model.setMaNV(Auth.user.getMaNV());   //người tạo là nhanVien đang đăng nhập
         model.setNgayKG(XDate.add(30));  //ngày khai giảng sau ngày tạo 30 ngày
@@ -502,11 +507,11 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
 
     //điền thông tin từ đt khoaHoc vào form
     void setModel(KhoaHocc model) {
-        cboChuyenDe.setToolTipText(String.valueOf(model.getMaKH()));    
+        cbbCD.setToolTipText(String.valueOf(model.getMaKH()));    
         //để nhờ maKH ở tooltipText vì ko có chỗ để trên form
         //vì maKH này trong CSDL là tự sinh từ 1 đến hết ko cần nhập trên form
-        cboChuyenDe.getModel().setSelectedItem(cddao.selectByID(model.getMaCD())); 
-        //lưu ý thêm getModel() khi áp dụng với đối tượng, ko cần thêm khi dùng với String VD: cbo.setSelectedItem("Item A");
+        cbbCD.getModel().setSelectedItem(cddao.selectByID(model.getMaCD())); 
+        // thêm getModel() khi áp dụng với đối tượng, ko cần thêm khi dùng với String VD: cbo.setSelectedItem("Item A");
         //tìm đt chuyenDe theo maCD rồi setSelectedItem cho combobox
         txtNgayKG.setText(XDate.toString(model.getNgayKG()));
         txtHocPhi.setText(String.valueOf(model.getHocPhi()));
@@ -514,91 +519,58 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
         txtMaNV.setText(model.getMaNV());
         txtNgayTao.setText(XDate.toString(model.getNgayTao()));
         txtGhiChu.setText(model.getGhiChu());
+        ChuyenDe cd = cddao.selectByID(model.getMaCD());
+        txtTenCD.setText(cd.getTenCD());
     }
     
     //lấy đt khoaHoc từ form, return khoaHoc
     KhoaHocc getModel() {
-        KhoaHocc model = new KhoaHocc();
-        ChuyenDe chuyenDe = (ChuyenDe) cboChuyenDe.getSelectedItem();
-        model.setMaCD(chuyenDe.getMaCD());
-        model.setNgayKG(XDate.toDate(txtNgayKG.getText()));
-        model.setHocPhi(Double.valueOf(txtHocPhi.getText()));
-        model.setThoiLuong(Integer.valueOf(txtThoiLuong.getText()));
-        model.setGhiChu(txtGhiChu.getText());
-        model.setMaNV(Auth.user.getMaNV());
-        model.setNgayTao(XDate.toDate(txtNgayTao.getText()));
-        model.setMaKH(Integer.valueOf(cboChuyenDe.getToolTipText()));      
-        return model;
+        KhoaHocc kh = new KhoaHocc();
+        ChuyenDe chuyenDe = (ChuyenDe) cbbCD.getSelectedItem();
+        kh.setMaCD(chuyenDe.getMaCD());
+        kh.setNgayKG(XDate.toDate(txtNgayKG.getText()));
+        kh.setHocPhi(Double.valueOf(txtHocPhi.getText()));
+        kh.setThoiLuong(Integer.valueOf(txtThoiLuong.getText()));
+        kh.setGhiChu(txtGhiChu.getText());
+        kh.setMaNV(Auth.user.getMaNV());
+        kh.setNgayTao(XDate.toDate(txtNgayTao.getText()));
+        kh.setMaKH(Integer.valueOf(cbbCD.getToolTipText()));      
+        return kh;
     }
 
     //2 chế độ như các form trước
     //nút btnStudents chỉ hiển thị ở chế độ editable
-    void setStatus(boolean insertable) {
-        btnInsert.setEnabled(insertable);
-        btnUpdate.setEnabled(!insertable);
-        btnDelete.setEnabled(!insertable);
+    void setStatus(boolean edit) {
+        btnInsert.setEnabled(edit);
+        btnUpdate.setEnabled(!edit);
+        btnDelete.setEnabled(!edit);
         boolean first = this.index > 0;
         boolean last = this.index < tblGridView.getRowCount() - 1;
-        btnFirst.setEnabled(!insertable && first);
-        btnPrev.setEnabled(!insertable && first);
-        btnLast.setEnabled(!insertable && last);
-        btnNext.setEnabled(!insertable && last);
+        btnFirst.setEnabled(!edit && first);
+        btnPrev.setEnabled(!edit && first);
+        btnLast.setEnabled(!edit && last);
+        btnNext.setEnabled(!edit && last);
        
     }
 
     //thay đổi thời lượng vào học phí trên form theo chuyên đề đc chọn ở combobox
     void selectComboBox() {
-        ChuyenDe chuyenDe = (ChuyenDe) cboChuyenDe.getSelectedItem(); 
+        ChuyenDe chuyenDe = (ChuyenDe) cbbCD.getSelectedItem(); 
         //lấy 1 Object được chọn từ combobox
         //có thể điền và lấy 1 Object từ combobox
         txtThoiLuong.setText(String.valueOf(chuyenDe.getThoiLuong()));
         txtHocPhi.setText(String.valueOf(chuyenDe.getHocPhi()));
     }
 
-    void select(){
+    void select() {
 
-              loadtheomacd();
+        loadtheomacd();
     }
     
-     void loadtheomacd() {
-        DefaultTableModel model = (DefaultTableModel) tblGridView.getModel();
-        model.setRowCount(0);
-        ChuyenDe chuyenDe = (ChuyenDe) cbbCD.getSelectedItem(); 
-        try {
-            List<KhoaHocc> list =  dao.selectByChuyenDe(chuyenDe.getMaCD());
-            for (KhoaHocc kh : list) {
-                Object[] row = {
-                    kh.getMaKH(),
-                    kh.getMaCD(),
-                    kh.getThoiLuong(),
-                    kh.getHocPhi(),
-                    XDate.toString(kh.getNgayKG()),
-                    kh.getMaNV(),
-                    XDate.toString(kh.getNgayTao())
-                };
-                model.addRow(row);
-            }
-        } catch (Exception e) {
-            MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
-        }
-    }
+
     
     //
     void fillComboBox() {
-        DefaultComboBoxModel model = (DefaultComboBoxModel) cboChuyenDe.getModel(); //kết nối model với cbo
-        model.removeAllElements();   //xóa toàn bộ item của cbo
-        try {
-            List<ChuyenDe> list = cddao.selectAll();
-            for (ChuyenDe cd : list) {
-                model.addElement(cd);    //thêm đối tượng (Object) vào model
-                //chỉ thêm đc đối tượng đối với model, cbo chỉ được cbo.addItem(String);
-                //lấy đối tượng thì từ cbo cũng được: cbo.getSelectedItem();
-            }
-        } catch (Exception e) {
-            MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
-        }
-    }
-    void fillCBB() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) cbbCD.getModel(); //kết nối model với cbo
         model.removeAllElements();   //xóa toàn bộ item của cbo
         try {
@@ -612,6 +584,7 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
             MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
         }
     }
+
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         // TODO add your handling code here:
         this.index++;
@@ -625,9 +598,9 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnLastActionPerformed
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-        // TODO add your handling code here:
-        this.fillComboBox();
-        fillCBB();
+
+     this.fillComboBox();
+       // this.fillCBB();
         this.load();
         this.clear();
         //this.setStatus(true);
@@ -694,6 +667,7 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         // TODO add your handling code here:
         clear();
+        tabs.setSelectedIndex(0);
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
@@ -709,26 +683,14 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
         this.edit();
     }//GEN-LAST:event_btnPrevActionPerformed
 
-    private void cboChuyenDeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cboChuyenDeMouseClicked
-
-    }//GEN-LAST:event_cboChuyenDeMouseClicked
-
-    private void cboChuyenDeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboChuyenDeItemStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cboChuyenDeItemStateChanged
-
-    //khi chuyên đề đc chọn ở combox, học phí và thời gian trên form đc sửa theo chuyên đề đc chọn
-    //actionPerformed dùng cho cbo, rdo...
-    private void cboChuyenDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboChuyenDeActionPerformed
-        // TODO add your handling code here:
-        selectComboBox(); 
-        
-    }//GEN-LAST:event_cboChuyenDeActionPerformed
-
     private void cbbCDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbCDActionPerformed
         select();
+        
         tabs.setSelectedIndex(1);
-
+        ChuyenDe cd = (ChuyenDe) cbbCD.getSelectedItem();
+        txtTenCD.setText(cd.getTenCD());
+        txtHocPhi.setText(String.valueOf(cd.getHocPhi()));
+        txtThoiLuong.setText(String.valueOf(cd.getThoiLuong()));
     }//GEN-LAST:event_cbbCDActionPerformed
 
 
@@ -742,7 +704,6 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnPrev;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cbbCD;
-    private javax.swing.JComboBox<String> cboChuyenDe;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -762,6 +723,7 @@ public class khoaHocJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtMaNV;
     private javax.swing.JTextField txtNgayKG;
     private javax.swing.JTextField txtNgayTao;
+    private javax.swing.JTextField txtTenCD;
     private javax.swing.JTextField txtThoiLuong;
     // End of variables declaration//GEN-END:variables
 }

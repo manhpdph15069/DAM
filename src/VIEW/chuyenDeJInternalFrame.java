@@ -436,17 +436,11 @@ public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        KhoaHocDAO khdao =new KhoaHocDAO();
-        List<KhoaHocc>list = khdao.selectByChuyenDe(txtMaCD.getText());
-        if (list.size() == 0) {
+
         if (Auth.user.isVaiTro()) {
             delete();
         } else {
             MsgBox.alert(this, "Chỉ trưởng phòng mới được phép xóa");
-        }
-            
-        }else{
-            MsgBox.alert(this, "Chuyên đề có khóa học không thể xóa chuyên đề");
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -498,7 +492,7 @@ public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     void init() {
-            setFrameIcon((Icon) XImage.APP_ICON1);
+        setFrameIcon((Icon) XImage.APP_ICON1);
         this.fillTable();
         this.row = -1;
         this.updateStatus();
@@ -533,7 +527,7 @@ public class chuyenDeJInternalFrame extends javax.swing.JInternalFrame {
 
     void delete() {
         if (!Auth.isManager()) {
-            MsgBox.alert(this, "Bạn không có quyền xóa chuyên đề này");
+            MsgBox.alert(this, "Bạn không có quyền xóa chuyên đề");
         } else {
             String macd = txtMaCD.getText();
             if (MsgBox.comfirm(this, "Bạn thực sự muốn xóa chuyên đề này?")) {

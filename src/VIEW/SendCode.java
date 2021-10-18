@@ -57,6 +57,7 @@ public class SendCode extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("SendCode");
+        setAlwaysOnTop(true);
         setAutoRequestFocus(false);
 
         jLabel1.setText("Email");
@@ -163,20 +164,20 @@ public class SendCode extends javax.swing.JFrame {
             transport.connect(host, user, pass);
             transport.sendMessage(msg, msg.getAllRecipients());
             transport.close();
+                    this.dispose();
             JOptionPane.showMessageDialog(this, "Code has been send to the email");
             String macodeString = JOptionPane.showInputDialog("Nhập vào mã Code (6 số)");
             System.out.println("" + randumCode);
             if (utilityHelper.checkCode(macodeString)) {
-                
-            if (Integer.valueOf(macodeString) != randumCode) {
-                MsgBox.alert(this, "code bạn nhập không đúng");
-             
-            }else{
-               DMKSendCode d = new DMKSendCode(this, true,txtMaNV);
+
+                if (Integer.valueOf(macodeString) != randumCode) {
+                    MsgBox.alert(this, "code bạn nhập không đúng");
+
+                } else {
+                    DMKSendCode d = new DMKSendCode(this, true, txtMaNV);
                     d.setVisible(true);
-                    this.dispose(); 
-            }
-            }else{
+                }
+            } else {
                 MsgBox.alert(this, "Bạn không được nhập chữ");
             }
         } catch (Exception e) {
@@ -191,19 +192,20 @@ public class SendCode extends javax.swing.JFrame {
     private void txtMaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaNVActionPerformed
         check();
     }//GEN-LAST:event_txtMaNVActionPerformed
-boolean check(){
-            NhanVienDAO dao = new NhanVienDAO();
-            NhanVien nv = dao.selectByID(txtMaNV.getText());
-        if (nv==null) {
+    boolean check() {
+        NhanVienDAO dao = new NhanVienDAO();
+        NhanVien nv = dao.selectByID(txtMaNV.getText());
+        if (nv == null) {
             MsgBox.alert(this, "Mã Nhân Viên Của Bạn KhÔng Tồn Tại");
             return false;
-        }else{
-           
-                txtEmail.setText(nv.getEmail());
+        } else {
+
+            txtEmail.setText(nv.getEmail());
 
             return true;
         }
-}
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -236,7 +238,7 @@ boolean check(){
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new SendCode().setVisible(true);
-                
+
             }
         });
     }

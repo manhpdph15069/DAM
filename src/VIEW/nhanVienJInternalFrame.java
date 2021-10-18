@@ -41,8 +41,8 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
         pnlEdit = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtMaNV = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        lblMK = new javax.swing.JLabel();
+        lblMKM = new javax.swing.JLabel();
         txtHoTen = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtXacNhanMK = new javax.swing.JPasswordField();
@@ -96,9 +96,9 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
 
         txtMaNV.setName("Mã nhân viên"); // NOI18N
 
-        jLabel3.setText("Mật khẩu");
+        lblMK.setText("Mật khẩu");
 
-        jLabel4.setText("Xác nhận mật khẩu");
+        lblMKM.setText("Xác nhận mật khẩu");
 
         txtHoTen.setName("Họ và tên"); // NOI18N
 
@@ -202,8 +202,8 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
                     .addGroup(pnlEditLayout.createSequentialGroup()
                         .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
+                            .addComponent(lblMK)
+                            .addComponent(lblMKM)
                             .addComponent(jLabel5)
                             .addComponent(jLabel6)
                             .addGroup(pnlEditLayout.createSequentialGroup()
@@ -239,11 +239,11 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
+                .addComponent(lblMK)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtMK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
+                .addComponent(lblMKM)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtXacNhanMK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -347,7 +347,20 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
     private void tblNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNhanVienMouseClicked
         if (evt.getClickCount() == 2) {
             this.row = tblNhanVien.getSelectedRow();
-            this.edit();
+            String manv = (String) tblNhanVien.getValueAt(this.row, 0);
+            NhanVien nv = dao.selectByID(manv);
+            txtEmail.setText(nv.getEmail());
+            txtMaNV.setText(nv.getMaNV());
+            txtHoTen.setText(nv.getHoTen());
+            if (nv.isVaiTro()) {
+                rdoTruongPhong.setSelected(true);
+            } else {
+                rdoNhanVien.setSelected(true);
+            }
+            txtMK.setEnabled(false);
+            txtXacNhanMK.setEnabled(false);
+            tabs.setSelectedIndex(0);
+            this.updateStatus();
         }
     }//GEN-LAST:event_tblNhanVienMouseClicked
 
@@ -379,16 +392,14 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        if (utilityHelper.checkNullPass(txtMK)
-                && utilityHelper.checkNullPass(txtXacNhanMK)
-                && utilityHelper.checkNullText(txtHoTen)
-                && utilityHelper.checkNullText(txtEmail)) {
-            if (utilityHelper.checkPass(txtMK)
-                    && utilityHelper.checkName(txtHoTen)
-                    && utilityHelper.checkEmail(txtEmail)) {
-                update();
-            }
+        if (utilityHelper.checkNullText(txtHoTen)
+                && utilityHelper.checkNullText(txtEmail)
+                && utilityHelper.checkName(txtHoTen)
+                && utilityHelper.checkEmail(txtEmail)) {
+
+            update();
         }
+
     }//GEN-LAST:event_btnUpdateActionPerformed
     public boolean checkChinhMinh(JTextField txt) {
         NhanVien nv = dao.selectByID(txt.getText());
@@ -434,12 +445,12 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblMK;
+    private javax.swing.JLabel lblMKM;
     private javax.swing.JPanel pnlEdit;
     private javax.swing.JPanel pnlList;
     private javax.swing.JRadioButton rdoNhanVien;
@@ -454,7 +465,7 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     void init() {
-            setFrameIcon((Icon) XImage.APP_ICON1);
+        setFrameIcon((Icon) XImage.APP_ICON1);
         this.fillTable();
         this.row = -1;
         this.updateStatus();
@@ -492,17 +503,18 @@ public class nhanVienJInternalFrame extends javax.swing.JInternalFrame {
 //        if (manv.equals(Auth.user.getMaNV())) {
 //            
 //        }
-        if (!mk2.equals(nv.getMatKhau())) {
-            MsgBox.alert(this, "Xác nhận mật khẩu không đúng");
-        } else {
-            try {
-                dao.update(nv);
-                this.fillTable();
-                MsgBox.alert(this, "Cập Nhập thành công");
-            } catch (Exception e) {
-                MsgBox.alert(this, "Cập nhập thất bại");
-            }
+//        if (!mk2.equals(nv.getMatKhau())) {
+//            MsgBox.alert(this, "Xác nhận mật khẩu không đúng");
+//        } else {
+        try {
+            dao.update(nv);
+            this.fillTable();
+            this.clearForm();
+            MsgBox.alert(this, "Cập Nhập thành công");
+        } catch (Exception e) {
+            MsgBox.alert(this, "Cập nhập thất bại");
         }
+//        }
     }
 
     void delete() {

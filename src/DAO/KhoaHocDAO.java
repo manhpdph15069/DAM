@@ -23,7 +23,7 @@ public class KhoaHocDAO extends EduSysDAO<KhoaHocc, String> {
     String UPDATE_SQL = "UPDATE KHOAHOC SET MACD= ?, HOCPHI= ?, THOIGIAN= ?, NGAYKG=?, GHICHU=?, MANV=?, NGAYTAO=? WHERE MAKH= ?";
     String DELETE_SQL = "DELETE FROM KHOAHOC WHERE MAKH= ?";
     String SELECT_ALL_SQL = "SELECT * FROM KHOAHOC";
-    String SELECT_BY_ID_SQL = "SELECT * FROM KHOAHOC WHERE MAKH= ?";
+    String SELECT_BY_ID_SQL = "SELECT * FROM KHOAHOC WHERE MAKH=?";
 
     @Override
     public void insert(KhoaHocc entity) {
@@ -72,7 +72,6 @@ public class KhoaHocDAO extends EduSysDAO<KhoaHocc, String> {
         return selectBySQL(SELECT_ALL_SQL);
     }
 
-
     public KhoaHocc selectByID(Integer id) {
         List<KhoaHocc> list = selectBySQL(SELECT_BY_ID_SQL, id);
         if (list.isEmpty()) {
@@ -101,21 +100,21 @@ public class KhoaHocDAO extends EduSysDAO<KhoaHocc, String> {
             rs.getStatement().getConnection().close();
             return list;
         } catch (Exception e) {
-            throw  new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
-    
-    public List<KhoaHocc> selectByChuyenDe(String macd){
+
+    public List<KhoaHocc> selectByChuyenDe(String macd) {
         String sql = "SELECT *FROM KhoaHoc WHERE MaCD=?";
         return this.selectBySQL(sql, macd);
     }
-    
-    public List<Integer> selectYears(){
-        String sql ="SELECT DISTINCT year(NgayKG) as NAM FROM KhoaHoc ORDER BY Year(NgayKG) DESC";
-        List<Integer>list =new ArrayList<>();
+
+    public List<Integer> selectYears() {
+        String sql = "SELECT DISTINCT year(NgayKG) as NAM FROM KhoaHoc ORDER BY Year(NgayKG) DESC";
+        List<Integer> list = new ArrayList<>();
         try {
             ResultSet rs = jdbcHelper.query(sql);
-            while(rs.next()){
+            while (rs.next()) {
                 list.add(rs.getInt(1));
             }
             rs.getStatement().getConnection().close();

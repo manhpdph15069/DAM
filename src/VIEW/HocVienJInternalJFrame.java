@@ -27,10 +27,12 @@ import model.NguoiHoc;
  * @author phamd
  */
 public class HocVienJInternalJFrame extends javax.swing.JInternalFrame {
+    
     ChuyenDeDAO cddao = new ChuyenDeDAO();
     KhoaHocDAO khdao = new KhoaHocDAO();
     HocVienDAO hvdao = new HocVienDAO();
     NguoiHocDAO nhdao = new NguoiHocDAO();
+
     /**
      * Creates new form HocVienJInternalJFrame
      */
@@ -322,11 +324,11 @@ public class HocVienJInternalJFrame extends javax.swing.JInternalFrame {
 
     private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
         // TODO add your handling code here:
-         fillTableNguoiHoc();
+        // fillTableNguoiHoc();
     }//GEN-LAST:event_txtTimKiemActionPerformed
 
     private void txtTimKiemKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyPressed
-       
+        fillTableNguoiHoc();
     }//GEN-LAST:event_txtTimKiemKeyPressed
 
     private void cbbKhoaHocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbKhoaHocActionPerformed
@@ -356,14 +358,14 @@ public class HocVienJInternalJFrame extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 
-void init() {
-    setFrameIcon((Icon) XImage.APP_ICON1);
+    void init() {
+        setFrameIcon((Icon) XImage.APP_ICON1);
         fillComboBoxChuyenDe();
 //        fillComboBoxKhoaHoc();
 //        fillTableNguoiHoc();
 //        fillTableHocVien();
     }
-
+    
     private void fillComboBoxChuyenDe() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) this.cbbChuyenDe.getModel();
         model.removeAllElements();
@@ -373,7 +375,7 @@ void init() {
         }
         this.fillComboBoxKhoaHoc();
     }
-
+    
     private void fillComboBoxKhoaHoc() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) this.cbbKhoaHoc.getModel();
         model.removeAllElements();
@@ -386,7 +388,7 @@ void init() {
             this.fillTableHocVien();
         }
     }
-
+    
     private void fillTableHocVien() {
         DefaultTableModel dtm = (DefaultTableModel) this.tblHocVIen.getModel();
         dtm.setRowCount(0);
@@ -407,14 +409,14 @@ void init() {
             this.fillTableNguoiHoc();
         }
     }
-
+    
     private void fillTableNguoiHoc() {
         DefaultTableModel dtm = (DefaultTableModel) tblNguoiHoc.getModel();
         dtm.setRowCount(0);
         KhoaHocc kh = (KhoaHocc) cbbKhoaHoc.getSelectedItem();
         String keyword = txtTimKiem.getText();
-       List<NguoiHoc> list = nhdao.selectNotInCourse(kh.getMaKH(), keyword);
-       // List<NguoiHoc> list = nhdao.selectAll();
+        List<NguoiHoc> list = nhdao.selectNotInCourse(kh.getMaKH(), keyword);
+        // List<NguoiHoc> list = nhdao.selectAll();
         
         for (NguoiHoc nh : list) {
             dtm.addRow(new Object[]{
@@ -427,7 +429,7 @@ void init() {
             });
         }
     }
-
+    
     void addHocVien() {
         KhoaHocc kh = (KhoaHocc) cbbKhoaHoc.getSelectedItem();
         int[] rows = tblNguoiHoc.getSelectedRows();
@@ -441,7 +443,7 @@ void init() {
         this.fillTableHocVien();
         this.tabs.setSelectedIndex(0);
     }
-
+    
     void removeHocVien() {
         if (!Auth.isManager()) {
             MsgBox.alert(this, "Bạn không có quyền xóa học viên");
@@ -457,18 +459,34 @@ void init() {
             }
         }
     }
-
+    
     void updateDiem() {
+        int tb =0;
         for (int i = 0; i < tblHocVIen.getRowCount(); i++) {
             int mahv = (Integer) tblHocVIen.getValueAt(i, 1);
             HocVien hv = hvdao.selectByID(mahv);
             double diem = 0.0;
             if (!String.valueOf(tblHocVIen.getValueAt(i, 4)).equals("")) {
+                try {
                 diem = Double.valueOf(String.valueOf(tblHocVIen.getValueAt(i, 4)));
+                    
+                } catch (NumberFormatException e) {
+                    tb++;                  
+                }
             }
+            if (diem >=0 && diem <=10) {
             hv.setDiem(diem);
-            hvdao.update(hv);
+            hvdao.update(hv);             
+            }else{
+                tb++;
+            }
         }
+        if (tb>0) {
+            MsgBox.alert(this, "1-10");
+        }else{
+            
         MsgBox.alert(this, "Cập nhập điểm thành công");
+        }
     }
+
 }

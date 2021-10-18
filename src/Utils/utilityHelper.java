@@ -68,12 +68,12 @@ public class utilityHelper {
     public static boolean checkMaNH(JTextField txt) {
         txt.setBackground(white);
         String id = txt.getText();
-        String rgx = "[a-zA-Z0-9]{7}";
+        String rgx = "[a-zA-Z0-9]";
         if (id.matches(rgx)) {
             return true;
         } else {
             txt.setBackground(pink);
-            MsgBox.alert(txt.getRootPane(), txt.getName() + " phải có đúng 7 kí tự\nchữ thường, chữ hoa hoặc số");
+            MsgBox.alert(txt.getRootPane(), " phải có đúng 7 kí tự\nchữ thường, chữ hoa hoặc số");
             return false;
         }
     }
@@ -220,7 +220,7 @@ public class utilityHelper {
             return true;
         } else {
             txt.setBackground(pink);
-            MsgBox.alert(txt.getRootPane(), txt.getName() + " phải gồm 10 số\nđúng các đầu số của nhà mạng.");
+            MsgBox.alert(txt.getRootPane(), txt.getName() + " phải gồm 10 số.");
             return false;
         }
     }
@@ -228,12 +228,15 @@ public class utilityHelper {
     public static boolean checkEmail(JTextField txt) {
         txt.setBackground(white);
         String id = txt.getText();
-        String rgx = "^[a-zA-Z][a-zA-Z0-9_\\.]{2,32}@[a-zA-Z0-9]{2,10}(\\.[a-zA-Z0-9]{2,4}){1,2}$";
+        String rgx =  "^[a-zA-Z0-9_+&*-]+(?:\\."
+                + "[a-zA-Z0-9_+&*-]+)*@"
+                + "(?:[a-zA-Z0-9-]+\\.)+[a-z"
+                + "A-Z]{2,7}$";//Biểu Thúc chính quy;
         if (id.matches(rgx)) {
             return true;
         } else {
             txt.setBackground(pink);
-            MsgBox.alert(txt.getRootPane(), txt.getName() + " không đúng định dạng");
+            MsgBox.alert(txt.getRootPane(), "Email không đúng định dạng");
             return false;
         }
     }

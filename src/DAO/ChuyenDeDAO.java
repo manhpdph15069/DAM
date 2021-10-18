@@ -18,11 +18,11 @@ import model.ChuyenDe;
  */
 public class ChuyenDeDAO extends EduSysDAO<ChuyenDe, String> {
 
-    String INSERT_SQL = "INSERT INTO ChuyenDe (MaCD, TenCD, HocPhi, ThoiLuong, Hinh, MoTa) VALUES (?, ?, ?, ?, ?, ?)";
+    String INSERT_SQL = "INSERT INTO ChuyenDe (MaCD, TenCD, HocPhi, ThoiLuong, Hinh, MoTa,TrangThai) VALUES (?, ?, ?, ?, ?, ?,?)";
     String UPDATE_SQL = "UPDATE ChuyenDe SET TenCD=?, HocPhi=?, ThoiLuong=?, Hinh=?, MoTa=? WHERE MaCD=?";
-    String DELETE_SQL = "DELETE FROM ChuyenDe WHERE MaCD=?";
-    String SELECT_ALL_SQL = "SELECT * FROM ChuyenDe";
-    String SELECT_BY_ID_SQL = "SELECT * FROM ChuyenDe WHERE MaCD=?";
+    String DELETE_SQL = "UPDATE ChuyenDe SET TrangThai=0 WHERE MaCD=?";
+    String SELECT_ALL_SQL = "SELECT * FROM ChuyenDe WHERE TrangThai=1";
+    String SELECT_BY_ID_SQL = "SELECT * FROM ChuyenDe WHERE MaCD=? AND TrangThai=1";
 
     @Override
     public void insert(ChuyenDe entity) {
