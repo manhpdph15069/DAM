@@ -548,7 +548,7 @@ public class MainForm extends javax.swing.JFrame {
 
     private void mnidangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnidangNhapActionPerformed
         // TODO add your handling code here:
-       new DangNhapJDialog(this, true).setVisible(true);
+       new DangNhap(this, true).setVisible(true);
     }//GEN-LAST:event_mnidangNhapActionPerformed
 
     /**
@@ -640,7 +640,7 @@ public class MainForm extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setIconImage(XImage.getAppIcon());
         new ChaoJDialog(this, true).setVisible(true);
-        new DangNhapJDialog(this, true).setVisible(true);
+        new DangNhap(this, true).setVisible(true);
         startDongHo();
     }
     
@@ -658,7 +658,7 @@ public class MainForm extends javax.swing.JFrame {
     
     void openDoiMatKhau(){
         if (Auth.isLogin()) {
-            new DoiMatKhauJDialog(this, true).setVisible(true);
+            new DoiMatKhau(this, true).setVisible(true);
         }else{
             MsgBox.alert(this, "Vui Lòng Đăng Nhập");
         }
@@ -666,7 +666,7 @@ public class MainForm extends javax.swing.JFrame {
     
     void dangXuat(){
         Auth.clear();
-        new DangNhapJDialog(this, true).setVisible(true);
+        new DangNhap(this, true).setVisible(true);
     }
     
     void ketThuc(){
@@ -677,7 +677,7 @@ public class MainForm extends javax.swing.JFrame {
     
     void openNhanVien(){
          if (Auth.isLogin()) {
-            nhanVienJInternalFrame nv = new nhanVienJInternalFrame();
+            nhanVienForm nv = new nhanVienForm();
              openX(nv);
         }else{
             MsgBox.alert(this, "Vui lòng đăng nhập");
@@ -686,7 +686,7 @@ public class MainForm extends javax.swing.JFrame {
     
     void openKhoaHoc(){
          if (Auth.isLogin()) {
-           khoaHocJInternalFrame kh = new khoaHocJInternalFrame();
+           khoaHocForm kh = new khoaHocForm();
              openX(kh);
         }else{
             MsgBox.alert(this, "Vui lòng đăng nhập");
@@ -695,7 +695,7 @@ public class MainForm extends javax.swing.JFrame {
     
     void openChuyenDe(){
         if (Auth.isLogin()) {
-           chuyenDeJInternalFrame cd = new chuyenDeJInternalFrame();
+           chuyenDeForm cd = new chuyenDeForm();
             openX(cd);
         }else{
             MsgBox.alert(this, "Vui lòng đăng nhập");
@@ -704,7 +704,7 @@ public class MainForm extends javax.swing.JFrame {
     
     void openNguoihoc(){
         if(Auth.isLogin()){
-           nguoiHocJInternalFrame nh = new nguoiHocJInternalFrame();
+           nguoiHocForm nh = new nguoiHocForm();
             openX(nh);
         }else{
             MsgBox.alert(this, "Vui lòng đăng nhập");
@@ -713,7 +713,7 @@ public class MainForm extends javax.swing.JFrame {
     
     void openhocVien(){
         if (Auth.isLogin()) {
-            HocVienJInternalJFrame hv = new HocVienJInternalJFrame();
+            HocVienForm hv = new HocVienForm();
             openX(hv);
         }else{
             MsgBox.alert(this, "Vui lòng đăng nhập");
@@ -725,7 +725,7 @@ public class MainForm extends javax.swing.JFrame {
             if (index == 3 && !Auth.isManager()) {
                 MsgBox.alert(this, "Bạn không có quyền xem thông tin doanh thu");
             }else{
-                thongKeJInternalFrame tk = new thongKeJInternalFrame(index);
+                thongKeForm tk = new thongKeForm(index);
                 openX(tk);
                 tk.selectTab(index);
             }
@@ -735,7 +735,7 @@ public class MainForm extends javax.swing.JFrame {
     }
     
     void openGioiThieu(){
-        new GioiTHieuDialog(this, true).setVisible(true);
+        new GioiTHieu(this, true).setVisible(true);
     }
     
     void openHuongDan(){
