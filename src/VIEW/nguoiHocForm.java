@@ -625,7 +625,7 @@ public class nguoiHocForm extends javax.swing.JInternalFrame {
 
     void delete() {
         if (!Auth.isManager()) {
-            MsgBox.alert(this, "Bạn không có quyền xóa nhân viên");
+            MsgBox.alert(this, "Bạn không có quyền xóa người này");
         } else if (MsgBox.comfirm(this, "Bạn thực sự muốn xóa nhân viên này?")) {
             try {
                 String manh = txtMaNH.getText();

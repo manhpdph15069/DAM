@@ -33,7 +33,8 @@ public class ChuyenDeDAO extends EduSysDAO<ChuyenDe, String> {
                     entity.getHocPhi(),
                     entity.getThoiLuong(),
                     entity.getHinh(),
-                    entity.getMoTa()
+                    entity.getMoTa(),
+                    true
             );
         } catch (Exception e) {
             e.printStackTrace();

@@ -433,7 +433,7 @@ public class khoaHocForm extends javax.swing.JInternalFrame {
         model.setNgayTao(XDate.now());
         try {
             dao.insert(model);
-            this.load();
+            this.loadtheomacd();
             this.clear();
             MsgBox.alert(this, "Thêm mới thành công!");
         } catch (HeadlessException e) {
@@ -448,7 +448,7 @@ public class khoaHocForm extends javax.swing.JInternalFrame {
         KhoaHocc model = getModel();
         try {
             dao.update(model);
-            this.load();
+            this.loadtheomacd();
             MsgBox.alert(this, "Cập nhật thành công!");
         } catch (Exception e) {
             MsgBox.alert(this, "Cập nhật thất bại!");
@@ -462,7 +462,7 @@ public class khoaHocForm extends javax.swing.JInternalFrame {
             String makh = cbbCD.getToolTipText(); //maKH để nhờ ở toolTipText
             try {
                 dao.delete(makh);
-                this.load();
+                this.loadtheomacd();
                 this.clear();
                 MsgBox.alert(this, "Xóa thành công!");
             } catch (Exception e) {
@@ -601,7 +601,7 @@ public class khoaHocForm extends javax.swing.JInternalFrame {
 
      this.fillComboBox();
        // this.fillCBB();
-        this.load();
+        this.loadtheomacd();
         this.clear();
         //this.setStatus(true);
     }//GEN-LAST:event_formInternalFrameOpened
@@ -650,6 +650,7 @@ public class khoaHocForm extends javax.swing.JInternalFrame {
             if(utilityHelper.checkDate(txtNgayKG)){
                 if(check5Ngay(txtNgayKG,txtNgayTao)){
                     update();
+                    clear();
                 }
             }
         } 

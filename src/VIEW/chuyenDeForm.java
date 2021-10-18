@@ -430,6 +430,7 @@ public class chuyenDeForm extends javax.swing.JInternalFrame {
                     && utilityHelper.checkHocPhi(txtHocPhi)
                     && utilityHelper.checkMoTaCD(txtMoTa)) {
                 update();
+                clearForm();
             }
         }
 

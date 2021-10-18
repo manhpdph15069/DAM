@@ -167,7 +167,7 @@ public class SendCode extends javax.swing.JFrame {
                     this.dispose();
             JOptionPane.showMessageDialog(this, "Code has been send to the email");
             String macodeString = JOptionPane.showInputDialog("Nhập vào mã Code (6 số)");
-            System.out.println("" + randumCode);
+
             if (utilityHelper.checkCode(macodeString)) {
 
                 if (Integer.valueOf(macodeString) != randumCode) {

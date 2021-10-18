@@ -432,6 +432,10 @@ public class HocVienForm extends javax.swing.JInternalFrame {
     
     void addHocVien() {
         KhoaHocc kh = (KhoaHocc) cbbKhoaHoc.getSelectedItem();
+        if (kh==null) {
+            MsgBox.alert(this,"Không có khóa học");
+        }else{
+            
         int[] rows = tblNguoiHoc.getSelectedRows();
         for (int row : rows) {
             HocVien hv = new HocVien();
@@ -442,6 +446,7 @@ public class HocVienForm extends javax.swing.JInternalFrame {
         }
         this.fillTableHocVien();
         this.tabs.setSelectedIndex(0);
+        }
     }
     
     void removeHocVien() {
