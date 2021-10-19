@@ -294,7 +294,7 @@
             <Component class="javax.swing.JButton" name="btnUPDETE">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icon/Edit.png"/>
+                  <Image iconType="3" name="/icon/Upload.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="C&#x1ead;p Nh&#x1ead;p &#x110;i&#x1ec3;m"/>
               </Properties>
@@ -447,7 +447,7 @@
             <Component class="javax.swing.JButton" name="btnADD">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icon/Add.png"/>
+                  <Image iconType="3" name="/icon/Add to basket.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Th&#xea;m v&#xe0;o kh&#xf3;a h&#x1ecd;c "/>
               </Properties>

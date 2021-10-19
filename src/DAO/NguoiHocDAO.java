@@ -24,7 +24,7 @@ public class NguoiHocDAO extends EduSysDAO<NguoiHoc, String> {
       String DELETE_SQL = "UPDATE NguoiHoc SET TrangThai=0 WHere MaNH=?";
     
     String SELECT_ALL_SQL = "SELECT * FROM NguoiHoc WHERE TrangThai=1";
-    String SELECT_BY_ID_SQL = "SELECT * FROM NguoiHoc WHERE MaNH =? AND TrangThai=1";
+    String SELECT_BY_ID_SQL = "SELECT * FROM NguoiHoc WHERE MaNH =?";
 
     @Override
     public void insert(NguoiHoc entity) {
@@ -116,7 +116,7 @@ public class NguoiHocDAO extends EduSysDAO<NguoiHoc, String> {
     public List<NguoiHoc> selectNotInCourse(int makh, String keyword) {
         String sql = "SELECT * FROM NguoiHoc"
                 + " WHERE HoTen LIKE ? AND "
-                + "MaNH NOT IN (SELECT MaNH FROM HocVien WHERE MaKH=?)";
+                + "MaNH NOT IN (SELECT MaNH FROM HocVien WHERE MaKH=?) AND TrangThai =1";
         return this.selectBySQL(sql, "%" + keyword + "%", makh);
     }
 

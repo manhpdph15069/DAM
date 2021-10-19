@@ -155,7 +155,7 @@ public class HocVienForm extends javax.swing.JInternalFrame {
             }
         });
 
-        btnUPDETE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Edit.png"))); // NOI18N
+        btnUPDETE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Upload.png"))); // NOI18N
         btnUPDETE.setText("Cập Nhập Điểm");
         btnUPDETE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -231,7 +231,7 @@ public class HocVienForm extends javax.swing.JInternalFrame {
             tblNguoiHoc.getColumnModel().getColumn(0).setPreferredWidth(10);
         }
 
-        btnADD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add.png"))); // NOI18N
+        btnADD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add to basket.png"))); // NOI18N
         btnADD.setText("Thêm vào khóa học ");
         btnADD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -393,8 +393,10 @@ public class HocVienForm extends javax.swing.JInternalFrame {
         DefaultTableModel dtm = (DefaultTableModel) this.tblHocVIen.getModel();
         dtm.setRowCount(0);
         KhoaHocc kh = (KhoaHocc) cbbKhoaHoc.getSelectedItem();
-        if (kh != null) {
+        try {
+            if (kh != null) {
             List<HocVien> list = hvdao.selectByKhoaHoc(kh.getMaKH());
+                
             for (int i = 0; i < list.size(); i++) {
                 HocVien hv = list.get(i);
                 String hoTen = nhdao.selectByID(hv.getMaNH()).getHoTen();
@@ -407,7 +409,12 @@ public class HocVienForm extends javax.swing.JInternalFrame {
                 });
             }
             this.fillTableNguoiHoc();
+//            }
         }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        
     }
     
     private void fillTableNguoiHoc() {
