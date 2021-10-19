@@ -158,7 +158,7 @@ public class MainForm extends javax.swing.JFrame {
         jToolBar1.add(jSeparator7);
 
         btnCHuyenDe.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnCHuyenDe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Lists.png"))); // NOI18N
+        btnCHuyenDe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Book.png"))); // NOI18N
         btnCHuyenDe.setText("Chuyên đề");
         btnCHuyenDe.setFocusable(false);
         btnCHuyenDe.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -271,7 +271,7 @@ public class MainForm extends javax.swing.JFrame {
         mnuHeThong.add(mnidangNhap);
 
         mniDangXuat.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        mniDangXuat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Log out.png"))); // NOI18N
+        mniDangXuat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Exit.png"))); // NOI18N
         mniDangXuat.setText("Đăng xuất");
         mniDangXuat.setMargin(new java.awt.Insets(5, 5, 5, 5));
         mniDangXuat.addActionListener(new java.awt.event.ActionListener() {
