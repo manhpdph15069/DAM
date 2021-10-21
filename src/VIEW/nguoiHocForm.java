@@ -392,7 +392,7 @@ public class nguoiHocForm extends javax.swing.JInternalFrame {
             return true;
         } else {
             txt.setBackground(pink);
-            MsgBox.alert(this, txt.getName() + " đã bị tồn tại.");
+            MsgBox.alert(this,"Mã đã bị tồn tại.");
             return false;
         }
     }
@@ -419,8 +419,8 @@ public class nguoiHocForm extends javax.swing.JInternalFrame {
                 && utilityHelper.checkNullText(txtNgaySinh)
                 && utilityHelper.checkNullText(txtDienThoai)
                 && utilityHelper.checkNullText(txtEmail)) {
-            if (
-                     utilityHelper.checkName(txtHoTen)
+            if (utilityHelper.checkMaNH(txtMaNH)
+                    && utilityHelper.checkName(txtHoTen)
                     && utilityHelper.checkDate(txtNgaySinh)
                     && utilityHelper.checkSDT(txtDienThoai)
                     && utilityHelper.checkEmail(txtEmail)) {
@@ -640,7 +640,7 @@ public class nguoiHocForm extends javax.swing.JInternalFrame {
         }
     }
 
-void edit() {
+    void edit() {
         String manh = (String) tblNguoiHoc.getValueAt(this.row, 0);
         NguoiHoc n = dao.selectByID(manh);
         this.setForm(n);
@@ -673,7 +673,7 @@ void edit() {
         this.edit();
     }
 
-    void updateStatus (boolean insertable) {
+    void updateStatus(boolean insertable) {
         txtMaNH.setEditable(insertable);
         btnInsert.setEnabled(insertable);
         btnUpdate.setEnabled(!insertable);

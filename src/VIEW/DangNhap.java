@@ -185,7 +185,7 @@ public class DangNhap extends javax.swing.JDialog {
 
     private void cboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboActionPerformed
         if (cbo.isSelected()) {
-            txtMatKhau.setEchoChar((char) 0);
+            txtMatKhau.setEchoChar((char) 0);//chuyển đổi sang kiểu char
         } else {
             txtMatKhau.setEchoChar('*');
         }

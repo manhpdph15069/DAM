@@ -85,7 +85,7 @@ public class DoiMatKhau extends javax.swing.JDialog {
         btnXacNhan.setBackground(new java.awt.Color(51, 51, 255));
         btnXacNhan.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnXacNhan.setForeground(new java.awt.Color(255, 255, 255));
-        btnXacNhan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Accept.png"))); // NOI18N
+        btnXacNhan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Safe.png"))); // NOI18N
         btnXacNhan.setText("Xác nhận");
         btnXacNhan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

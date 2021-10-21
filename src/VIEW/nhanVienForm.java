@@ -374,18 +374,43 @@ public class nhanVienForm extends javax.swing.JInternalFrame {
             return false;
         }
     }
+
+    public int themtrung(JTextField t) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        if (dao.trung(t.getText()) != null) {
+            NhanVien nv = getForm();
+            dao.checkTrung(nv);
+            fillTable();
+            clearForm();
+            MsgBox.alert(this, "Thêm thành công");
+            return 1;
+        } else {
+            if (dao.selectByID(t.getText()) == null) {
+                return 2;
+            } else {
+                t.setBackground(pink);
+                MsgBox.alert(this, "Mã đã bị tồn tại.");
+                return 3;
+            }
+        }
+    }
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         if (utilityHelper.checkNullText(txtMaNV)
                 && utilityHelper.checkNullPass(txtMK)
                 && utilityHelper.checkNullPass(txtXacNhanMK)
                 && utilityHelper.checkNullText(txtHoTen)
                 && utilityHelper.checkNullText(txtEmail)) {
-            if (utilityHelper.checkMaNV(txtMaNV)
-                    && utilityHelper.checkPass(txtMK)
+            if (utilityHelper.checkPass(txtMK)
                     && utilityHelper.checkName(txtHoTen)
                     && utilityHelper.checkEmail(txtEmail)) {
-                if (checkTrungMa(txtMaNV)) {
-                    insert();
+                try {
+                    if (themtrung(txtMaNV)==1) {
+                        return;
+                    }
+                        insert();
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(nhanVienForm.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (UnsupportedEncodingException ex) {
+                    Logger.getLogger(nhanVienForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -422,6 +447,8 @@ public class nhanVienForm extends javax.swing.JInternalFrame {
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         clearForm();
+        txtMK.setEnabled(true);
+        txtXacNhanMK.setEnabled(true);
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
@@ -485,14 +512,12 @@ public class nhanVienForm extends javax.swing.JInternalFrame {
         if (!mk2.equals(nv.getMatKhau())) {
             MsgBox.alert(this, "Xác nhận mật khẩu không đúng");
         } else {
-            try {
-                dao.insert(nv);
-                this.fillTable();
-                this.clearForm();
-                MsgBox.alert(this, "Thêm Mới thành công");
-            } catch (Exception e) {
-                MsgBox.alert(this, "Thêm thất bại");
-            }
+
+            dao.insert(nv);
+            this.fillTable();
+            this.clearForm();
+            MsgBox.alert(this, "Thêm Mới thành công");
+
         }
     }
 

@@ -392,7 +392,7 @@ public class chuyenDeForm extends javax.swing.JInternalFrame {
                     && utilityHelper.checkThoiLuong(txtThoiLuong)
                     && utilityHelper.checkHocPhi(txtHocPhi)
                     && utilityHelper.checkMoTaCD(txtMoTa)) {
-                if (checkTrungMa(txtMaCD)) {
+                if (themtrung(txtMaCD)) {
                     insert();
                 }
             }
@@ -407,14 +407,24 @@ public class chuyenDeForm extends javax.swing.JInternalFrame {
         }
     }
 
-    public boolean checkTrungMa(JTextField txt) {
-        txt.setBackground(white);
-        if (dao.selectByID(txt.getText()) == null) {
+//    public boolean checkTrungMa(JTextField txt) {
+//        txt.setBackground(white);
+//        
+//    }
+
+    public boolean themtrung(JTextField t) {
+        if (dao.trung(t.getText()) != null) {
+            ChuyenDe cd = getForm();
+            dao.checktrung(cd);
             return true;
         } else {
-            txt.setBackground(pink);
-            MsgBox.alert(this, txt.getName() + " đã bị tồn tại.");
+            if (dao.selectByID(t.getText()) == null) {
+            return true;
+        } else {
+            t.setBackground(pink);
+            MsgBox.alert(this,"mã đã bị tồn tại.");
             return false;
+        }
         }
     }
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed

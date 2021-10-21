@@ -17,13 +17,26 @@ import model.ChuyenDe;
  * @author phamd
  */
 public class ChuyenDeDAO extends EduSysDAO<ChuyenDe, String> {
-
+          String checkTrung = "UPDATE ChuyenDe SET TenCD=?, HocPhi=?, ThoiLuong=?, Hinh=?, MoTa=?,TrangThai=1 WHERE MaCD=? AND TrangThai=0";
     String INSERT_SQL = "INSERT INTO ChuyenDe (MaCD, TenCD, HocPhi, ThoiLuong, Hinh, MoTa,TrangThai) VALUES (?, ?, ?, ?, ?, ?,?)";
     String UPDATE_SQL = "UPDATE ChuyenDe SET TenCD=?, HocPhi=?, ThoiLuong=?, Hinh=?, MoTa=? WHERE MaCD=?";
     String DELETE_SQL = "UPDATE ChuyenDe SET TrangThai=0 WHERE MaCD=?";
     String SELECT_ALL_SQL = "SELECT * FROM ChuyenDe WHERE TrangThai=1";
     String SELECT_BY_ID_SQL = "SELECT * FROM ChuyenDe WHERE MaCD=? AND TrangThai=1";
-
+        String  SELECT_BY_ID = "SELECT * FROM ChuyenDe WHERE MaCD=? AND TrangThai=0";
+ public void checktrung(ChuyenDe entity) {
+        try {
+            jdbcHelper.update(checkTrung,
+                    entity.getTenCD(),
+                    entity.getHocPhi(),
+                    entity.getThoiLuong(),
+                    entity.getHinh(),
+                    entity.getMoTa(),
+                    entity.getMaCD());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public void insert(ChuyenDe entity) {
         try {
@@ -78,7 +91,13 @@ public class ChuyenDeDAO extends EduSysDAO<ChuyenDe, String> {
         }
         return list.get(0);
     }
-
+    public ChuyenDe trung(String key) {
+        List<ChuyenDe> list = selectBySQL(SELECT_BY_ID, key);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
     @Override
     protected List<ChuyenDe> selectBySQL(String sql, Object... args) {
         List<ChuyenDe> list = new ArrayList<>();

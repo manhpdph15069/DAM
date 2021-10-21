@@ -282,6 +282,7 @@ public class MainForm extends javax.swing.JFrame {
         mnuHeThong.add(mniDangXuat);
         mnuHeThong.add(jSeparator1);
 
+        mniDoiMatKhau.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
         mniDoiMatKhau.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Refresh.png"))); // NOI18N
         mniDoiMatKhau.setText("Đổi mật khẩu");
         mniDoiMatKhau.setMargin(new java.awt.Insets(5, 5, 5, 5));
